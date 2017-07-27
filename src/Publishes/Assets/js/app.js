@@ -254,6 +254,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['models_path', 'controllers_path', 'services_path', 'requests_path', 'migrations_path'],
@@ -524,6 +525,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "value": "integer"
       }
     }, [_vm._v("Integer")]), _vm._v(" "), _c('option', {
+      attrs: {
+        "value": "unsignedinteger"
+      }
+    }, [_vm._v("Unsigned Integer")]), _vm._v(" "), _c('option', {
       attrs: {
         "value": "float"
       }

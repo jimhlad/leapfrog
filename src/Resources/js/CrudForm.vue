@@ -28,6 +28,7 @@
                                 <option value="string">String</option>
                                 <option value="text">Text</option>
                                 <option value="integer">Integer</option>
+                                <option value="unsignedinteger">Unsigned Integer</option>
                                 <option value="float">Float</option>
                                 <option value="date">Date</option>
                                 <option value="datetime">Date Time</option>
