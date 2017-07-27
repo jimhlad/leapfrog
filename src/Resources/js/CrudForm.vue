@@ -8,16 +8,16 @@
             </div>
         </div>
         <div v-if="entity_name" class="entity-fields">
-            <p>What model fields should a {{entity_name}} have?</p>
+            <p>What database fields should a {{entity_name}} have?</p>
             <div class="well">
                 <div v-for="(field, index) in fields" class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="field_name">Field Name</label>
-                            <input type="text" class="form-control" placeholder="e.g. description" v-model="field.name" />
+                            <input type="text" class="form-control" placeholder="e.g. name" v-model="field.name" />
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="field_type">Field Type</label>
                             <select class="form-control" v-model="field.type">
@@ -27,22 +27,12 @@
                                 <option value="date">Date</option>
                                 <option value="datetime">Date Time</option>
                                 <option value="boolean">Boolean</option>
-                                <option value="belongsto">BelongsTo</option>
-                                <option value="hasone">HasOne</option>
-                                <option value="hasmany">HasMany</option>
-                                <option value="belongstomany">BelongsToMany</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="field_options">Options</label>
-                            
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label for="field_default">Other</label>
+                            <label for="field_default">Options</label>
                             
                         </div>
                     </div>
@@ -59,8 +49,24 @@
         <div v-if="entity_name" class="entity-files">
             <p>What files do we want to create?</p>
             <div class="well">
-                <div class="checkbox"><label><input type="checkbox"> {{entity_name}}Controller</label></div>
-                <div class="checkbox"><label><input type="checkbox"> {{entity_name}}Service</label></div>
+                <div class="checkbox">
+                    <label><input type="checkbox" value="model" v-model="files"> {{entity_name}}</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" value="controller" v-model="files"> {{entity_name}}Controller</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" value="service" v-model="files"> {{entity_name}}Service</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" value="createrequest" v-model="files"> {{entity_name}}CreateRequest</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" value="updaterequest" v-model="files"> {{entity_name}}UpdateRequest</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" value="migration" v-model="files"> xxxx_xx_xx_000000_create_{{entityNameSnakeCase}}_table</label>
+                </div>
             </div>
         </div>
         <button type="submit" class="btn btn-primary pull-right">Okay, let's go!</button>
@@ -74,15 +80,23 @@
                 entity_name: '',
                 fields: [{
                     name: '',
-                    type: 'string'
-                }]
+                    type: 'string',
+                    options: []
+                }],
+                files: ['model', 'controller', 'service', 'createrequest', 'updaterequest', 'migration']
+            }
+        },
+        computed: {
+            entityNameSnakeCase() {
+                return this.entity_name.toLowerCase();
             }
         },
         methods: {
             addEntityField() {
                 Vue.set(this.fields, this.fields.length, {
                     name: '',
-                    type: 'string'
+                    type: 'string',
+                    options: []
                 });
             },
             removeEntityField(index) {
