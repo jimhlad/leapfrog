@@ -211,27 +211,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['models_path', 'controllers_path', 'services_path', 'requests_path', 'migrations_path'],
     data: function data() {
-        return {
-            show_update_paths: false,
-            entity_name: '',
-            paths: {
-                models_path: this.models_path,
-                controllers_path: this.controllers_path,
-                services_path: this.services_path,
-                requests_path: this.requests_path,
-                migrations_path: this.migrations_path
-            },
-            fields: [{
-                name: '',
-                type: 'string',
-                options: []
-            }],
-            files: ['model', 'controller', 'service', 'createrequest', 'updaterequest', 'migration']
-        };
+        return initialState(this.models_path, this.controllers_path, this.services_path, this.requests_path, this.migrations_path);
     },
     computed: {
         entityNameSnakeCase: function entityNameSnakeCase() {
@@ -251,9 +239,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         toggleShowUpdatePaths: function toggleShowUpdatePaths() {
             this.show_update_paths = !this.show_update_paths;
+        },
+        clearForm: function clearForm() {
+            Object.assign(this.$data, initialState(this.models_path, this.controllers_path, this.services_path, this.requests_path, this.migrations_path));
         }
     }
 });
+function initialState(my_models_path, my_controllers_path, my_services_path, my_requests_path, my_migrations_path) {
+    return {
+        show_update_paths: false,
+        entity_name: '',
+        paths: {
+            models_path: my_models_path,
+            controllers_path: my_controllers_path,
+            services_path: my_services_path,
+            requests_path: my_requests_path,
+            migrations_path: my_migrations_path
+        },
+        fields: [{
+            name: '',
+            type: 'string',
+            options: []
+        }],
+        files: ['model', 'controller', 'service', 'createrequest', 'updaterequest', 'migration']
+    };
+}
 
 /***/ }),
 /* 3 */
@@ -353,7 +363,13 @@ module.exports = function normalizeComponent (
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "crud-form"
-  }, [_c('p', [_vm._v("Start off by choosing an entity name:")]), _vm._v(" "), _c('div', {
+  }, [_c('p', [_vm._v("Start off by choosing an entity name: \n        "), _c('span', {
+    staticClass: "clear-form"
+  }, [_c('a', {
+    on: {
+      "click": _vm.clearForm
+    }
+  }, [_vm._v("clear form")])])]), _vm._v(" "), _c('div', {
     staticClass: "well"
   }, [_c('div', {
     staticClass: "form-group"
@@ -384,7 +400,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })])]), _vm._v(" "), (_vm.entity_name) ? _c('div', {
     staticClass: "entity-fields"
-  }, [_c('p', [_vm._v("What database fields should a " + _vm._s(_vm.entity_name) + " have?")]), _vm._v(" "), _c('div', {
+  }, [_c('p', [_vm._v("What fields does the " + _vm._s(_vm.entity_name) + " have?")]), _vm._v(" "), _c('div', {
     staticClass: "well"
   }, [_vm._l((_vm.fields), function(field, index) {
     return _c('div', {
@@ -459,6 +475,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_vm._v("Integer")]), _vm._v(" "), _c('option', {
       attrs: {
+        "value": "float"
+      }
+    }, [_vm._v("Float")]), _vm._v(" "), _c('option', {
+      attrs: {
         "value": "date"
       }
     }, [_vm._v("Date")]), _vm._v(" "), _c('option', {
@@ -520,38 +540,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }],
       attrs: {
         "type": "checkbox",
-        "value": "unsigned"
-      },
-      domProps: {
-        "checked": Array.isArray(field.options) ? _vm._i(field.options, "unsigned") > -1 : (field.options)
-      },
-      on: {
-        "__c": function($event) {
-          var $$a = field.options,
-            $$el = $event.target,
-            $$c = $$el.checked ? (true) : (false);
-          if (Array.isArray($$a)) {
-            var $$v = "unsigned",
-              $$i = _vm._i($$a, $$v);
-            if ($$el.checked) {
-              $$i < 0 && (field.options = $$a.concat($$v))
-            } else {
-              $$i > -1 && (field.options = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-            }
-          } else {
-            field.options = $$c
-          }
-        }
-      }
-    }), _vm._v(" "), _c('span', [_vm._v("Unsigned")]), _vm._v(" "), _c('input', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (field.options),
-        expression: "field.options"
-      }],
-      attrs: {
-        "type": "checkbox",
         "value": "index"
       },
       domProps: {
@@ -596,7 +584,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("Add field")])])], 2)]) : _vm._e(), _vm._v(" "), (_vm.entity_name) ? _c('div', {
     staticClass: "entity-files"
-  }, [_c('p', [_vm._v("What files do we want to create? \n            "), _c('span', {
+  }, [_c('p', [_vm._v("Which files do we want to create? \n            "), _c('span', {
     staticClass: "update-paths"
   }, [(!_vm.show_update_paths) ? _c('a', {
     on: {

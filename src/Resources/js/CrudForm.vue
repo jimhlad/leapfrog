@@ -1,6 +1,10 @@
 <template>
     <div class="crud-form">
-        <p>Start off by choosing an entity name:</p>
+        <p>Start off by choosing an entity name: 
+            <span class="clear-form">
+                <a v-on:click="clearForm">clear form</a>
+            </span>
+        </p>
         <div class="well">
             <div class="form-group">
                 <label for="entity_name">Entity Name</label>
@@ -8,7 +12,7 @@
             </div>
         </div>
         <div v-if="entity_name" class="entity-fields">
-            <p>What database fields should a {{entity_name}} have?</p>
+            <p>What fields does the {{entity_name}} have?</p>
             <div class="well">
                 <div v-for="(field, index) in fields" class="row">
                     <div class="col-md-3">
@@ -24,6 +28,7 @@
                                 <option value="string">String</option>
                                 <option value="text">Text</option>
                                 <option value="integer">Integer</option>
+                                <option value="float">Float</option>
                                 <option value="date">Date</option>
                                 <option value="datetime">Date Time</option>
                                 <option value="boolean">Boolean</option>
@@ -35,7 +40,6 @@
                             <label for="field_default">Options</label>
                             <div class="check-inline">
                                 <input type="checkbox" value="nullable" v-model="field.options"> <span>Nullable</span>
-                                <input type="checkbox" value="unsigned" v-model="field.options"> <span>Unsigned</span>
                                 <input type="checkbox" value="index" v-model="field.options"> <span>Index</span>
                             </div>
                         </div>
@@ -51,7 +55,7 @@
             </div>
         </div>
         <div v-if="entity_name" class="entity-files">
-            <p>What files do we want to create? 
+            <p>Which files do we want to create? 
                 <span class="update-paths">
                     <a v-if="!show_update_paths" v-on:click="toggleShowUpdatePaths">customize paths</a>
                     <a v-else v-on:click="toggleShowUpdatePaths">hide</a>
@@ -108,23 +112,7 @@
     export default {
         props: ['models_path', 'controllers_path', 'services_path', 'requests_path', 'migrations_path'],
         data: function () {
-            return {
-                show_update_paths: false,
-                entity_name: '',
-                paths: {
-                    models_path: this.models_path,
-                    controllers_path: this.controllers_path,
-                    services_path: this.services_path,
-                    requests_path: this.requests_path,
-                    migrations_path: this.migrations_path
-                },
-                fields: [{
-                    name: '',
-                    type: 'string',
-                    options: []
-                }],
-                files: ['model', 'controller', 'service', 'createrequest', 'updaterequest', 'migration']
-            }
+            return initialState(this.models_path, this.controllers_path, this.services_path, this.requests_path, this.migrations_path);
         },
         computed: {
             entityNameSnakeCase() {
@@ -144,7 +132,29 @@
             },
             toggleShowUpdatePaths() {
                 this.show_update_paths = !this.show_update_paths;
+            },
+            clearForm() {
+                Object.assign(this.$data, initialState(this.models_path, this.controllers_path, this.services_path, this.requests_path, this.migrations_path));
             }
+        }
+    }
+    function initialState(my_models_path, my_controllers_path, my_services_path, my_requests_path, my_migrations_path) {
+        return {
+            show_update_paths: false,
+            entity_name: '',
+            paths: {
+                models_path: my_models_path,
+                controllers_path: my_controllers_path,
+                services_path: my_services_path,
+                requests_path: my_requests_path,
+                migrations_path: my_migrations_path
+            },
+            fields: [{
+                name: '',
+                type: 'string',
+                options: []
+            }],
+            files: ['model', 'controller', 'service', 'createrequest', 'updaterequest', 'migration']
         }
     }
 </script>
