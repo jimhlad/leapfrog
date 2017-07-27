@@ -1,0 +1,12 @@
+{
+    "name": "jimhlad/leapfrog",
+    "description": "",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jim Hlad",
+            "email": "jimhlad@gmail.com"
+        }
+    ],
+    "require": {}
+}
