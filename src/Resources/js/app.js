@@ -15,7 +15,7 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example', require('./Example.vue'));
+Vue.component('crud-form', require('./CrudForm.vue'));
 
 const app = new Vue({
     el: '#app'
