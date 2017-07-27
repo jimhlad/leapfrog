@@ -39,10 +39,10 @@
                         <div class="form-group">
                             <label for="field_default">Options</label>
                             <div class="check-inline">
+                                <input type="checkbox" value="fillable" v-model="field.options"> <span>Fillable</span>
                                 <input type="checkbox" value="nullable" v-model="field.options"> <span>Nullable</span>
                                 <input type="checkbox" value="index" v-model="field.options"> <span>Index</span>
-                                <input type="checkbox" value="fillable" v-model="field.options"> <span>Fillable</span>
-                                <input type="checkbox" value="hidden" v-model="field.options"> <span>Hidden</span>
+                                <input type="checkbox" value="searchable" v-model="field.options"> <span>Searchable</span>
                             </div>
                         </div>
                     </div>
