@@ -54,6 +54,43 @@
                 <p><a v-on:click="addEntityField">Add field</a></p>
             </div>
         </div>
+        <div v-if="entity_name" class="entity-relations">
+            <p>What relations should the {{entity_name}} have?</p>
+            <div class="well">
+                <div v-for="(relation, index) in relations" class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="relation_name">Relation Name</label>
+                            <input type="text" class="form-control" placeholder="e.g. drivers" v-model="relation.name" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="relation_type">Relation Type</label>
+                            <select class="form-control" v-model="relation.type">
+                                <option value="belongsto">BelongsTo</option>
+                                <option value="hasone">HasOne</option>
+                                <option value="hasmany">HasMany</option>
+                                <option value="belongstomany">BelongsToMany</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="relation_class">Relation Class</label>
+                            <input type="text" class="form-control" placeholder="e.g. Driver::class" v-model="relation.class" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="relation_default">Actions</label>
+                            <p><a v-on:click="removeEntityRelation(index)">Remove</a></p>
+                        </div>
+                    </div>
+                </div>
+                <p><a v-on:click="addEntityRelation">Add relation</a></p>
+            </div>
+        </div>
         <div v-if="entity_name" class="entity-files">
             <p>Which files do we want to create? 
                 <span class="update-paths">
@@ -127,8 +164,18 @@
                     options: []
                 });
             },
+            addEntityRelation() {
+                Vue.set(this.relations, this.relations.length, {
+                    name: '',
+                    type: 'BelongsTo',
+                    class: ''
+                });
+            },
             removeEntityField(index) {
                 this.fields.splice(index, 1);
+            },
+            removeEntityRelation(index) {
+                this.relations.splice(index, 1);
             },
             toggleShowUpdatePaths() {
                 this.show_update_paths = !this.show_update_paths;
@@ -154,6 +201,7 @@
                 type: 'string',
                 options: []
             }],
+            relations: [],
             files: ['model', 'controller', 'service', 'createrequest', 'updaterequest', 'migration']
         }
     }

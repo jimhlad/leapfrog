@@ -215,6 +215,43 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['models_path', 'controllers_path', 'services_path', 'requests_path', 'migrations_path'],
@@ -234,8 +271,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 options: []
             });
         },
+        addEntityRelation: function addEntityRelation() {
+            Vue.set(this.relations, this.relations.length, {
+                name: '',
+                type: 'BelongsTo',
+                class: ''
+            });
+        },
         removeEntityField: function removeEntityField(index) {
             this.fields.splice(index, 1);
+        },
+        removeEntityRelation: function removeEntityRelation(index) {
+            this.relations.splice(index, 1);
         },
         toggleShowUpdatePaths: function toggleShowUpdatePaths() {
             this.show_update_paths = !this.show_update_paths;
@@ -261,6 +308,7 @@ function initialState(my_models_path, my_controllers_path, my_services_path, my_
             type: 'string',
             options: []
         }],
+        relations: [],
         files: ['model', 'controller', 'service', 'createrequest', 'updaterequest', 'migration']
     };
 }
@@ -583,6 +631,133 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "click": _vm.addEntityField
     }
   }, [_vm._v("Add field")])])], 2)]) : _vm._e(), _vm._v(" "), (_vm.entity_name) ? _c('div', {
+    staticClass: "entity-relations"
+  }, [_c('p', [_vm._v("What relations should the " + _vm._s(_vm.entity_name) + " have?")]), _vm._v(" "), _c('div', {
+    staticClass: "well"
+  }, [_vm._l((_vm.relations), function(relation, index) {
+    return _c('div', {
+      staticClass: "row"
+    }, [_c('div', {
+      staticClass: "col-md-3"
+    }, [_c('div', {
+      staticClass: "form-group"
+    }, [_c('label', {
+      attrs: {
+        "for": "relation_name"
+      }
+    }, [_vm._v("Relation Name")]), _vm._v(" "), _c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (relation.name),
+        expression: "relation.name"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "type": "text",
+        "placeholder": "e.g. drivers"
+      },
+      domProps: {
+        "value": (relation.name)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          relation.name = $event.target.value
+        }
+      }
+    })])]), _vm._v(" "), _c('div', {
+      staticClass: "col-md-3"
+    }, [_c('div', {
+      staticClass: "form-group"
+    }, [_c('label', {
+      attrs: {
+        "for": "relation_type"
+      }
+    }, [_vm._v("Relation Type")]), _vm._v(" "), _c('select', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (relation.type),
+        expression: "relation.type"
+      }],
+      staticClass: "form-control",
+      on: {
+        "change": function($event) {
+          var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+            return o.selected
+          }).map(function(o) {
+            var val = "_value" in o ? o._value : o.value;
+            return val
+          });
+          relation.type = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+        }
+      }
+    }, [_c('option', {
+      attrs: {
+        "value": "belongsto"
+      }
+    }, [_vm._v("BelongsTo")]), _vm._v(" "), _c('option', {
+      attrs: {
+        "value": "hasone"
+      }
+    }, [_vm._v("HasOne")]), _vm._v(" "), _c('option', {
+      attrs: {
+        "value": "hasmany"
+      }
+    }, [_vm._v("HasMany")]), _vm._v(" "), _c('option', {
+      attrs: {
+        "value": "belongstomany"
+      }
+    }, [_vm._v("BelongsToMany")])])])]), _vm._v(" "), _c('div', {
+      staticClass: "col-md-4"
+    }, [_c('div', {
+      staticClass: "form-group"
+    }, [_c('label', {
+      attrs: {
+        "for": "relation_class"
+      }
+    }, [_vm._v("Relation Class")]), _vm._v(" "), _c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (relation.class),
+        expression: "relation.class"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "type": "text",
+        "placeholder": "e.g. Driver::class"
+      },
+      domProps: {
+        "value": (relation.class)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          relation.class = $event.target.value
+        }
+      }
+    })])]), _vm._v(" "), _c('div', {
+      staticClass: "col-md-2"
+    }, [_c('div', {
+      staticClass: "form-group"
+    }, [_c('label', {
+      attrs: {
+        "for": "relation_default"
+      }
+    }, [_vm._v("Actions")]), _vm._v(" "), _c('p', [_c('a', {
+      on: {
+        "click": function($event) {
+          _vm.removeEntityRelation(index)
+        }
+      }
+    }, [_vm._v("Remove")])])])])])
+  }), _vm._v(" "), _c('p', [_c('a', {
+    on: {
+      "click": _vm.addEntityRelation
+    }
+  }, [_vm._v("Add relation")])])], 2)]) : _vm._e(), _vm._v(" "), (_vm.entity_name) ? _c('div', {
     staticClass: "entity-files"
   }, [_c('p', [_vm._v("Which files do we want to create? \n            "), _c('span', {
     staticClass: "update-paths"
