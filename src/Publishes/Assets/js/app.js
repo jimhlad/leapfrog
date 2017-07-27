@@ -180,6 +180,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -347,7 +351,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     return _c('div', {
       staticClass: "row"
     }, [_c('div', {
-      staticClass: "col-md-4"
+      staticClass: "col-md-3"
     }, [_c('div', {
       staticClass: "form-group"
     }, [_c('label', {
@@ -376,7 +380,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     })])]), _vm._v(" "), _c('div', {
-      staticClass: "col-md-4"
+      staticClass: "col-md-3"
     }, [_c('div', {
       staticClass: "form-group"
     }, [_c('label', {
@@ -426,21 +430,127 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "value": "boolean"
       }
-    }, [_vm._v("Boolean")])])])]), _vm._v(" "), _vm._m(0, true), _vm._v(" "), _c('div', {
-      staticClass: "col-md-1"
+    }, [_vm._v("Boolean")])])])]), _vm._v(" "), _c('div', {
+      staticClass: "col-md-4"
     }, [_c('div', {
       staticClass: "form-group"
     }, [_c('label', {
       attrs: {
         "for": "field_default"
       }
-    }, [_vm._v("Actions")]), _vm._v(" "), _c('a', {
+    }, [_vm._v("Options")]), _vm._v(" "), _c('div', {
+      staticClass: "check-inline"
+    }, [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (field.options),
+        expression: "field.options"
+      }],
+      attrs: {
+        "type": "checkbox",
+        "value": "nullable"
+      },
+      domProps: {
+        "checked": Array.isArray(field.options) ? _vm._i(field.options, "nullable") > -1 : (field.options)
+      },
+      on: {
+        "__c": function($event) {
+          var $$a = field.options,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = "nullable",
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (field.options = $$a.concat($$v))
+            } else {
+              $$i > -1 && (field.options = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            field.options = $$c
+          }
+        }
+      }
+    }), _vm._v(" "), _c('span', [_vm._v("Nullable")]), _vm._v(" "), _c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (field.options),
+        expression: "field.options"
+      }],
+      attrs: {
+        "type": "checkbox",
+        "value": "unsigned"
+      },
+      domProps: {
+        "checked": Array.isArray(field.options) ? _vm._i(field.options, "unsigned") > -1 : (field.options)
+      },
+      on: {
+        "__c": function($event) {
+          var $$a = field.options,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = "unsigned",
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (field.options = $$a.concat($$v))
+            } else {
+              $$i > -1 && (field.options = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            field.options = $$c
+          }
+        }
+      }
+    }), _vm._v(" "), _c('span', [_vm._v("Unsigned")]), _vm._v(" "), _c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (field.options),
+        expression: "field.options"
+      }],
+      attrs: {
+        "type": "checkbox",
+        "value": "index"
+      },
+      domProps: {
+        "checked": Array.isArray(field.options) ? _vm._i(field.options, "index") > -1 : (field.options)
+      },
+      on: {
+        "__c": function($event) {
+          var $$a = field.options,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = "index",
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (field.options = $$a.concat($$v))
+            } else {
+              $$i > -1 && (field.options = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            field.options = $$c
+          }
+        }
+      }
+    }), _vm._v(" "), _c('span', [_vm._v("Index")])])])]), _vm._v(" "), _c('div', {
+      staticClass: "col-md-2"
+    }, [_c('div', {
+      staticClass: "form-group"
+    }, [_c('label', {
+      attrs: {
+        "for": "field_default"
+      }
+    }, [_vm._v("Actions")]), _vm._v(" "), _c('p', [_c('a', {
       on: {
         "click": function($event) {
           _vm.removeEntityField(index)
         }
       }
-    }, [_vm._v("Remove")])])])])
+    }, [_vm._v("Remove")])])])])])
   }), _vm._v(" "), _c('p', [_c('a', {
     on: {
       "click": _vm.addEntityField
@@ -483,7 +593,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }
-  }), _vm._v(" " + _vm._s(_vm.entity_name))])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" " + _vm._s(_vm.entity_name) + ".php")])]), _vm._v(" "), _c('div', {
     staticClass: "checkbox"
   }, [_c('label', [_c('input', {
     directives: [{
@@ -517,7 +627,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }
-  }), _vm._v(" " + _vm._s(_vm.entity_name) + "Controller")])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" " + _vm._s(_vm.entity_name) + "Controller.php")])]), _vm._v(" "), _c('div', {
     staticClass: "checkbox"
   }, [_c('label', [_c('input', {
     directives: [{
@@ -551,7 +661,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }
-  }), _vm._v(" " + _vm._s(_vm.entity_name) + "Service")])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" " + _vm._s(_vm.entity_name) + "Service.php")])]), _vm._v(" "), _c('div', {
     staticClass: "checkbox"
   }, [_c('label', [_c('input', {
     directives: [{
@@ -585,7 +695,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }
-  }), _vm._v(" " + _vm._s(_vm.entity_name) + "CreateRequest")])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" " + _vm._s(_vm.entity_name) + "CreateRequest.php")])]), _vm._v(" "), _c('div', {
     staticClass: "checkbox"
   }, [_c('label', [_c('input', {
     directives: [{
@@ -619,7 +729,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }
-  }), _vm._v(" " + _vm._s(_vm.entity_name) + "UpdateRequest")])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" " + _vm._s(_vm.entity_name) + "UpdateRequest.php")])]), _vm._v(" "), _c('div', {
     staticClass: "checkbox"
   }, [_c('label', [_c('input', {
     directives: [{
@@ -653,23 +763,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }
-  }), _vm._v(" xxxx_xx_xx_000000_create_" + _vm._s(_vm.entityNameSnakeCase) + "_table")])])])]) : _vm._e(), _vm._v(" "), _c('button', {
+  }), _vm._v(" xxxx_xx_xx_xxxxxx_create_" + _vm._s(_vm.entityNameSnakeCase) + "_table")])])])]) : _vm._e(), _vm._v(" "), _c('button', {
     staticClass: "btn btn-primary pull-right",
     attrs: {
       "type": "submit"
     }
   }, [_vm._v("Okay, let's go!")])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "col-md-3"
-  }, [_c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
-    attrs: {
-      "for": "field_default"
-    }
-  }, [_vm._v("Options")])])])
-}]}
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
