@@ -252,6 +252,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['models_path', 'controllers_path', 'services_path', 'requests_path', 'migrations_path'],
@@ -268,7 +270,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             Vue.set(this.fields, this.fields.length, {
                 name: '',
                 type: 'string',
-                options: []
+                options: ['fillable']
             });
         },
         addEntityRelation: function addEntityRelation() {
@@ -306,7 +308,7 @@ function initialState(my_models_path, my_controllers_path, my_services_path, my_
         fields: [{
             name: '',
             type: 'string',
-            options: []
+            options: ['fillable']
         }],
         relations: [],
         files: ['model', 'controller', 'service', 'createrequest', 'updaterequest', 'migration']
@@ -611,7 +613,71 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           }
         }
       }
-    }), _vm._v(" "), _c('span', [_vm._v("Index")])])])]), _vm._v(" "), _c('div', {
+    }), _vm._v(" "), _c('span', [_vm._v("Index")]), _vm._v(" "), _c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (field.options),
+        expression: "field.options"
+      }],
+      attrs: {
+        "type": "checkbox",
+        "value": "fillable"
+      },
+      domProps: {
+        "checked": Array.isArray(field.options) ? _vm._i(field.options, "fillable") > -1 : (field.options)
+      },
+      on: {
+        "__c": function($event) {
+          var $$a = field.options,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = "fillable",
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (field.options = $$a.concat($$v))
+            } else {
+              $$i > -1 && (field.options = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            field.options = $$c
+          }
+        }
+      }
+    }), _vm._v(" "), _c('span', [_vm._v("Fillable")]), _vm._v(" "), _c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (field.options),
+        expression: "field.options"
+      }],
+      attrs: {
+        "type": "checkbox",
+        "value": "hidden"
+      },
+      domProps: {
+        "checked": Array.isArray(field.options) ? _vm._i(field.options, "hidden") > -1 : (field.options)
+      },
+      on: {
+        "__c": function($event) {
+          var $$a = field.options,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = "hidden",
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (field.options = $$a.concat($$v))
+            } else {
+              $$i > -1 && (field.options = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            field.options = $$c
+          }
+        }
+      }
+    }), _vm._v(" "), _c('span', [_vm._v("Hidden")])])])]), _vm._v(" "), _c('div', {
       staticClass: "col-md-2"
     }, [_c('div', {
       staticClass: "form-group"

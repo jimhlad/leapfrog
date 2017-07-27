@@ -41,6 +41,8 @@
                             <div class="check-inline">
                                 <input type="checkbox" value="nullable" v-model="field.options"> <span>Nullable</span>
                                 <input type="checkbox" value="index" v-model="field.options"> <span>Index</span>
+                                <input type="checkbox" value="fillable" v-model="field.options"> <span>Fillable</span>
+                                <input type="checkbox" value="hidden" v-model="field.options"> <span>Hidden</span>
                             </div>
                         </div>
                     </div>
@@ -161,7 +163,7 @@
                 Vue.set(this.fields, this.fields.length, {
                     name: '',
                     type: 'string',
-                    options: []
+                    options: ['fillable']
                 });
             },
             addEntityRelation() {
@@ -199,7 +201,7 @@
             fields: [{
                 name: '',
                 type: 'string',
-                options: []
+                options: ['fillable']
             }],
             relations: [],
             files: ['model', 'controller', 'service', 'createrequest', 'updaterequest', 'migration']
