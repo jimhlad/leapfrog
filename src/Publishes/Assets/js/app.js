@@ -184,11 +184,47 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['models_path', 'controllers_path', 'services_path', 'requests_path', 'migrations_path'],
     data: function data() {
         return {
+            show_update_paths: false,
             entity_name: '',
+            paths: {
+                models_path: this.models_path,
+                controllers_path: this.controllers_path,
+                services_path: this.services_path,
+                requests_path: this.requests_path,
+                migrations_path: this.migrations_path
+            },
             fields: [{
                 name: '',
                 type: 'string',
@@ -212,6 +248,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         removeEntityField: function removeEntityField(index) {
             this.fields.splice(index, 1);
+        },
+        toggleShowUpdatePaths: function toggleShowUpdatePaths() {
+            this.show_update_paths = !this.show_update_paths;
         }
     }
 });
@@ -557,7 +596,149 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("Add field")])])], 2)]) : _vm._e(), _vm._v(" "), (_vm.entity_name) ? _c('div', {
     staticClass: "entity-files"
-  }, [_c('p', [_vm._v("What files do we want to create?")]), _vm._v(" "), _c('div', {
+  }, [_c('p', [_vm._v("What files do we want to create? \n            "), _c('span', {
+    staticClass: "update-paths"
+  }, [(!_vm.show_update_paths) ? _c('a', {
+    on: {
+      "click": _vm.toggleShowUpdatePaths
+    }
+  }, [_vm._v("customize paths")]) : _c('a', {
+    on: {
+      "click": _vm.toggleShowUpdatePaths
+    }
+  }, [_vm._v("hide")])])]), _vm._v(" "), (_vm.show_update_paths) ? _c('div', {
+    staticClass: "well"
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "field_name"
+    }
+  }, [_vm._v("Models Path")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.paths.models_path),
+      expression: "paths.models_path"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.paths.models_path)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.paths.models_path = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "field_name"
+    }
+  }, [_vm._v("Controllers Path")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.paths.controllers_path),
+      expression: "paths.controllers_path"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.paths.controllers_path)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.paths.controllers_path = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "field_name"
+    }
+  }, [_vm._v("Services Path")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.paths.services_path),
+      expression: "paths.services_path"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.paths.services_path)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.paths.services_path = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "field_name"
+    }
+  }, [_vm._v("Requests Path")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.paths.requests_path),
+      expression: "paths.requests_path"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.paths.requests_path)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.paths.requests_path = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "field_name"
+    }
+  }, [_vm._v("Migrations Path")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.paths.migrations_path),
+      expression: "paths.migrations_path"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.paths.migrations_path)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.paths.migrations_path = $event.target.value
+      }
+    }
+  })])]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "well"
   }, [_c('div', {
     staticClass: "checkbox"
@@ -593,7 +774,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }
-  }), _vm._v(" " + _vm._s(_vm.entity_name) + ".php")])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" " + _vm._s(_vm.paths.models_path)), _c('strong', [_vm._v(_vm._s(_vm.entity_name) + ".php")])])]), _vm._v(" "), _c('div', {
     staticClass: "checkbox"
   }, [_c('label', [_c('input', {
     directives: [{
@@ -627,7 +808,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }
-  }), _vm._v(" " + _vm._s(_vm.entity_name) + "Controller.php")])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" " + _vm._s(_vm.paths.controllers_path)), _c('strong', [_vm._v(_vm._s(_vm.entity_name) + "Controller.php")])])]), _vm._v(" "), _c('div', {
     staticClass: "checkbox"
   }, [_c('label', [_c('input', {
     directives: [{
@@ -661,7 +842,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }
-  }), _vm._v(" " + _vm._s(_vm.entity_name) + "Service.php")])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" " + _vm._s(_vm.paths.services_path)), _c('strong', [_vm._v(_vm._s(_vm.entity_name) + "Service.php")])])]), _vm._v(" "), _c('div', {
     staticClass: "checkbox"
   }, [_c('label', [_c('input', {
     directives: [{
@@ -695,7 +876,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }
-  }), _vm._v(" " + _vm._s(_vm.entity_name) + "CreateRequest.php")])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" " + _vm._s(_vm.paths.requests_path)), _c('strong', [_vm._v(_vm._s(_vm.entity_name) + "CreateRequest.php")])])]), _vm._v(" "), _c('div', {
     staticClass: "checkbox"
   }, [_c('label', [_c('input', {
     directives: [{
@@ -729,7 +910,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }
-  }), _vm._v(" " + _vm._s(_vm.entity_name) + "UpdateRequest.php")])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" " + _vm._s(_vm.paths.requests_path)), _c('strong', [_vm._v(_vm._s(_vm.entity_name) + "UpdateRequest.php")])])]), _vm._v(" "), _c('div', {
     staticClass: "checkbox"
   }, [_c('label', [_c('input', {
     directives: [{
@@ -763,7 +944,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }
-  }), _vm._v(" xxxx_xx_xx_xxxxxx_create_" + _vm._s(_vm.entityNameSnakeCase) + "_table")])])])]) : _vm._e(), _vm._v(" "), _c('button', {
+  }), _vm._v(" " + _vm._s(_vm.paths.migrations_path)), _c('strong', [_vm._v("xxxx_xx_xx_xxxxxx_create_" + _vm._s(_vm.entityNameSnakeCase) + "_table.php")])])])])]) : _vm._e(), _vm._v(" "), _c('button', {
     staticClass: "btn btn-primary pull-right",
     attrs: {
       "type": "submit"

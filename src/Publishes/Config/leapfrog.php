@@ -2,10 +2,16 @@
 
 /**
  |--------------------------------------------------------------------------
- | LeapFrog Config
+ | Paths
  |--------------------------------------------------------------------------
  */
 
 return [
-	'test' => '456'
+	'paths' => [
+		'models' => 'app/Models/',
+		'controllers' => 'app/Http/Controllers/',
+		'services' => 'app/Services/',
+		'requests' => 'app/Http/Requests/',
+		'migrations' => 'database/migrations/',
+	]
 ];

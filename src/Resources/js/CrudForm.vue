@@ -51,25 +51,52 @@
             </div>
         </div>
         <div v-if="entity_name" class="entity-files">
-            <p>What files do we want to create?</p>
+            <p>What files do we want to create? 
+                <span class="update-paths">
+                    <a v-if="!show_update_paths" v-on:click="toggleShowUpdatePaths">customize paths</a>
+                    <a v-else v-on:click="toggleShowUpdatePaths">hide</a>
+                </span>
+            </p>
+            <div v-if="show_update_paths" class="well">
+                <div class="form-group">
+                    <label for="field_name">Models Path</label>
+                    <input type="text" class="form-control" v-model="paths.models_path" />
+                </div>
+                <div class="form-group">
+                    <label for="field_name">Controllers Path</label>
+                    <input type="text" class="form-control" v-model="paths.controllers_path" />
+                </div>
+                <div class="form-group">
+                    <label for="field_name">Services Path</label>
+                    <input type="text" class="form-control" v-model="paths.services_path" />
+                </div>
+                <div class="form-group">
+                    <label for="field_name">Requests Path</label>
+                    <input type="text" class="form-control" v-model="paths.requests_path" />
+                </div>
+                <div class="form-group">
+                    <label for="field_name">Migrations Path</label>
+                    <input type="text" class="form-control" v-model="paths.migrations_path" />
+                </div>
+            </div>
             <div class="well">
                 <div class="checkbox">
-                    <label><input type="checkbox" value="model" v-model="files"> {{entity_name}}.php</label>
+                    <label><input type="checkbox" value="model" v-model="files"> {{paths.models_path}}<strong>{{entity_name}}.php</strong></label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" value="controller" v-model="files"> {{entity_name}}Controller.php</label>
+                    <label><input type="checkbox" value="controller" v-model="files"> {{paths.controllers_path}}<strong>{{entity_name}}Controller.php</strong></label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" value="service" v-model="files"> {{entity_name}}Service.php</label>
+                    <label><input type="checkbox" value="service" v-model="files"> {{paths.services_path}}<strong>{{entity_name}}Service.php</strong></label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" value="createrequest" v-model="files"> {{entity_name}}CreateRequest.php</label>
+                    <label><input type="checkbox" value="createrequest" v-model="files"> {{paths.requests_path}}<strong>{{entity_name}}CreateRequest.php</strong></label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" value="updaterequest" v-model="files"> {{entity_name}}UpdateRequest.php</label>
+                    <label><input type="checkbox" value="updaterequest" v-model="files"> {{paths.requests_path}}<strong>{{entity_name}}UpdateRequest.php</strong></label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" value="migration" v-model="files"> xxxx_xx_xx_xxxxxx_create_{{entityNameSnakeCase}}_table</label>
+                    <label><input type="checkbox" value="migration" v-model="files"> {{paths.migrations_path}}<strong>xxxx_xx_xx_xxxxxx_create_{{entityNameSnakeCase}}_table.php</strong></label>
                 </div>
             </div>
         </div>
@@ -79,9 +106,18 @@
 
 <script>
     export default {
+        props: ['models_path', 'controllers_path', 'services_path', 'requests_path', 'migrations_path'],
         data: function () {
             return {
+                show_update_paths: false,
                 entity_name: '',
+                paths: {
+                    models_path: this.models_path,
+                    controllers_path: this.controllers_path,
+                    services_path: this.services_path,
+                    requests_path: this.requests_path,
+                    migrations_path: this.migrations_path
+                },
                 fields: [{
                     name: '',
                     type: 'string',
@@ -105,6 +141,9 @@
             },
             removeEntityField(index) {
                 this.fields.splice(index, 1);
+            },
+            toggleShowUpdatePaths() {
+                this.show_update_paths = !this.show_update_paths;
             }
         }
     }
