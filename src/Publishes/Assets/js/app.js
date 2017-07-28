@@ -2916,7 +2916,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('button', {
     staticClass: "btn btn-primary pull-right",
     attrs: {
-      "type": "button"
+      "type": "button",
+      "disabled": _vm.loading
     },
     on: {
       "click": _vm.submitForm
