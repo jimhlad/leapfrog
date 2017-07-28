@@ -179,7 +179,7 @@
             addEntityRelation() {
                 Vue.set(this.relations, this.relations.length, {
                     name: '',
-                    type: 'BelongsTo',
+                    type: 'belongsto',
                     class: ''
                 });
             },

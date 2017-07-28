@@ -1800,7 +1800,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         addEntityRelation: function addEntityRelation() {
             Vue.set(this.relations, this.relations.length, {
                 name: '',
-                type: 'BelongsTo',
+                type: 'belongsto',
                 class: ''
             });
         },
