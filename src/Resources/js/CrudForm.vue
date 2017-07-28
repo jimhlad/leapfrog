@@ -28,10 +28,9 @@
                                 <option value="string">String</option>
                                 <option value="text">Text</option>
                                 <option value="integer">Integer</option>
-                                <option value="unsignedinteger">Unsigned Integer</option>
                                 <option value="float">Float</option>
                                 <option value="date">Date</option>
-                                <option value="datetime">Date Time</option>
+                                <option value="dateTime">Date Time</option>
                                 <option value="boolean">Boolean</option>
                             </select>
                         </div>
@@ -42,8 +41,11 @@
                             <div class="check-inline">
                                 <input type="checkbox" value="fillable" v-model="field.options"> <span>Fillable</span>
                                 <input type="checkbox" value="nullable" v-model="field.options"> <span>Nullable</span>
+                                <input type="checkbox" value="unique" v-model="field.options"> <span>Unique</span>
                                 <input type="checkbox" value="index" v-model="field.options"> <span>Index</span>
+                                <br/>
                                 <input type="checkbox" value="searchable" v-model="field.options"> <span>Searchable</span>
+                                <input type="checkbox" value="unsigned" v-model="field.options"> <span>Unsigned</span>
                             </div>
                         </div>
                     </div>

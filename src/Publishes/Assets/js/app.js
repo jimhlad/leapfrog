@@ -1777,6 +1777,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -2259,10 +2261,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_vm._v("Integer")]), _vm._v(" "), _c('option', {
       attrs: {
-        "value": "unsignedinteger"
-      }
-    }, [_vm._v("Unsigned Integer")]), _vm._v(" "), _c('option', {
-      attrs: {
         "value": "float"
       }
     }, [_vm._v("Float")]), _vm._v(" "), _c('option', {
@@ -2271,7 +2269,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_vm._v("Date")]), _vm._v(" "), _c('option', {
       attrs: {
-        "value": "datetime"
+        "value": "dateTime"
       }
     }, [_vm._v("Date Time")]), _vm._v(" "), _c('option', {
       attrs: {
@@ -2360,6 +2358,38 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }],
       attrs: {
         "type": "checkbox",
+        "value": "unique"
+      },
+      domProps: {
+        "checked": Array.isArray(field.options) ? _vm._i(field.options, "unique") > -1 : (field.options)
+      },
+      on: {
+        "__c": function($event) {
+          var $$a = field.options,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = "unique",
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (field.options = $$a.concat($$v))
+            } else {
+              $$i > -1 && (field.options = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            field.options = $$c
+          }
+        }
+      }
+    }), _vm._v(" "), _c('span', [_vm._v("Unique")]), _vm._v(" "), _c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (field.options),
+        expression: "field.options"
+      }],
+      attrs: {
+        "type": "checkbox",
         "value": "index"
       },
       domProps: {
@@ -2383,7 +2413,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           }
         }
       }
-    }), _vm._v(" "), _c('span', [_vm._v("Index")]), _vm._v(" "), _c('input', {
+    }), _vm._v(" "), _c('span', [_vm._v("Index")]), _vm._v(" "), _c('br'), _vm._v(" "), _c('input', {
       directives: [{
         name: "model",
         rawName: "v-model",
@@ -2415,7 +2445,39 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           }
         }
       }
-    }), _vm._v(" "), _c('span', [_vm._v("Searchable")])])])]), _vm._v(" "), _c('div', {
+    }), _vm._v(" "), _c('span', [_vm._v("Searchable")]), _vm._v(" "), _c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (field.options),
+        expression: "field.options"
+      }],
+      attrs: {
+        "type": "checkbox",
+        "value": "unsigned"
+      },
+      domProps: {
+        "checked": Array.isArray(field.options) ? _vm._i(field.options, "unsigned") > -1 : (field.options)
+      },
+      on: {
+        "__c": function($event) {
+          var $$a = field.options,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = "unsigned",
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (field.options = $$a.concat($$v))
+            } else {
+              $$i > -1 && (field.options = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            field.options = $$c
+          }
+        }
+      }
+    }), _vm._v(" "), _c('span', [_vm._v("Unsigned")])])])]), _vm._v(" "), _c('div', {
       staticClass: "col-md-2"
     }, [_c('div', {
       staticClass: "form-group"

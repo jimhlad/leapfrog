@@ -8,5 +8,8 @@
             "email": "jimhlad@gmail.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "require-dev": {
+        "laracasts/generators": "dev-master"
+    }
 }

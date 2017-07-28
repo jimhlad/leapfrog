@@ -33,8 +33,10 @@ class LeapFrogServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->make('JimHlad\LeapFrog\Controllers\DashboardController');
-        $this->app->make('JimHlad\LeapFrog\Controllers\CrudController');
+        if ($this->app->environment() == 'local') {
+            $this->app->make('JimHlad\LeapFrog\Controllers\DashboardController');
+            $this->app->make('JimHlad\LeapFrog\Controllers\CrudController');
+        }
         $this->loadViewsFrom(__DIR__.'/Views', 'leapfrog');
     }
 }

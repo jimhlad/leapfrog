@@ -26,27 +26,51 @@ class CrudService
 	 * Generate our CRUD scaffolding based on the provided options
 	 * 
 	 * @param  array $options
-	 * @return boolean
+	 * @return string
 	 */
 	public function generate(array $options)
 	{
 		try {
-			$this->progress[] = 'Create migration';
-
-			Artisan::call('make:migration', [
-        		'name' => 'create_'.strtolower($options['entity_name']).'_table'
-    		]);
-
-    		$this->progress[] = 'Success';
+			$this->generateMigration($options['entity_name'], $options['fields']);
 
     		return implode("<br>", $this->progress);
 		}
 		catch(\Exception $e) {
 			$this->progress[] = 'Uh oh, something went wrong:';
 			$this->progress[] = $e->getMessage();
-
 			return implode("<br>", $this->progress);
 		}
+	}
+
+	/**
+	 * Generate the migration file. Uses Jeffrey Way's awesome generators.
+	 * 
+	 * @param  string $entity_name
+	 * @param  array $fields
+	 * @return void
+	 */
+	private function generateMigration(string $entity_name, array $fields) {
+		$this->progress[] = 'Create migration';
+
+		$validOptions = ['nullable', 'unique', 'index', 'unsigned'];
+		$schema = [];
+		foreach ($fields as $field) {
+			$fieldConfig = $field['name'] . ':' . $field['type'];
+			foreach ($field['options'] as $option) {
+				if (in_array($option, $validOptions)) {
+					$fieldConfig .= ':' . $option;
+				}
+			}
+			$schema[] = $fieldConfig;
+		}
+
+		Artisan::call('make:migration:schema', [
+    		'name' => 'create_'.strtolower($entity_name) . '_table',
+    		'--schema' => implode(", ", $schema),
+    		'--model' => false
+		]);
+
+		$this->progress[] = 'Success';
 	}
 
 }
