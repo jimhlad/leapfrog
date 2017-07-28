@@ -1776,6 +1776,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -1819,6 +1820,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         submitForm: function submitForm() {
             var _this = this;
 
+            this.loading = true;
+            this.generate_api_output = '';
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(this.generate_url, {
                 entity_name: this.entity_name,
                 paths: this.paths,
@@ -1826,8 +1829,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 relations: this.relations,
                 files: this.files
             }).then(function (response) {
+                _this.loading = false;
                 _this.generate_api_output = response.data;
             }).catch(function (e) {
+                _this.loading = false;
                 _this.generate_api_output = e;
             });
         }
@@ -1835,6 +1840,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 function initialState(my_models_path, my_controllers_path, my_services_path, my_requests_path, my_migrations_path) {
     return {
+        loading: false,
         show_update_paths: false,
         generate_api_output: '',
         entity_name: '',
@@ -2906,9 +2912,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }), _vm._v(" " + _vm._s(_vm.paths.migrations_path)), _c('strong', [_vm._v("xxxx_xx_xx_xxxxxx_create_" + _vm._s(_vm.entityNameSnakeCase) + "_table.php")])])])])]) : _vm._e(), _vm._v(" "), _c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"
+    staticClass: "submit-button-row"
   }, [_c('button', {
     staticClass: "btn btn-primary pull-right",
     attrs: {
@@ -2917,7 +2921,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.submitForm
     }
-  }, [_vm._v("Okay, let's go!")])])]), _vm._v(" "), (_vm.generate_api_output) ? _c('div', {
+  }, [(!_vm.loading) ? _c('span', [_vm._v("Okay, let's go!")]) : _c('span', [_vm._v("Thinking...")])])]), _vm._v(" "), (_vm.generate_api_output) ? _c('div', {
     staticClass: "alert alert-info"
   }, [_vm._v("\n        " + _vm._s(_vm.generate_api_output) + "\n    ")]) : _vm._e()])
 },staticRenderFns: []}

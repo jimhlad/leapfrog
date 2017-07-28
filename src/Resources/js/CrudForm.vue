@@ -144,10 +144,11 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                <button v-on:click="submitForm" type="button" class="btn btn-primary pull-right">Okay, let's go!</button>
-            </div>
+        <div class="submit-button-row">
+            <button v-on:click="submitForm" type="button" class="btn btn-primary pull-right">
+                <span v-if="!loading">Okay, let's go!</span>
+                <span v-else>Thinking...</span>
+            </button>
         </div>        
         <div v-if="generate_api_output" class="alert alert-info">
             {{ generate_api_output }}
@@ -196,6 +197,8 @@
                 Object.assign(this.$data, initialState(this.models_path, this.controllers_path, this.services_path, this.requests_path, this.migrations_path));
             },
             submitForm() {
+                this.loading = true;
+                this.generate_api_output = '';
                 axios.post(this.generate_url, {
                     entity_name: this.entity_name,
                     paths: this.paths,
@@ -204,9 +207,11 @@
                     files: this.files
                 })
                 .then(response => {
+                    this.loading = false;
                     this.generate_api_output = response.data;
                 })
                 .catch(e => {
+                    this.loading = false;
                     this.generate_api_output = e;
                 })
             }
@@ -214,6 +219,7 @@
     }
     function initialState(my_models_path, my_controllers_path, my_services_path, my_requests_path, my_migrations_path) {
         return {
+            loading: false,
             show_update_paths: false,
             generate_api_output: '',
             entity_name: '',
