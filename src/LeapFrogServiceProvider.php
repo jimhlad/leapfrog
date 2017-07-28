@@ -18,10 +18,12 @@ class LeapFrogServiceProvider extends ServiceProvider
         ]);
 
         $this->publishes([
+            __DIR__.'/Publishes/Routes/leapfrog.php' => base_path('routes/leapfrog.php'),
+        ]);
+
+        $this->publishes([
             __DIR__.'/Publishes/Assets' => public_path('jimhlad/leapfrog'),
         ], 'public');
-
-        include __DIR__.'/routes.php';
     }
 
     /**

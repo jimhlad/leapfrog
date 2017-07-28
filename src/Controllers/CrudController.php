@@ -27,6 +27,6 @@ class CrudController extends Controller
      */
     public function generate(Request $request)
     {
-    	return response('posted!!');
+    	return($request->all());
     }
 }
