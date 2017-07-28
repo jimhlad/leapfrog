@@ -5,8 +5,8 @@
 		@include('leapfrog::sidebar')
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 			<h1 class="page-header">CRUD Generator</h1>
-			<form method="post" action="">
 				<crud-form
+					generate_url="{{ route('leapfrog.crud.generate') }}"
 					models_path="{{ config('leapfrog.paths.models') }}"
 					controllers_path="{{ config('leapfrog.paths.controllers') }}"
 					services_path="{{ config('leapfrog.paths.services') }}"
@@ -15,7 +15,6 @@
 				>
 					
 				</crud-form>
-			</form>
 		</div>
 	</div>
 @endsection

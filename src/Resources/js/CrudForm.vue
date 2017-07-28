@@ -1,5 +1,5 @@
 <template>
-    <div class="crud-form">
+    <form>
         <p>Start off by choosing an entity name: 
             <span class="clear-form">
                 <a v-on:click="clearForm">clear form</a>
@@ -144,13 +144,22 @@
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary pull-right">Okay, let's go!</button>
-    </div>
+        <div class="row">
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <button v-on:click="submitForm" type="button" class="btn btn-primary pull-right">Okay, let's go!</button>
+            </div>
+        </div>        
+        <div v-if="generate_api_output" class="alert alert-info">
+            {{ generate_api_output }}
+        </div>
+    </form>
 </template>
 
 <script>
+    import axios from 'axios';
+
     export default {
-        props: ['models_path', 'controllers_path', 'services_path', 'requests_path', 'migrations_path'],
+        props: ['models_path', 'controllers_path', 'services_path', 'requests_path', 'migrations_path', 'generate_url'],
         data: function () {
             return initialState(this.models_path, this.controllers_path, this.services_path, this.requests_path, this.migrations_path);
         },
@@ -185,12 +194,28 @@
             },
             clearForm() {
                 Object.assign(this.$data, initialState(this.models_path, this.controllers_path, this.services_path, this.requests_path, this.migrations_path));
+            },
+            submitForm() {
+                axios.post(this.generate_url, {
+                    entity_name: this.entity_name,
+                    paths: this.paths,
+                    fields: this.fields,
+                    relations: this.relations,
+                    files: this.files
+                })
+                .then(response => {
+                    this.generate_api_output = response.data;
+                })
+                .catch(e => {
+                    this.generate_api_output = e;
+                })
             }
         }
     }
     function initialState(my_models_path, my_controllers_path, my_services_path, my_requests_path, my_migrations_path) {
         return {
             show_update_paths: false,
+            generate_api_output: '',
             entity_name: '',
             paths: {
                 models_path: my_models_path,
