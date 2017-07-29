@@ -26,19 +26,20 @@ class CrudService
 	 * Generate our CRUD scaffolding based on the provided options
 	 * 
 	 * @param  array $options
-	 * @return string
+	 * @return array
 	 */
 	public function generate(array $options)
 	{
 		try {
 			$this->generateMigration($options['entity_name'], $options['fields']);
 
-    		return implode("<br>", $this->progress);
+    		return $this->progress;
 		}
 		catch(\Exception $e) {
 			$this->progress[] = 'Uh oh, something went wrong:';
 			$this->progress[] = $e->getMessage();
-			return implode("<br>", $this->progress);
+
+			return $this->progress;
 		}
 	}
 

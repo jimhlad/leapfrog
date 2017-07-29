@@ -1777,8 +1777,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 
@@ -1832,7 +1830,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 files: this.files
             }).then(function (response) {
                 _this.loading = false;
-                _this.generate_api_output = response.data;
+                _this.generate_api_output = response.data.join('<br/>');
             }).catch(function (e) {
                 _this.loading = false;
                 _this.generate_api_output = e;
@@ -2984,9 +2982,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.submitForm
     }
-  }, [(!_vm.loading) ? _c('span', [_vm._v("Okay, let's go!")]) : _c('span', [_vm._v("Thinking...")])])]), _vm._v(" "), (_vm.generate_api_output) ? _c('div', {
-    staticClass: "alert alert-info"
-  }, [_vm._v("\n        " + _vm._s(_vm.generate_api_output) + "\n    ")]) : _vm._e()])
+  }, [(!_vm.loading) ? _c('span', [_vm._v("Okay, let's go!")]) : _c('span', [_vm._v("Hopping around, eating flies...")])])]), _vm._v(" "), (_vm.generate_api_output) ? _c('div', {
+    staticClass: "alert alert-info",
+    domProps: {
+      "innerHTML": _vm._s(_vm.generate_api_output)
+    }
+  }) : _vm._e()])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

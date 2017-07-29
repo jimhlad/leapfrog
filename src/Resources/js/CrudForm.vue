@@ -149,12 +149,10 @@
         <div class="submit-button-row">
             <button v-on:click="submitForm" type="button" class="btn btn-primary pull-right" :disabled="loading">
                 <span v-if="!loading">Okay, let's go!</span>
-                <span v-else>Thinking...</span>
+                <span v-else>Hopping around, eating flies...</span>
             </button>
         </div>        
-        <div v-if="generate_api_output" class="alert alert-info">
-            {{ generate_api_output }}
-        </div>
+        <div v-if="generate_api_output" v-html="generate_api_output" class="alert alert-info"></div>
     </form>
 </template>
 
@@ -210,7 +208,7 @@
                 })
                 .then(response => {
                     this.loading = false;
-                    this.generate_api_output = response.data;
+                    this.generate_api_output = response.data.join('<br/>');
                 })
                 .catch(e => {
                     this.loading = false;
