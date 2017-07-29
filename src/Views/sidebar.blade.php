@@ -7,6 +7,15 @@
 			<a href="{{ route('leapfrog.crud') }}">CRUD Generator</a>
 		</li>
 	</ul>
-	<p>If you have any feedback/questions, please feel free to reach out to me on twitter:</p>
-	<p><a href="https://www.twitter.com/jimhlad" target="_blank">@jimhlad</a></p>
+	<div class="credits">
+		<p>Follow me on Twitter:</p>
+		<p><a href="https://www.twitter.com/jimhlad" target="_blank">@jimhlad</a></p>
+	</div>
+	<div class="credits">
+		<p>GitHub page:</p>
+		<p><a href="https://www.github.com/" target="_blank">github.com/jimhlad/leapfrog</a></p>
+	</div>
+	<div class="version">
+		<p><em>Version 1.0.0</em></p>
+	</div>
 </div>

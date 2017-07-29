@@ -25,6 +25,14 @@ div.submit-button-row {
   min-height: 65px;
 }
 
+div.credits, div.version {
+  text-align: center;
+  margin-bottom: 20px;
+  p {
+    margin: 0px;
+  }
+}
+
 /*
  * Global add-ons
  */
@@ -73,8 +81,9 @@ div.submit-button-row {
 /* Sidebar navigation */
 .nav-sidebar {
   margin-right: -21px; /* 20px padding + 1px border */
-  margin-bottom: 20px;
+  margin-bottom: 60px;
   margin-left: -20px;
+  border-bottom: 1px solid #eee;
 }
 .nav-sidebar > li > a {
   padding-right: 20px;

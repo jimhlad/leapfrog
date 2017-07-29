@@ -143,7 +143,7 @@
                 </div>
             </div>
         </div>
-        <div class="submit-button-row">
+        <div v-if="entity_name" class="submit-button-row">
             <button v-on:click="submitForm" type="button" class="btn btn-primary pull-right" :disabled="loading">
                 <span v-if="!loading">Okay, let's go!</span>
                 <span v-else>Hopping around, eating flies...</span>

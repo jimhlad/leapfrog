@@ -2973,7 +2973,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }
-  }), _vm._v(" database/migrations/"), _c('strong', [_vm._v("xxxx_xx_xx_xxxxxx_create_" + _vm._s(_vm.entityNameSnakeCase) + "_table.php")])])])])]) : _vm._e(), _vm._v(" "), _c('div', {
+  }), _vm._v(" database/migrations/"), _c('strong', [_vm._v("xxxx_xx_xx_xxxxxx_create_" + _vm._s(_vm.entityNameSnakeCase) + "_table.php")])])])])]) : _vm._e(), _vm._v(" "), (_vm.entity_name) ? _c('div', {
     staticClass: "submit-button-row"
   }, [_c('button', {
     staticClass: "btn btn-primary pull-right",
@@ -2984,7 +2984,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.submitForm
     }
-  }, [(!_vm.loading) ? _c('span', [_vm._v("Okay, let's go!")]) : _c('span', [_vm._v("Hopping around, eating flies...")])])]), _vm._v(" "), (_vm.generate_api_output) ? _c('div', {
+  }, [(!_vm.loading) ? _c('span', [_vm._v("Okay, let's go!")]) : _c('span', [_vm._v("Hopping around, eating flies...")])])]) : _vm._e(), _vm._v(" "), (_vm.generate_api_output) ? _c('div', {
     staticClass: "alert alert-info",
     domProps: {
       "innerHTML": _vm._s(_vm.generate_api_output)
