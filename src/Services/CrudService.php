@@ -124,8 +124,8 @@ class CrudService
 		$options['namespace'] = $this->getNamespaceFromPath($models_path);
 		$options['class'] = $entity_name;
 		$options['table'] = strtolower($entity_name);
-		$options['fillable'] = '';
-		$options['hidden'] = '';
+		$options['fillable'] = implode(', ', $this->onlyFieldsWithOption($fields, 'fillable'));
+		$options['hidden'] = implode(', ', $this->onlyFieldsWithOption($fields, 'hidden'));
 
 		$modelTemplate = $this->modelBuilder->create($options);
 
@@ -140,7 +140,7 @@ class CrudService
      *
      * @param  string $path
      */
-    protected function makeDirectoryIfNecessary($path)
+    protected function makeDirectoryIfNecessary(string $path)
     {
         if (!$this->fileSystem->isDirectory(base_path($path))) {
             $this->fileSystem->makeDirectory(base_path($path), 0755, true, true);
@@ -153,11 +153,30 @@ class CrudService
      * @param string $path
      * @return string
      */
-    protected function getNamespaceFromPath($path)
+    protected function getNamespaceFromPath(string $path)
     {
         $appNamespace = rtrim(Container::getInstance()->getNamespace(), '\\');
-      	
+
         return rtrim(str_replace('/', '\\', str_replace('app', $appNamespace, $path)), '\\');
+    }
+
+    /**
+     * Get only those fields names which have a particular option set (e.g. fillable, hidden, etc)
+     *
+     * @param array $fields
+     * @param string $option
+     * @return array
+     */
+    protected function onlyFieldsWithOption(array $fields, $option = '')
+    {
+    	$filteredFields = [];
+        foreach ($fields as $field) {
+        	if (in_array($option, $field['options'])) {
+        		$filteredFields[] = "'" . $field['name'] . "'";
+        	}
+        }
+
+        return $filteredFields;
     }
 
 }
