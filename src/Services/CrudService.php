@@ -57,8 +57,12 @@ class CrudService
 	public function generate(array $options)
 	{
 		try {
-			$this->generateMigration($options['entity_name'], $options['fields']);
-			$this->generateModel($options['entity_name'], $options['fields'], $options['paths']['models_path']);
+			if (in_array('migration', $options['files'])) {
+				$this->generateMigration($options['entity_name'], $options['fields']);
+			}
+			if (in_array('model', $options['files'])) {
+				$this->generateModel($options['entity_name'], $options['fields'], $options['paths']['models_path']);
+			}
 
     		return $this->progress;
 		}
@@ -75,7 +79,6 @@ class CrudService
 	 * 
 	 * @param string $entity_name
 	 * @param array $fields
-	 * @return void
 	 */
 	protected function generateMigration(string $entity_name, array $fields) 
 	{
@@ -108,7 +111,6 @@ class CrudService
 	 * @param string $entity_name
 	 * @param array $fields
 	 * @param string $models_path
-	 * @return void
 	 */
 	protected function generateModel(string $entity_name, array $fields, string $models_path) 
 	{
@@ -119,7 +121,7 @@ class CrudService
 			return;
 		}
 
-		$options['namespace'] = Container::getInstance()->getNamespace();
+		$options['namespace'] = $this->getNamespaceFromPath($models_path);
 		$options['class'] = $entity_name;
 		$options['table'] = strtolower($entity_name);
 		$options['fillable'] = '';
@@ -137,13 +139,25 @@ class CrudService
      * Build the directory for the class if necessary.
      *
      * @param  string $path
-     * @return string
      */
     protected function makeDirectoryIfNecessary($path)
     {
         if (!$this->fileSystem->isDirectory(base_path($path))) {
             $this->fileSystem->makeDirectory(base_path($path), 0755, true, true);
         }
+    }
+
+    /**
+     * Get the namespace which corresponds to the given path
+     *
+     * @param string $path
+     * @return string
+     */
+    protected function getNamespaceFromPath($path)
+    {
+        $appNamespace = rtrim(Container::getInstance()->getNamespace(), '\\');
+      	
+        return rtrim(str_replace('/', '\\', str_replace('app', $appNamespace, $path)), '\\');
     }
 
 }
