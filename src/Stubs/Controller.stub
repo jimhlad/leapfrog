@@ -1,0 +1,110 @@
+<?php
+
+namespace {{namespace}};
+
+use {{serviceNamespace}};
+use {{createRequestNamespace}};
+use {{updateRequestNamespace}};
+
+class {{entity}}Controller extends Controller
+{
+
+    /**
+     * {{entity}}Service
+     *
+     * @var {{serviceNamespace}}
+     */
+    protected ${{entityLower}}Service;
+
+    /**
+     * Construct our {{entity}}Controller
+     * 
+     * @param {{serviceNamespace}} ${{entityLower}}Service
+     */
+    public function __construct({{entity}}Service ${{entityLower}}Service)
+    {
+        $this->{{entityLower}}Service = ${{entityLower}}Service;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        ${{entityLowerPlural}} = $this->{{entityLower}}Service->all();
+        return view('{{entityLower}}.index');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('{{entityLower}}.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  {{createRequestNamespace}} $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store({{createRequest}} $request)
+    {
+        $result = $this->{{entityLower}}Service->create($request->all());
+
+        if ($result) {
+            return redirect(route('{{entityLower}}.edit', ['id' => $result->id]));
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
+
+}

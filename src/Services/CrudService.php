@@ -6,6 +6,7 @@ use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Artisan;
 use JimHlad\LeapFrog\Builders\ModelBuilder;
+use JimHlad\LeapFrog\Builders\ControllerBuilder;
 
 class CrudService
 {
@@ -32,6 +33,13 @@ class CrudService
 	protected $modelBuilder;
 
 	/**
+	 * Our ControllerBuilder class
+	 *
+	 * @var ControllerBuilder
+	 */
+	protected $controllerBuilder;
+
+	/**
 	 * Construct our CrudService
 	 *
 	 * @param Filesystem $fileSystem
@@ -40,12 +48,14 @@ class CrudService
 	public function __construct
 	(
 		Filesystem $fileSystem,
-		ModelBuilder $modelBuilder
+		ModelBuilder $modelBuilder,
+		ControllerBuilder $controllerBuilder
 	)
 	{
 		$this->progress = [];
 		$this->fileSystem = $fileSystem;
 		$this->modelBuilder = $modelBuilder;
+		$this->controllerBuilder = $controllerBuilder;
 	}
 
 	/**
@@ -62,6 +72,13 @@ class CrudService
 			}
 			if (in_array('model', $options['files'])) {
 				$this->generateModel($options['entity_name'], $options['fields'], $options['paths']['models_path']);
+			}
+			if (in_array('controller', $options['files'])) {
+				$this->generateController($options['entity_name'], 
+										  $options['files'], 
+										  $options['paths']['controllers_path'], 
+										  $options['paths']['requests_path'],
+										  $options['paths']['services_path']);
 			}
 
     		return $this->progress;
@@ -131,6 +148,50 @@ class CrudService
 
 		$this->makeDirectoryIfNecessary($models_path);
 		$this->fileSystem->put(base_path($models_path) . $entity_name . '.php', $modelTemplate);
+
+		$this->progress[] = 'Success';
+	}
+
+	/**
+	 * Generate our Controller file
+	 * 
+	 * @param string $entity_name
+	 * @param array $files
+	 * @param string $controllers_path
+	 */
+	protected function generateController(
+		string $entity_name, 
+		array $files, 
+		string $controllers_path, 
+		string $requests_path,
+		string $services_path
+	) 
+	{
+		$this->progress[] = 'Create controller';
+
+		if ($this->fileSystem->exists(base_path($controllers_path) . $entity_name . 'Controller.php')) {
+			$this->progress[] = 'Controller already exists';
+			return;
+		}
+
+		$options['namespace'] = $this->getNamespaceFromPath($controllers_path);
+		$options['entity'] = $entity_name;
+		$options['entityLower'] = strtolower($entity_name);
+		$options['entityLowerPlural'] = strtolower(str_plural($entity_name));
+		$options['createRequest'] = (in_array('createrequest', $files) ? "{$entity_name}CreateRequest" : 'Request' );
+		$options['updateRequest'] = (in_array('updaterequest', $files) ? "{$entity_name}UpdateRequest" : 'Request' );
+		$options['serviceNamespace'] = $this->getNamespaceFromPath($services_path . $entity_name . 'Service');
+		$options['createRequestNamespace'] = 
+				(in_array('createrequest', $files)  ? 
+				$this->getNamespaceFromPath($requests_path . $options['createRequest']) : 'Illuminate\Http\Request' );
+		$options['updateRequestNamespace'] = 
+				(in_array('updaterequest', $files)  ? 
+				$this->getNamespaceFromPath($requests_path . $options['updateRequest']) : 'Illuminate\Http\Request' );
+
+		$controllerTemplate = $this->controllerBuilder->create($options);
+
+		$this->makeDirectoryIfNecessary($controllers_path);
+		$this->fileSystem->put(base_path($controllers_path) . $entity_name . 'Controller.php', $controllerTemplate);
 
 		$this->progress[] = 'Success';
 	}
