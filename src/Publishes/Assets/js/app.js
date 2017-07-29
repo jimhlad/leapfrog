@@ -1773,17 +1773,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['models_path', 'controllers_path', 'services_path', 'requests_path', 'migrations_path', 'generate_url'],
+    props: ['models_path', 'controllers_path', 'services_path', 'requests_path', 'generate_url'],
     data: function data() {
-        return initialState(this.models_path, this.controllers_path, this.services_path, this.requests_path, this.migrations_path);
+        return initialState(this.models_path, this.controllers_path, this.services_path, this.requests_path);
     },
     computed: {
         entityNameSnakeCase: function entityNameSnakeCase() {
@@ -1815,7 +1811,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.show_update_paths = !this.show_update_paths;
         },
         clearForm: function clearForm() {
-            Object.assign(this.$data, initialState(this.models_path, this.controllers_path, this.services_path, this.requests_path, this.migrations_path));
+            Object.assign(this.$data, initialState(this.models_path, this.controllers_path, this.services_path, this.requests_path));
         },
         submitForm: function submitForm() {
             var _this = this;
@@ -1838,7 +1834,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     }
 });
-function initialState(my_models_path, my_controllers_path, my_services_path, my_requests_path, my_migrations_path) {
+function initialState(my_models_path, my_controllers_path, my_services_path, my_requests_path) {
     return {
         loading: false,
         show_update_paths: false,
@@ -1848,8 +1844,7 @@ function initialState(my_models_path, my_controllers_path, my_services_path, my_
             models_path: my_models_path,
             controllers_path: my_controllers_path,
             services_path: my_services_path,
-            requests_path: my_requests_path,
-            migrations_path: my_migrations_path
+            requests_path: my_requests_path
         },
         fields: [{
             name: '',
@@ -2739,32 +2734,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.paths.requests_path = $event.target.value
       }
     }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
-    attrs: {
-      "for": "field_name"
-    }
-  }, [_vm._v("Migrations Path")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.paths.migrations_path),
-      expression: "paths.migrations_path"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "type": "text"
-    },
-    domProps: {
-      "value": (_vm.paths.migrations_path)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.paths.migrations_path = $event.target.value
-      }
-    }
   })])]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "well"
   }, [_c('div', {
@@ -2971,7 +2940,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }
-  }), _vm._v(" " + _vm._s(_vm.paths.migrations_path)), _c('strong', [_vm._v("xxxx_xx_xx_xxxxxx_create_" + _vm._s(_vm.entityNameSnakeCase) + "_table.php")])])])])]) : _vm._e(), _vm._v(" "), _c('div', {
+  }), _vm._v(" database/migrations/"), _c('strong', [_vm._v("xxxx_xx_xx_xxxxxx_create_" + _vm._s(_vm.entityNameSnakeCase) + "_table.php")])])])])]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "submit-button-row"
   }, [_c('button', {
     staticClass: "btn btn-primary pull-right",

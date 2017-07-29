@@ -120,10 +120,6 @@
                     <label for="field_name">Requests Path</label>
                     <input type="text" class="form-control" v-model="paths.requests_path" />
                 </div>
-                <div class="form-group">
-                    <label for="field_name">Migrations Path</label>
-                    <input type="text" class="form-control" v-model="paths.migrations_path" />
-                </div>
             </div>
             <div class="well">
                 <div class="checkbox">
@@ -142,7 +138,7 @@
                     <label><input type="checkbox" value="updaterequest" v-model="files"> {{paths.requests_path}}<strong>{{entity_name}}UpdateRequest.php</strong></label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" value="migration" v-model="files"> {{paths.migrations_path}}<strong>xxxx_xx_xx_xxxxxx_create_{{entityNameSnakeCase}}_table.php</strong></label>
+                    <label><input type="checkbox" value="migration" v-model="files"> database/migrations/<strong>xxxx_xx_xx_xxxxxx_create_{{entityNameSnakeCase}}_table.php</strong></label>
                 </div>
             </div>
         </div>
@@ -160,9 +156,9 @@
     import axios from 'axios';
 
     export default {
-        props: ['models_path', 'controllers_path', 'services_path', 'requests_path', 'migrations_path', 'generate_url'],
+        props: ['models_path', 'controllers_path', 'services_path', 'requests_path', 'generate_url'],
         data: function () {
-            return initialState(this.models_path, this.controllers_path, this.services_path, this.requests_path, this.migrations_path);
+            return initialState(this.models_path, this.controllers_path, this.services_path, this.requests_path);
         },
         computed: {
             entityNameSnakeCase() {
@@ -194,7 +190,7 @@
                 this.show_update_paths = !this.show_update_paths;
             },
             clearForm() {
-                Object.assign(this.$data, initialState(this.models_path, this.controllers_path, this.services_path, this.requests_path, this.migrations_path));
+                Object.assign(this.$data, initialState(this.models_path, this.controllers_path, this.services_path, this.requests_path));
             },
             submitForm() {
                 this.loading = true;
@@ -217,7 +213,7 @@
             }
         }
     }
-    function initialState(my_models_path, my_controllers_path, my_services_path, my_requests_path, my_migrations_path) {
+    function initialState(my_models_path, my_controllers_path, my_services_path, my_requests_path) {
         return {
             loading: false,
             show_update_paths: false,
@@ -227,8 +223,7 @@
                 models_path: my_models_path,
                 controllers_path: my_controllers_path,
                 services_path: my_services_path,
-                requests_path: my_requests_path,
-                migrations_path: my_migrations_path
+                requests_path: my_requests_path
             },
             fields: [{
                 name: '',
