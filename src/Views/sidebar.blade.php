@@ -16,6 +16,6 @@
 		<p><a href="https://www.github.com/" target="_blank">github.com/jimhlad/leapfrog</a></p>
 	</div>
 	<div class="version">
-		<p><em>Version 1.0.0</em></p>
+		<p><em>Version 0.0.1</em></p>
 	</div>
 </div>

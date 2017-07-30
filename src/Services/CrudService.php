@@ -7,6 +7,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Artisan;
 use JimHlad\LeapFrog\Builders\ModelBuilder;
 use JimHlad\LeapFrog\Builders\ControllerBuilder;
+use JimHlad\LeapFrog\Builders\ServiceBuilder;
 
 class CrudService
 {
@@ -40,22 +41,33 @@ class CrudService
 	protected $controllerBuilder;
 
 	/**
+	 * Our ServiceBuilder class
+	 *
+	 * @var ServiceBuilder
+	 */
+	protected $serviceBuilder;
+
+	/**
 	 * Construct our CrudService
 	 *
 	 * @param Filesystem $fileSystem
 	 * @param ModelBuilder $modelBuilder
+	 * @param ControllerBuilder $controllerBuilder
+	 * @param ServiceBuilder $serviceBuilder
 	 */
 	public function __construct
 	(
 		Filesystem $fileSystem,
 		ModelBuilder $modelBuilder,
-		ControllerBuilder $controllerBuilder
+		ControllerBuilder $controllerBuilder,
+		ServiceBuilder $serviceBuilder
 	)
 	{
 		$this->progress = [];
 		$this->fileSystem = $fileSystem;
 		$this->modelBuilder = $modelBuilder;
 		$this->controllerBuilder = $controllerBuilder;
+		$this->serviceBuilder = $serviceBuilder;
 	}
 
 	/**
@@ -75,6 +87,9 @@ class CrudService
 			}
 			if (in_array('controller', $options['files'])) {
 				$this->generateController($options);
+			}
+			if (in_array('service', $options['files'])) {
+				$this->generateService($options);
 			}
 
     		return $this->progress;
@@ -201,6 +216,35 @@ class CrudService
 		$controllerTemplate = $this->controllerBuilder->create($config);
 		$this->makeDirectoryIfNecessary($controllersPath);
 		$this->fileSystem->put(base_path($controllersPath) . $entityName . 'Controller.php', $controllerTemplate);
+
+		$this->progress[] = 'Success';
+	}
+
+	/**
+	 * Generate our Service file
+	 * 
+	 * @param array $options
+	 */
+	protected function generateService(array $options) 
+	{
+		$this->progress[] = 'Create service';
+
+		$servicesPath = $options['paths']['services_path'];
+		$modelsPath = $options['paths']['models_path'];
+		$entityName = $options['entity_name'];
+
+		if ($this->fileSystem->exists(base_path($servicesPath) . $entityName . 'Service.php')) {
+			$this->progress[] = 'Service already exists';
+			return;
+		}
+
+		$config['namespace'] = $this->getNamespaceFromPath($servicesPath);
+		$config['modelsNamespace'] = $this->getNamespaceFromPath($modelsPath);
+		$config['entity'] = $entityName;
+
+		$serviceTemplate = $this->serviceBuilder->create($config);
+		$this->makeDirectoryIfNecessary($servicesPath);
+		$this->fileSystem->put(base_path($servicesPath) . $entityName . 'Service.php', $serviceTemplate);
 
 		$this->progress[] = 'Success';
 	}

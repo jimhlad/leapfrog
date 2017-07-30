@@ -1,0 +1,28 @@
+<?php
+
+namespace {{namespace}};
+
+use {{modelsNamespace}}\{{entity}};
+use App\Services\LeapFrog\BaseService;
+
+class {{entity}}Service extends BaseService
+{
+
+    /**
+     * The {{entity}} model class
+     *
+     * @var {{modelsNamespace}}\{{entity}}
+     */
+    protected $model;
+
+    /**
+     * Construct the service class
+     *
+     * @param {{modelsNamespace}}\{{entity}} $model
+     */
+    public function __construct({{entity}} $model)
+    {
+        $this->model = $model;
+    }
+
+}
