@@ -60,7 +60,8 @@
                 <p><a v-on:click="addEntityField">Add field</a></p>
             </div>
         </div>
-        <div v-if="entity_name" class="entity-relations">
+        <!-- Un-comment false when feature ready -->
+        <div v-if="entity_name && false" class="entity-relations">
             <p>What relations should the {{entity_name}} have?</p>
             <div class="well">
                 <div v-for="(relation, index) in relations" class="row">
@@ -163,7 +164,7 @@
         },
         computed: {
             entityNameSnakeCase() {
-                return this.entity_name.toLowerCase();
+                return _.snakeCase(this.entity_name);
             }
         },
         methods: {

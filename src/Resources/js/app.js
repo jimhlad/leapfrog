@@ -8,6 +8,7 @@
 // require('./bootstrap');
 
 window.Vue = require('vue');
+window._ = require('lodash');
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
