@@ -3,7 +3,7 @@
 namespace {{namespace}};
 
 use {{modelsNamespace}}\{{entity}};
-use App\Services\LeapFrog\BaseService;
+use App\Services\BaseService;
 
 class {{entity}}Service extends BaseService
 {

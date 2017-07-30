@@ -45,7 +45,6 @@
                                 <input type="checkbox" value="index" v-model="field.options"> <span>Index</span>
                                 <br/>
                                 <input type="checkbox" value="hidden" v-model="field.options"> <span>Hidden</span>
-                                <input type="checkbox" value="searchable" v-model="field.options"> <span>Searchable</span>
                                 <input type="checkbox" value="unsigned" v-model="field.options"> <span>Unsigned</span>
                             </div>
                         </div>

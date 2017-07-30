@@ -22,7 +22,7 @@ class LeapFrogServiceProvider extends ServiceProvider
         ]);
 
         $this->publishes([
-            __DIR__.'/Publishes/Services/BaseService.php' => app_path('Services/LeapFrog/BaseService.php'),
+            __DIR__.'/Publishes/Services/BaseService.php' => app_path('Services/BaseService.php'),
         ]);
 
         $this->publishes([

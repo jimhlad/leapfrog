@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Services\LeapFrog;
+namespace App\Services;
 
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Model;
 
 class BaseService
@@ -31,26 +30,6 @@ class BaseService
     public function all()
     {
         return $this->model->all();
-    }
-
-    /**
-     * Perform a basic search of all models using database columns
-     *
-     * @param  string $searchTerm
-     * @return Illuminate\Support\Collection
-     */
-    public function search(string $searchTerm)
-    {
-        $query = $this->model;
-        $query->where('id', 'LIKE', '%'.$searchTerm.'%');
-
-        $columns = Schema::getColumnListing($this->model->getTableName());
-
-        foreach ($columns as $attribute) {
-            $query->orWhere($attribute, 'LIKE', '%'.$searchTerm.'%');
-        };
-
-        return $query->get();
     }
 
     /**
