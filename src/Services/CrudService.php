@@ -128,7 +128,7 @@ class CrudService
 		}
 
 		Artisan::call('make:migration:schema', [
-    		'name' => 'create_'.strtolower($options['entity_name']) . '_table',
+    		'name' => 'create_'.snake_case($options['entity_name']) . '_table',
     		'--schema' => implode(', ', $schema),
     		'--model' => false
 		]);
@@ -159,7 +159,7 @@ class CrudService
 
 		$config['namespace'] = $this->getNamespaceFromPath($modelsPath);
 		$config['class'] = $entityName;
-		$config['table'] = strtolower($entityName);
+		$config['table'] = snake_case($entityName);
 		$config['fillable'] = implode(",\n\t\t", $this->wrapFieldNames($fillable));
 		$config['hidden'] = implode(",\n\t\t", $this->wrapFieldNames($hidden));
 
@@ -196,8 +196,9 @@ class CrudService
 		$config['servicesNamespace'] = $this->getNamespaceFromPath($servicesPath);
 		$config['requestsNamespace'] = $this->getNamespaceFromPath($requestsPath);
 		$config['entity'] = $entityName;
-		$config['entityLower'] = strtolower($entityName);
-		$config['entityLowerPlural'] = strtolower(str_plural($entityName));
+		$config['entityCamel'] = camel_case($entityName);
+		$config['entitySnake'] = snake_case($entityName);
+		$config['entityCamelPlural'] = camel_case(str_plural($entityName));
 		$config['createRequest'] = (in_array('createrequest', $files) ? "{$entityName}CreateRequest" : 'Request' );
 		$config['updateRequest'] = (in_array('updaterequest', $files) ? "{$entityName}UpdateRequest" : 'Request' );
 
@@ -261,7 +262,7 @@ class CrudService
 	 * 
 	 * @param array $options
 	 */
-	protected function generateRequest(array $options, string $type = 'Create') 
+	protected function generateRequest(array $options, $type = 'Create') 
 	{
 		$this->progress[] = 'Create request';
 
@@ -360,7 +361,7 @@ class CrudService
      * @param string $rightQuote
      * @return array
      */
-    protected function wrapFieldNames(array $fields, string $leftQuote = "'", string $rightQuote = "'")
+    protected function wrapFieldNames(array $fields, $leftQuote = "'", $rightQuote = "'")
     {
     	$quoted = [];
 

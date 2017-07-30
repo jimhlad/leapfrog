@@ -12,16 +12,16 @@ class {{entity}}Controller extends Controller
      *
      * @var {{servicesNamespace}}\{{entity}}Service 
      */
-    protected ${{entityLower}}Service;
+    protected ${{entityCamel}}Service;
 
     /**
      * Construct our {{entity}}Controller
      * 
-     * @param {{servicesNamespace}}\{{entity}}Service ${{entityLower}}Service
+     * @param {{servicesNamespace}}\{{entity}}Service ${{entityCamel}}Service
      */
-    public function __construct({{entity}}Service ${{entityLower}}Service)
+    public function __construct({{entity}}Service ${{entityCamel}}Service)
     {
-        $this->{{entityLower}}Service = ${{entityLower}}Service;
+        $this->{{entityCamel}}Service = ${{entityCamel}}Service;
     }
 
     /**
@@ -31,8 +31,8 @@ class {{entity}}Controller extends Controller
      */
     public function index()
     {
-        ${{entityLowerPlural}} = $this->{{entityLower}}Service->all();
-        return view('{{entityLower}}.index');
+        ${{entityCamelPlural}} = $this->{{entityCamel}}Service->all();
+        return view('{{entitySnake}}.index');
     }
 
     /**
@@ -42,7 +42,7 @@ class {{entity}}Controller extends Controller
      */
     public function create()
     {
-        return view('{{entityLower}}.create');
+        return view('{{entitySnake}}.create');
     }
 
     /**
@@ -53,10 +53,10 @@ class {{entity}}Controller extends Controller
      */
     public function store({{createRequest}} $request)
     {
-        $result = $this->{{entityLower}}Service->create($request->all());
+        $result = $this->{{entityCamel}}Service->create($request->all());
 
         if ($result) {
-            return redirect(route('{{entityLower}}.edit', ['id' => $result->id]))->with('message', 'Successfully created');
+            return redirect(route('{{entitySnake}}.edit', ['id' => $result->id]))->with('message', 'Successfully created');
         }
 
         return back()->with('error', 'Failed to create');
@@ -70,9 +70,9 @@ class {{entity}}Controller extends Controller
      */
     public function edit($id)
     {
-        ${{entityLower}} = $this->{{entityLower}}Service->find($id);
+        ${{entityCamel}} = $this->{{entityCamel}}Service->find($id);
 
-        return view('{{entityLower}}.edit');
+        return view('{{entitySnake}}.edit');
     }
 
     /**
@@ -84,7 +84,7 @@ class {{entity}}Controller extends Controller
      */
     public function update({{updateRequest}} $request, $id)
     {
-        $result = $this->{{entityLower}}Service->update($id, $request->all());
+        $result = $this->{{entityCamel}}Service->update($id, $request->all());
 
         if ($result) {
             return back()->with('message', 'Successfully updated');
@@ -101,13 +101,13 @@ class {{entity}}Controller extends Controller
      */
     public function destroy($id)
     {
-        $result = $this->{{entityLower}}Service->destroy($id);
+        $result = $this->{{entityCamel}}Service->destroy($id);
 
         if ($result) {
-            return redirect(route('{{entityLower}}.index'))->with('message', 'Successfully deleted');
+            return redirect(route('{{entitySnake}}.index'))->with('message', 'Successfully deleted');
         }
 
-        return redirect(route('{{entityLower}}.index'))->with('message', 'Failed to delete');
+        return redirect(route('{{entitySnake}}.index'))->with('message', 'Failed to delete');
     }
 
 }
