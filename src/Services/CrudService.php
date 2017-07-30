@@ -68,17 +68,13 @@ class CrudService
 	{
 		try {
 			if (in_array('migration', $options['files'])) {
-				$this->generateMigration($options['entity_name'], $options['fields']);
+				$this->generateMigration($options);
 			}
 			if (in_array('model', $options['files'])) {
-				$this->generateModel($options['entity_name'], $options['fields'], $options['paths']['models_path']);
+				$this->generateModel($options);
 			}
 			if (in_array('controller', $options['files'])) {
-				$this->generateController($options['entity_name'], 
-										  $options['files'], 
-										  $options['paths']['controllers_path'], 
-										  $options['paths']['requests_path'],
-										  $options['paths']['services_path']);
+				$this->generateController($options);
 			}
 
     		return $this->progress;
@@ -94,16 +90,15 @@ class CrudService
 	/**
 	 * Generate the migration file. Uses Jeffrey Way's awesome generators.
 	 * 
-	 * @param string $entity_name
-	 * @param array $fields
+	 * @param array $options
 	 */
-	protected function generateMigration(string $entity_name, array $fields) 
+	protected function generateMigration(array $options) 
 	{
 		$this->progress[] = 'Create migration';
 
 		$validOptions = ['nullable', 'unique', 'index', 'unsigned'];
 		$schema = [];
-		foreach ($fields as $field) {
+		foreach ($options['fields'] as $field) {
 			$fieldConfig = $field['name'] . ':' . $field['type'];
 			foreach ($field['options'] as $option) {
 				if (in_array($option, $validOptions)) {
@@ -114,7 +109,7 @@ class CrudService
 		}
 
 		Artisan::call('make:migration:schema', [
-    		'name' => 'create_'.strtolower($entity_name) . '_table',
+    		'name' => 'create_'.strtolower($options['entity_name']) . '_table',
     		'--schema' => implode(', ', $schema),
     		'--model' => false
 		]);
@@ -125,29 +120,30 @@ class CrudService
 	/**
 	 * Generate our Model file
 	 * 
-	 * @param string $entity_name
-	 * @param array $fields
-	 * @param string $models_path
+	 * @param array $options
 	 */
-	protected function generateModel(string $entity_name, array $fields, string $models_path) 
+	protected function generateModel(array $options) 
 	{
 		$this->progress[] = 'Create model';
 
-		if ($this->fileSystem->exists(base_path($models_path) . $entity_name . '.php')) {
+		$modelsPath = $options['paths']['models_path'];
+		$entityName = $options['entity_name'];
+		$fields = $options ['fields'];
+
+		if ($this->fileSystem->exists(base_path($modelsPath) . $entityName . '.php')) {
 			$this->progress[] = 'Model already exists';
 			return;
 		}
 
-		$options['namespace'] = $this->getNamespaceFromPath($models_path);
-		$options['class'] = $entity_name;
-		$options['table'] = strtolower($entity_name);
-		$options['fillable'] = implode(', ', $this->onlyFieldsWithOption($fields, 'fillable'));
-		$options['hidden'] = implode(', ', $this->onlyFieldsWithOption($fields, 'hidden'));
+		$config['namespace'] = $this->getNamespaceFromPath($modelsPath);
+		$config['class'] = $entityName;
+		$config['table'] = strtolower($entityName);
+		$config['fillable'] = implode(', ', $this->onlyFieldsWithOption($fields, 'fillable'));
+		$config['hidden'] = implode(', ', $this->onlyFieldsWithOption($fields, 'hidden'));
 
-		$modelTemplate = $this->modelBuilder->create($options);
-
-		$this->makeDirectoryIfNecessary($models_path);
-		$this->fileSystem->put(base_path($models_path) . $entity_name . '.php', $modelTemplate);
+		$modelTemplate = $this->modelBuilder->create($config);
+		$this->makeDirectoryIfNecessary($modelsPath);
+		$this->fileSystem->put(base_path($modelsPath) . $entityName . '.php', $modelTemplate);
 
 		$this->progress[] = 'Success';
 	}
@@ -155,43 +151,56 @@ class CrudService
 	/**
 	 * Generate our Controller file
 	 * 
-	 * @param string $entity_name
-	 * @param array $files
-	 * @param string $controllers_path
+	 * @todo Re-factor this function into smaller components
+	 * 
+	 * @param array $options
 	 */
-	protected function generateController(
-		string $entity_name, 
-		array $files, 
-		string $controllers_path, 
-		string $requests_path,
-		string $services_path
-	) 
+	protected function generateController(array $options) 
 	{
 		$this->progress[] = 'Create controller';
 
-		if ($this->fileSystem->exists(base_path($controllers_path) . $entity_name . 'Controller.php')) {
+		$controllersPath = $options['paths']['controllers_path'];
+		$servicesPath = $options['paths']['services_path'];
+		$requestsPath = $options['paths']['requests_path'];
+		$entityName = $options['entity_name'];
+		$files = $options['files'];
+
+		if ($this->fileSystem->exists(base_path($controllersPath) . $entityName . 'Controller.php')) {
 			$this->progress[] = 'Controller already exists';
 			return;
 		}
 
-		$options['namespace'] = $this->getNamespaceFromPath($controllers_path);
-		$options['entity'] = $entity_name;
-		$options['entityLower'] = strtolower($entity_name);
-		$options['entityLowerPlural'] = strtolower(str_plural($entity_name));
-		$options['createRequest'] = (in_array('createrequest', $files) ? "{$entity_name}CreateRequest" : 'Request' );
-		$options['updateRequest'] = (in_array('updaterequest', $files) ? "{$entity_name}UpdateRequest" : 'Request' );
-		$options['serviceNamespace'] = $this->getNamespaceFromPath($services_path . $entity_name . 'Service');
-		$options['createRequestNamespace'] = 
-				(in_array('createrequest', $files)  ? 
-				$this->getNamespaceFromPath($requests_path . $options['createRequest']) : 'Illuminate\Http\Request' );
-		$options['updateRequestNamespace'] = 
-				(in_array('updaterequest', $files)  ? 
-				$this->getNamespaceFromPath($requests_path . $options['updateRequest']) : 'Illuminate\Http\Request' );
+		$config['namespace'] = $this->getNamespaceFromPath($controllersPath);
+		$config['servicesNamespace'] = $this->getNamespaceFromPath($servicesPath);
+		$config['requestsNamespace'] = $this->getNamespaceFromPath($requestsPath);
+		$config['entity'] = $entityName;
+		$config['entityLower'] = strtolower($entityName);
+		$config['entityLowerPlural'] = strtolower(str_plural($entityName));
+		$config['createRequest'] = (in_array('createrequest', $files) ? "{$entityName}CreateRequest" : 'Request' );
+		$config['updateRequest'] = (in_array('updaterequest', $files) ? "{$entityName}UpdateRequest" : 'Request' );
 
-		$controllerTemplate = $this->controllerBuilder->create($options);
+		$useClasses = [];
+		$useClasses[] = $config['servicesNamespace'] . '\\' . $entityName . 'Service';
+		if (in_array('createrequest', $files)) {
+			$useClasses[] = $config['requestsNamespace'] . '\\' . $config['createRequest'];
+		}
+		if (in_array('updaterequest', $files)) {
+			$useClasses[] = $config['requestsNamespace'] . '\\' . $config['updateRequest'];
+		}
+		if (count($useClasses) === 1) {
+			$config['requestsNamespace'] = 'Illuminate\Http';
+			$useClasses[] = 'Illuminate\Http\Request';
+		}
 
-		$this->makeDirectoryIfNecessary($controllers_path);
-		$this->fileSystem->put(base_path($controllers_path) . $entity_name . 'Controller.php', $controllerTemplate);
+		$config['useStatements'] = '';
+		foreach ($useClasses as $useClass) {
+			$config['useStatements'] .= "use {$useClass}; \n";
+		}
+		$config['useStatements'] = rtrim($config['useStatements']);
+		
+		$controllerTemplate = $this->controllerBuilder->create($config);
+		$this->makeDirectoryIfNecessary($controllersPath);
+		$this->fileSystem->put(base_path($controllersPath) . $entityName . 'Controller.php', $controllerTemplate);
 
 		$this->progress[] = 'Success';
 	}

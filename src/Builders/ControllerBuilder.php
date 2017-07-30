@@ -25,9 +25,9 @@ class ControllerBuilder
         $controllerTemplate = $this->insert($options['entityLowerPlural'])->into($controllerTemplate, 'entityLowerPlural');
         $controllerTemplate = $this->insert($options['createRequest'])->into($controllerTemplate, 'createRequest');
         $controllerTemplate = $this->insert($options['updateRequest'])->into($controllerTemplate, 'updateRequest');
-        $controllerTemplate = $this->insert($options['createRequestNamespace'])->into($controllerTemplate, 'createRequestNamespace');
-        $controllerTemplate = $this->insert($options['updateRequestNamespace'])->into($controllerTemplate, 'updateRequestNamespace');
-        $controllerTemplate = $this->insert($options['serviceNamespace'])->into($controllerTemplate, 'serviceNamespace');
+        $controllerTemplate = $this->insert($options['requestsNamespace'])->into($controllerTemplate, 'requestsNamespace');
+        $controllerTemplate = $this->insert($options['servicesNamespace'])->into($controllerTemplate, 'servicesNamespace');
+        $controllerTemplate = $this->insert($options['useStatements'])->into($controllerTemplate, 'useStatements');
 
         return $controllerTemplate;
     }

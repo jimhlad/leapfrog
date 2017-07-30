@@ -2,9 +2,7 @@
 
 namespace {{namespace}};
 
-use {{serviceNamespace}};
-use {{createRequestNamespace}};
-use {{updateRequestNamespace}};
+{{useStatements}}
 
 class {{entity}}Controller extends Controller
 {
@@ -12,14 +10,14 @@ class {{entity}}Controller extends Controller
     /**
      * {{entity}}Service
      *
-     * @var {{serviceNamespace}}
+     * @var {{servicesNamespace}}\{{entity}}Service 
      */
     protected ${{entityLower}}Service;
 
     /**
      * Construct our {{entity}}Controller
      * 
-     * @param {{serviceNamespace}} ${{entityLower}}Service
+     * @param {{servicesNamespace}}\{{entity}}Service ${{entityLower}}Service
      */
     public function __construct({{entity}}Service ${{entityLower}}Service)
     {
@@ -50,7 +48,7 @@ class {{entity}}Controller extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  {{createRequestNamespace}} $request
+     * @param  {{requestsNamespace}}\{{createRequest}} $request
      * @return \Illuminate\Http\Response
      */
     public function store({{createRequest}} $request)
