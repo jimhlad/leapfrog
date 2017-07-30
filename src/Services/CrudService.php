@@ -160,8 +160,8 @@ class CrudService
 		$config['namespace'] = $this->getNamespaceFromPath($modelsPath);
 		$config['class'] = $entityName;
 		$config['table'] = strtolower($entityName);
-		$config['fillable'] = implode(", \n\t\t", $this->wrapFieldNames($fillable));
-		$config['hidden'] = implode(", \n\t\t", $this->wrapFieldNames($hidden));
+		$config['fillable'] = implode(",\n\t\t", $this->wrapFieldNames($fillable));
+		$config['hidden'] = implode(",\n\t\t", $this->wrapFieldNames($hidden));
 
 		$modelTemplate = $this->modelBuilder->create($config);
 		$this->makeDirectoryIfNecessary($modelsPath);
@@ -278,9 +278,10 @@ class CrudService
 		$config['entity'] = $entityName;
 
 		$requiredFields = $this->onlyFieldsWithoutOption($fields, 'nullable');
-		$config['rules'] = implode("\n\t\t\t", $this->wrapFieldNames($requiredFields, "'", "|required'"));
+		$config['rules'] = implode(",\n\t\t\t", $this->wrapFieldNames($requiredFields, "'", "|required'"));
 
-		$requestTemplate = $this->createRequestBuilder->create($config);
+		$builderFn = strtolower($type) . "RequestBuilder";
+		$requestTemplate = $this->$builderFn->create($config);
 		$this->makeDirectoryIfNecessary($requestsPath);
 		$this->fileSystem->put(base_path($requestsPath) . $entityName . "{$type}Request.php", $requestTemplate);
 
