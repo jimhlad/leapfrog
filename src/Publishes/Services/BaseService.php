@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\LeapFrog;
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Model;
@@ -17,8 +17,6 @@ class BaseService
 
     /**
      * Construct our service instance.
-     *
-     * @return void
      */
     public function __construct(Model $model)
     {
@@ -80,8 +78,8 @@ class BaseService
     /**
      * Update the model in the database
      *
-     * @param  int $id
-     * @param  array $payload
+     * @param int $id
+     * @param array $payload
      * @return Illuminate\Database\Eloquent\Model
      */
     public function update(int $id, array $payload)
@@ -95,8 +93,7 @@ class BaseService
     /**
      * Delete a specific model
      *
-     * @param  int $id
-     * @return void
+     * @param int $id
      */
     public function delete(int $id)
     {
