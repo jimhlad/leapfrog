@@ -121,6 +121,10 @@
                     <label for="field_name">Requests Path</label>
                     <input type="text" class="form-control" v-model="paths.requests_path" />
                 </div>
+                <div class="form-group">
+                    <label for="field_name">Views Path</label>
+                    <input type="text" class="form-control" v-model="paths.views_path" />
+                </div>
             </div>
             <div class="well">
                 <div class="checkbox">
@@ -141,6 +145,18 @@
                 <div class="checkbox">
                     <label><input type="checkbox" value="migration" v-model="files"> database/migrations/<strong>xxxx_xx_xx_xxxxxx_create_{{entityNameSnakeCase}}_table.php</strong></label>
                 </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" value="indexview" v-model="files"> {{paths.views_path}}<strong>{{entityNameSnakeCase}}/index.blade.php</strong></label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" value="formview" v-model="files"> {{paths.views_path}}<strong>{{entityNameSnakeCase}}/form.blade.php</strong></label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" value="createview" v-model="files"> {{paths.views_path}}<strong>{{entityNameSnakeCase}}/create.blade.php</strong></label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" value="editview" v-model="files"> {{paths.views_path}}<strong>{{entityNameSnakeCase}}/edit.blade.php</strong></label>
+                </div>
             </div>
         </div>
         <div v-if="entity_name" class="submit-button-row">
@@ -157,9 +173,9 @@
     import axios from 'axios';
 
     export default {
-        props: ['models_path', 'controllers_path', 'services_path', 'requests_path', 'generate_url'],
+        props: ['models_path', 'controllers_path', 'services_path', 'requests_path', 'views_path', 'generate_url'],
         data: function () {
-            return initialState(this.models_path, this.controllers_path, this.services_path, this.requests_path);
+            return initialState(this.models_path, this.controllers_path, this.services_path, this.requests_path, this.views_path);
         },
         computed: {
             entityNameSnakeCase() {
@@ -191,7 +207,7 @@
                 this.show_update_paths = !this.show_update_paths;
             },
             clearForm() {
-                Object.assign(this.$data, initialState(this.models_path, this.controllers_path, this.services_path, this.requests_path));
+                Object.assign(this.$data, initialState(this.models_path, this.controllers_path, this.services_path, this.requests_path, this.views_path));
             },
             submitForm() {
                 this.loading = true;
@@ -214,7 +230,7 @@
             }
         }
     }
-    function initialState(my_models_path, my_controllers_path, my_services_path, my_requests_path) {
+    function initialState(my_models_path, my_controllers_path, my_services_path, my_requests_path, my_views_path) {
         return {
             loading: false,
             show_update_paths: false,
@@ -224,7 +240,8 @@
                 models_path: my_models_path,
                 controllers_path: my_controllers_path,
                 services_path: my_services_path,
-                requests_path: my_requests_path
+                requests_path: my_requests_path,
+                views_path: my_views_path
             },
             fields: [{
                 name: '',
@@ -232,7 +249,7 @@
                 options: ['fillable']
             }],
             relations: [],
-            files: ['model', 'controller', 'service', 'createrequest', 'updaterequest', 'migration']
+            files: ['model', 'controller', 'service', 'createrequest', 'updaterequest', 'migration', 'indexview', 'formview', 'createview', 'editview']
         }
     }
 </script>

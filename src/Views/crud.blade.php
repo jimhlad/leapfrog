@@ -11,7 +11,7 @@
 					controllers_path="{{ config('leapfrog.paths.controllers') }}"
 					services_path="{{ config('leapfrog.paths.services') }}"
 					requests_path="{{ config('leapfrog.paths.requests') }}"
-					migrations_path="{{ config('leapfrog.paths.migrations') }}"
+					views_path="{{ config('leapfrog.paths.views') }}"
 				>
 					
 				</crud-form>

@@ -13,5 +13,6 @@ return [
 		'services' => 'app/Services/',
 		'requests' => 'app/Http/Requests/',
 		'migrations' => 'database/migrations/',
+		'views' => 'resources/views/',
 	]
 ];
