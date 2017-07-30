@@ -10,6 +10,7 @@ use JimHlad\LeapFrog\Builders\ControllerBuilder;
 use JimHlad\LeapFrog\Builders\ServiceBuilder;
 use JimHlad\LeapFrog\Builders\CreateRequestBuilder;
 use JimHlad\LeapFrog\Builders\UpdateRequestBuilder;
+use JimHlad\LeapFrog\Builders\IndexViewBuilder;
 
 class CrudService
 {
@@ -38,6 +39,10 @@ class CrudService
 	protected $serviceBuilder;
 	protected $createRequestBuilder;
 	protected $updateRequestBuilder;
+	protected $indexViewBuilder;
+	protected $formViewBuilder;
+	protected $createViewBuilder;
+	protected $editViewBuilder;
 
 	/**
 	 * Construct our CrudService
@@ -56,7 +61,8 @@ class CrudService
 		ControllerBuilder $controllerBuilder,
 		ServiceBuilder $serviceBuilder,
 		CreateRequestBuilder $createRequestBuilder,
-		UpdateRequestBuilder $updateRequestBuilder
+		UpdateRequestBuilder $updateRequestBuilder,
+		IndexViewBuilder $indexViewBuilder
 	)
 	{
 		$this->progress = [];
@@ -66,6 +72,7 @@ class CrudService
 		$this->serviceBuilder = $serviceBuilder;
 		$this->createRequestBuilder = $createRequestBuilder;
 		$this->updateRequestBuilder = $updateRequestBuilder;
+		$this->indexViewBuilder = $indexViewBuilder;
 	}
 
 	/**
@@ -94,6 +101,9 @@ class CrudService
 			}
 			if (in_array('updaterequest', $options['files'])) {
 				$this->generateRequest($options, 'Update');
+			}
+			if (in_array('indexview', $options['files'])) {
+				$this->generateIndexView($options);
 			}
 
     		return $this->progress;
@@ -285,6 +295,35 @@ class CrudService
 		$requestTemplate = $this->$builderFn->create($config);
 		$this->makeDirectoryIfNecessary($requestsPath);
 		$this->fileSystem->put(base_path($requestsPath) . $entityName . "{$type}Request.php", $requestTemplate);
+
+		$this->progress[] = 'Success';
+	}
+
+	/**
+	 * Generate our index view file
+	 * 
+	 * @param array $options
+	 */
+	protected function generateIndexView(array $options) 
+	{
+		$this->progress[] = 'Create index view';
+
+		$viewsPath = $options['paths']['views_path'];
+		$entityName = $options['entity_name'];
+		$fields = $options ['fields'];
+
+		if ($this->fileSystem->exists(base_path($viewsPath) . snake_case($entityName) . '/index.blade.php')) {
+			$this->progress[] = "Index view already exists";
+			return;
+		}
+
+		$config['entityCamel'] = camel_case($entityName);
+		$config['entityCamelPlural'] = camel_case(str_plural($entityName));
+		$config['fieldNames'] = $this->onlyFieldsWithOption($fields, 'fillable');
+
+		$viewTemplate = $this->indexViewBuilder->create($config);
+		$this->makeDirectoryIfNecessary($viewsPath . snake_case($entityName));
+		$this->fileSystem->put(base_path($viewsPath) . snake_case($entityName) . '/index.blade.php', $viewTemplate);
 
 		$this->progress[] = 'Success';
 	}

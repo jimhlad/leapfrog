@@ -1,0 +1,12 @@
+<table class="table table-striped">
+    <thead>
+        {{TableHeaderField}}
+    </thead>
+    <tbody>
+        @foreach(${{entityCamelPlural}} as ${{entityCamel}})
+            <tr>
+                {{TableColumnField}}
+            </tr>
+        @endforeach
+    </tbody>
+</table>

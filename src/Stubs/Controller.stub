@@ -32,7 +32,7 @@ class {{entity}}Controller extends Controller
     public function index()
     {
         ${{entityCamelPlural}} = $this->{{entityCamel}}Service->all();
-        return view('{{entitySnake}}.index');
+        return view('{{entitySnake}}.index')->with('{{entityCamelPlural}}', ${{entityCamelPlural}});
     }
 
     /**
