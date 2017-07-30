@@ -138,8 +138,8 @@ class CrudService
 		$config['namespace'] = $this->getNamespaceFromPath($modelsPath);
 		$config['class'] = $entityName;
 		$config['table'] = strtolower($entityName);
-		$config['fillable'] = implode(', ', $this->onlyFieldsWithOption($fields, 'fillable'));
-		$config['hidden'] = implode(', ', $this->onlyFieldsWithOption($fields, 'hidden'));
+		$config['fillable'] = implode(", \n\t\t", $this->onlyFieldsWithOption($fields, 'fillable'));
+		$config['hidden'] = implode(", \n\t\t", $this->onlyFieldsWithOption($fields, 'hidden'));
 
 		$modelTemplate = $this->modelBuilder->create($config);
 		$this->makeDirectoryIfNecessary($modelsPath);
