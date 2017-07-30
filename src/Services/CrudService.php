@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Artisan;
 use JimHlad\LeapFrog\Builders\ModelBuilder;
 use JimHlad\LeapFrog\Builders\ControllerBuilder;
 use JimHlad\LeapFrog\Builders\ServiceBuilder;
+use JimHlad\LeapFrog\Builders\CreateRequestBuilder;
+use JimHlad\LeapFrog\Builders\UpdateRequestBuilder;
 
 class CrudService
 {
@@ -26,26 +28,16 @@ class CrudService
      */
     protected $fileSystem;
 
-	/**
-	 * Our ModelBuilder class
-	 *
-	 * @var ModelBuilder
-	 */
+    /**
+     * Our Builder classes
+     *
+     * @var {Type}Builder
+     */
 	protected $modelBuilder;
-
-	/**
-	 * Our ControllerBuilder class
-	 *
-	 * @var ControllerBuilder
-	 */
 	protected $controllerBuilder;
-
-	/**
-	 * Our ServiceBuilder class
-	 *
-	 * @var ServiceBuilder
-	 */
 	protected $serviceBuilder;
+	protected $createRequestBuilder;
+	protected $updateRequestBuilder;
 
 	/**
 	 * Construct our CrudService
@@ -54,13 +46,17 @@ class CrudService
 	 * @param ModelBuilder $modelBuilder
 	 * @param ControllerBuilder $controllerBuilder
 	 * @param ServiceBuilder $serviceBuilder
+	 * @param CreateRequestBuilder $createRequestBuilder
+	 * @param UpdateRequestBuilder $updateRequestBuilder
 	 */
 	public function __construct
 	(
 		Filesystem $fileSystem,
 		ModelBuilder $modelBuilder,
 		ControllerBuilder $controllerBuilder,
-		ServiceBuilder $serviceBuilder
+		ServiceBuilder $serviceBuilder,
+		CreateRequestBuilder $createRequestBuilder,
+		UpdateRequestBuilder $updateRequestBuilder
 	)
 	{
 		$this->progress = [];
@@ -68,6 +64,8 @@ class CrudService
 		$this->modelBuilder = $modelBuilder;
 		$this->controllerBuilder = $controllerBuilder;
 		$this->serviceBuilder = $serviceBuilder;
+		$this->createRequestBuilder = $createRequestBuilder;
+		$this->updateRequestBuilder = $updateRequestBuilder;
 	}
 
 	/**
@@ -90,6 +88,12 @@ class CrudService
 			}
 			if (in_array('service', $options['files'])) {
 				$this->generateService($options);
+			}
+			if (in_array('createrequest', $options['files'])) {
+				$this->generateRequest($options, 'Create');
+			}
+			if (in_array('updaterequest', $options['files'])) {
+				$this->generateRequest($options, 'Update');
 			}
 
     		return $this->progress;
@@ -150,11 +154,14 @@ class CrudService
 			return;
 		}
 
+		$fillable = $this->onlyFieldsWithOption($fields, 'fillable');
+		$hidden = $this->onlyFieldsWithOption($fields, 'hidden');
+
 		$config['namespace'] = $this->getNamespaceFromPath($modelsPath);
 		$config['class'] = $entityName;
 		$config['table'] = strtolower($entityName);
-		$config['fillable'] = implode(", \n\t\t", $this->onlyFieldsWithOption($fields, 'fillable'));
-		$config['hidden'] = implode(", \n\t\t", $this->onlyFieldsWithOption($fields, 'hidden'));
+		$config['fillable'] = implode(", \n\t\t", $this->wrapFieldNames($fillable));
+		$config['hidden'] = implode(", \n\t\t", $this->wrapFieldNames($hidden));
 
 		$modelTemplate = $this->modelBuilder->create($config);
 		$this->makeDirectoryIfNecessary($modelsPath);
@@ -250,6 +257,37 @@ class CrudService
 	}
 
 	/**
+	 * Generate our Request file
+	 * 
+	 * @param array $options
+	 */
+	protected function generateRequest(array $options, string $type = 'Create') 
+	{
+		$this->progress[] = 'Create request';
+
+		$requestsPath = $options['paths']['requests_path'];
+		$entityName = $options['entity_name'];
+		$fields = $options ['fields'];
+
+		if ($this->fileSystem->exists(base_path($requestsPath) . $entityName . "{$type}Request.php")) {
+			$this->progress[] = "{$type}Request already exists";
+			return;
+		}
+
+		$config['namespace'] = $this->getNamespaceFromPath($requestsPath);
+		$config['entity'] = $entityName;
+
+		$requiredFields = $this->onlyFieldsWithoutOption($fields, 'nullable');
+		$config['rules'] = implode("\n\t\t\t", $this->wrapFieldNames($requiredFields, "'", "|required'"));
+
+		$requestTemplate = $this->createRequestBuilder->create($config);
+		$this->makeDirectoryIfNecessary($requestsPath);
+		$this->fileSystem->put(base_path($requestsPath) . $entityName . "{$type}Request.php", $requestTemplate);
+
+		$this->progress[] = 'Success';
+	}
+
+	/**
      * Build the directory for the class if necessary.
      *
      * @param  string $path
@@ -279,18 +317,57 @@ class CrudService
      *
      * @param array $fields
      * @param string $option
+     * @param boolean $inverse
      * @return array
      */
-    protected function onlyFieldsWithOption(array $fields, $option = '')
+    protected function onlyFieldsWithOption(array $fields, $option = '', $inverse = false)
     {
     	$filteredFields = [];
         foreach ($fields as $field) {
-        	if (in_array($option, $field['options'])) {
-        		$filteredFields[] = "'" . $field['name'] . "'";
+        	if ($inverse) {
+        		if (!in_array($option, $field['options'])) {
+        			$filteredFields[] = $field['name'];
+        		}
+        	}
+        	else {
+        		if (in_array($option, $field['options'])) {
+        			$filteredFields[] = $field['name'];
+        		}
         	}
         }
 
         return $filteredFields;
+    }
+
+    /**
+     * Get only those fields names which do NOT have a particular option set (e.g. fillable, hidden, etc)
+     *
+     * @param array $fields
+     * @param string $option
+     * @return array
+     */
+    protected function onlyFieldsWithoutOption(array $fields, $option = '')
+    {
+    	return $this->onlyFieldsWithOption($fields, $option, true);
+    }
+
+    /**
+     * Given an array of field names, wrap them in quotes
+     *
+     * @param array $fields
+     * @param string $leftQuote
+     * @param string $rightQuote
+     * @return array
+     */
+    protected function wrapFieldNames(array $fields, string $leftQuote = "'", string $rightQuote = "'")
+    {
+    	$quoted = [];
+
+    	foreach ($fields as $field) {
+    		$quoted[] = $leftQuote . $field . $rightQuote;
+    	}
+
+    	return $quoted;
     }
 
 }
