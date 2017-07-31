@@ -98,7 +98,7 @@
             </div>
         </div>
         <div v-if="entity_name" class="entity-files">
-            <p>Which files do we want to create? 
+            <p>Which files do we want to create/update? 
                 <span class="update-paths">
                     <a v-if="!show_update_paths" v-on:click="toggleShowUpdatePaths">customize paths</a>
                     <a v-else v-on:click="toggleShowUpdatePaths">hide</a>
@@ -107,23 +107,23 @@
             <div v-if="show_update_paths" class="well">
                 <div class="form-group">
                     <label for="field_name">Models Path</label>
-                    <input type="text" class="form-control" v-model="paths.models_path" />
+                    <input type="text" class="form-control" v-model="paths.models_path" v-on:blur="addTrailingSlashes()" />
                 </div>
                 <div class="form-group">
                     <label for="field_name">Controllers Path</label>
-                    <input type="text" class="form-control" v-model="paths.controllers_path" />
+                    <input type="text" class="form-control" v-model="paths.controllers_path" v-on:blur="addTrailingSlashes()" />
                 </div>
                 <div class="form-group">
                     <label for="field_name">Services Path</label>
-                    <input type="text" class="form-control" v-model="paths.services_path" />
+                    <input type="text" class="form-control" v-model="paths.services_path" v-on:blur="addTrailingSlashes()" />
                 </div>
                 <div class="form-group">
                     <label for="field_name">Requests Path</label>
-                    <input type="text" class="form-control" v-model="paths.requests_path" />
+                    <input type="text" class="form-control" v-model="paths.requests_path" v-on:blur="addTrailingSlashes()" />
                 </div>
                 <div class="form-group">
                     <label for="field_name">Views Path</label>
-                    <input type="text" class="form-control" v-model="paths.views_path" />
+                    <input type="text" class="form-control" v-model="paths.views_path" v-on:blur="addTrailingSlashes()" />
                 </div>
             </div>
             <div class="well">
@@ -208,6 +208,13 @@
             },
             toggleShowUpdatePaths() {
                 this.show_update_paths = !this.show_update_paths;
+            },
+            addTrailingSlashes() {
+                if (this.paths.models_path.substr(-1) != '/') this.paths.models_path += '/';
+                if (this.paths.controllers_path.substr(-1) != '/') this.paths.controllers_path += '/';
+                if (this.paths.services_path.substr(-1) != '/') this.paths.services_path += '/';
+                if (this.paths.requests_path.substr(-1) != '/') this.paths.requests_path += '/';
+                if (this.paths.views_path.substr(-1) != '/') this.paths.views_path += '/';
             },
             clearForm() {
                 Object.assign(this.$data, initialState(this.models_path, this.controllers_path, this.services_path, this.requests_path, this.views_path));

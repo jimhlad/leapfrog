@@ -1858,6 +1858,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         toggleShowUpdatePaths: function toggleShowUpdatePaths() {
             this.show_update_paths = !this.show_update_paths;
         },
+        addTrailingSlashes: function addTrailingSlashes() {
+            if (this.paths.models_path.substr(-1) != '/') this.paths.models_path += '/';
+            if (this.paths.controllers_path.substr(-1) != '/') this.paths.controllers_path += '/';
+            if (this.paths.services_path.substr(-1) != '/') this.paths.services_path += '/';
+            if (this.paths.requests_path.substr(-1) != '/') this.paths.requests_path += '/';
+            if (this.paths.views_path.substr(-1) != '/') this.paths.views_path += '/';
+        },
         clearForm: function clearForm() {
             Object.assign(this.$data, initialState(this.models_path, this.controllers_path, this.services_path, this.requests_path, this.views_path));
         },
@@ -19759,7 +19766,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("Add relation")])])], 2)]) : _vm._e(), _vm._v(" "), (_vm.entity_name) ? _c('div', {
     staticClass: "entity-files"
-  }, [_c('p', [_vm._v("Which files do we want to create? \n            "), _c('span', {
+  }, [_c('p', [_vm._v("Which files do we want to create/update? \n            "), _c('span', {
     staticClass: "update-paths"
   }, [(!_vm.show_update_paths) ? _c('a', {
     on: {
@@ -19792,6 +19799,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": (_vm.paths.models_path)
     },
     on: {
+      "blur": function($event) {
+        _vm.addTrailingSlashes()
+      },
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.paths.models_path = $event.target.value
@@ -19818,6 +19828,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": (_vm.paths.controllers_path)
     },
     on: {
+      "blur": function($event) {
+        _vm.addTrailingSlashes()
+      },
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.paths.controllers_path = $event.target.value
@@ -19844,6 +19857,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": (_vm.paths.services_path)
     },
     on: {
+      "blur": function($event) {
+        _vm.addTrailingSlashes()
+      },
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.paths.services_path = $event.target.value
@@ -19870,6 +19886,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": (_vm.paths.requests_path)
     },
     on: {
+      "blur": function($event) {
+        _vm.addTrailingSlashes()
+      },
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.paths.requests_path = $event.target.value
@@ -19896,6 +19915,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": (_vm.paths.views_path)
     },
     on: {
+      "blur": function($event) {
+        _vm.addTrailingSlashes()
+      },
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.paths.views_path = $event.target.value
