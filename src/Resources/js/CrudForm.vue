@@ -128,6 +128,9 @@
             </div>
             <div class="well">
                 <div class="checkbox">
+                    <label><input type="checkbox" value="route" v-model="files"> routes/<strong>web.php</strong></label>
+                </div>
+                <div class="checkbox">
                     <label><input type="checkbox" value="model" v-model="files"> {{paths.models_path}}<strong>{{entity_name}}.php</strong></label>
                 </div>
                 <div class="checkbox">
@@ -249,7 +252,7 @@
                 options: ['fillable']
             }],
             relations: [],
-            files: ['model', 'controller', 'service', 'createrequest', 'updaterequest', 'migration', 'indexview', 'formview', 'createview', 'editview']
+            files: ['route', 'model', 'controller', 'service', 'createrequest', 'updaterequest', 'migration', 'indexview', 'formview', 'createview', 'editview']
         }
     }
 </script>

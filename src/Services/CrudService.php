@@ -5,6 +5,7 @@ namespace JimHlad\LeapFrog\Services;
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Artisan;
+use JimHlad\LeapFrog\Builders\RouteBuilder;
 use JimHlad\LeapFrog\Builders\ModelBuilder;
 use JimHlad\LeapFrog\Builders\ControllerBuilder;
 use JimHlad\LeapFrog\Builders\ServiceBuilder;
@@ -34,6 +35,7 @@ class CrudService
      *
      * @var {Type}Builder
      */
+    protected $routeBuilder;
 	protected $modelBuilder;
 	protected $controllerBuilder;
 	protected $serviceBuilder;
@@ -48,15 +50,18 @@ class CrudService
 	 * Construct our CrudService
 	 *
 	 * @param Filesystem $fileSystem
+	 * @param RouteBuilder $routeBuilder
 	 * @param ModelBuilder $modelBuilder
 	 * @param ControllerBuilder $controllerBuilder
 	 * @param ServiceBuilder $serviceBuilder
 	 * @param CreateRequestBuilder $createRequestBuilder
 	 * @param UpdateRequestBuilder $updateRequestBuilder
+	 * @param IndexViewBuilder $indexViewBuilder
 	 */
 	public function __construct
 	(
 		Filesystem $fileSystem,
+		RouteBuilder $routeBuilder,
 		ModelBuilder $modelBuilder,
 		ControllerBuilder $controllerBuilder,
 		ServiceBuilder $serviceBuilder,
@@ -67,6 +72,7 @@ class CrudService
 	{
 		$this->progress = [];
 		$this->fileSystem = $fileSystem;
+		$this->routeBuilder = $routeBuilder;
 		$this->modelBuilder = $modelBuilder;
 		$this->controllerBuilder = $controllerBuilder;
 		$this->serviceBuilder = $serviceBuilder;
@@ -84,6 +90,9 @@ class CrudService
 	public function generate(array $options)
 	{
 		try {
+			if (in_array('route', $options['files'])) {
+				$this->generateRoutes($options);
+			}
 			if (in_array('migration', $options['files'])) {
 				$this->generateMigration($options);
 			}
@@ -142,6 +151,27 @@ class CrudService
     		'--schema' => implode(', ', $schema),
     		'--model' => false
 		]);
+
+		$this->progress[] = 'Success';
+	}
+
+	/**
+	 * Generate the routes
+	 * 
+	 * @param array $options
+	 */
+	protected function generateRoutes(array $options) 
+	{
+		$this->progress[] = 'Create routes';
+
+		$entityName = $options['entity_name'];
+
+		if ($this->fileSystem->exists(base_path('routes/web.php'))) {
+			$config['entity'] = $entityName;
+			$config['entitySnakePlural'] = snake_case(str_plural($entityName));
+			$routeTemplate = $this->routeBuilder->create($config);
+			$this->fileSystem->append(base_path('routes/web.php'), $routeTemplate);
+		}
 
 		$this->progress[] = 'Success';
 	}

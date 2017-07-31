@@ -1818,6 +1818,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -1898,7 +1901,7 @@ function initialState(my_models_path, my_controllers_path, my_services_path, my_
             options: ['fillable']
         }],
         relations: [],
-        files: ['model', 'controller', 'service', 'createrequest', 'updaterequest', 'migration', 'indexview', 'formview', 'createview', 'editview']
+        files: ['route', 'model', 'controller', 'service', 'createrequest', 'updaterequest', 'migration', 'indexview', 'formview', 'createview', 'editview']
     };
 }
 
@@ -19901,6 +19904,40 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })])]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "well"
   }, [_c('div', {
+    staticClass: "checkbox"
+  }, [_c('label', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.files),
+      expression: "files"
+    }],
+    attrs: {
+      "type": "checkbox",
+      "value": "route"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.files) ? _vm._i(_vm.files, "route") > -1 : (_vm.files)
+    },
+    on: {
+      "__c": function($event) {
+        var $$a = _vm.files,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = "route",
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && (_vm.files = $$a.concat($$v))
+          } else {
+            $$i > -1 && (_vm.files = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.files = $$c
+        }
+      }
+    }
+  }), _vm._v(" routes/"), _c('strong', [_vm._v("web.php")])])]), _vm._v(" "), _c('div', {
     staticClass: "checkbox"
   }, [_c('label', [_c('input', {
     directives: [{
