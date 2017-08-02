@@ -74,7 +74,7 @@ class BaseService
      *
      * @param int $id
      */
-    public function delete(int $id)
+    public function destroy(int $id)
     {
         $item = $this->model->findOrFail($id);
         $item->delete();

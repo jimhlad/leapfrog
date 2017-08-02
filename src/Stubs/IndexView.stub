@@ -1,32 +1,38 @@
-<div class="row">
-    <a class="btn btn-default pull-right" href="{!! route('{{entitySnakePlural}}.create') !!}">Create New {{entity}}</a>
-    <h1>{{entityPlural}}</h1>
-</div>
-<div class="row">
-    <table class="table table-striped">
-        <thead>
-            {{TableHeaderField}}
-            <th>Actions</th>
-        </thead>
-        <tbody>
-            @foreach(${{entityCamelPlural}} as ${{entityCamel}})
-                <tr>
-                    {{TableColumnField}}
-                    <td>
-                        <form method="post" action="{!! route('{{entitySnakePlural}}.destroy', ['id' => ${{entityCamel}}->id]) !!}">
-                            {!! csrf_field() !!}
-                            {!! method_field('DELETE') !!}
-                            <button class="btn btn-danger pull-right" type="submit">
-                                <i class="fa fa-trash"></i> Delete
-                            </button>
-                        </form>
-                        <a class="btn btn-warning pull-right" href="{!! route('{{entitySnakePlural}}.edit', ['id' => ${{entityCamel}}->id]) !!}">
-                            <span class="fa fa-edit"></span> Edit
-                        </a>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
+@extends('layouts.app')
 
-    </table>
-</div>
+@section('content')
+
+    <div class="row">
+        <a class="btn btn-default pull-right" href="{!! route('{{entitySnakePlural}}.create') !!}">Create New {{entity}}</a>
+        <h1>{{entityPlural}}</h1>
+    </div>
+    <div class="row">
+        <table class="table table-striped">
+            <thead>
+                {{TableHeaderField}}
+                <th>Actions</th>
+            </thead>
+            <tbody>
+                @foreach(${{entityCamelPlural}} as ${{entityCamel}})
+                    <tr>
+                        {{TableColumnField}}
+                        <td>
+                            <form method="post" action="{!! route('{{entitySnakePlural}}.destroy', ['id' => ${{entityCamel}}->id]) !!}">
+                                {!! csrf_field() !!}
+                                {!! method_field('DELETE') !!}
+                                <button class="btn btn-danger pull-right" type="submit">
+                                    <i class="fa fa-trash"></i> Delete
+                                </button>
+                            </form>
+                            <a class="btn btn-warning pull-right" href="{!! route('{{entitySnakePlural}}.edit', ['id' => ${{entityCamel}}->id]) !!}">
+                                <span class="fa fa-edit"></span> Edit
+                            </a>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+
+        </table>
+    </div>
+
+@stop

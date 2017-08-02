@@ -1,0 +1,26 @@
+@extends('layouts.app')
+
+@section('content')
+
+	<div class="row">
+        <h1>Create {{entity}}</h1>
+    </div>
+
+    <div class="row">
+
+	    <form method="post" action="{!! route('{{entitySnakePlural}}.store') !!}">
+            
+            {!! csrf_field() !!}
+
+	    	@form_maker_table("{{entitySnake}}", config('forms.{{entitySnake}}'))
+
+		    <div>
+	            <a class="btn btn-default pull-left" href="{!! url()->previous() !!}">Cancel</a>
+	            <button class="btn btn-primary pull-right" type="submit">Create</button>
+	        </div>
+
+	    </form>
+
+	</div>
+
+@stop

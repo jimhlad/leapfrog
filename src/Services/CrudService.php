@@ -12,6 +12,8 @@ use JimHlad\LeapFrog\Builders\ServiceBuilder;
 use JimHlad\LeapFrog\Builders\CreateRequestBuilder;
 use JimHlad\LeapFrog\Builders\UpdateRequestBuilder;
 use JimHlad\LeapFrog\Builders\IndexViewBuilder;
+use JimHlad\LeapFrog\Builders\CreateViewBuilder;
+use JimHlad\LeapFrog\Builders\EditViewBuilder;
 
 class CrudService
 {
@@ -42,7 +44,6 @@ class CrudService
 	protected $createRequestBuilder;
 	protected $updateRequestBuilder;
 	protected $indexViewBuilder;
-	protected $formViewBuilder;
 	protected $createViewBuilder;
 	protected $editViewBuilder;
 
@@ -67,7 +68,9 @@ class CrudService
 		ServiceBuilder $serviceBuilder,
 		CreateRequestBuilder $createRequestBuilder,
 		UpdateRequestBuilder $updateRequestBuilder,
-		IndexViewBuilder $indexViewBuilder
+		IndexViewBuilder $indexViewBuilder,
+		CreateViewBuilder $createViewBuilder,
+		EditViewBuilder $editViewBuilder
 	)
 	{
 		$this->progress = [];
@@ -79,6 +82,8 @@ class CrudService
 		$this->createRequestBuilder = $createRequestBuilder;
 		$this->updateRequestBuilder = $updateRequestBuilder;
 		$this->indexViewBuilder = $indexViewBuilder;
+		$this->createViewBuilder = $createViewBuilder;
+		$this->editViewBuilder = $editViewBuilder;
 	}
 
 	/**
@@ -113,6 +118,12 @@ class CrudService
 			}
 			if (in_array('indexview', $options['files'])) {
 				$this->generateIndexView($options);
+			}
+			if (in_array('createview', $options['files'])) {
+				$this->generateCreateView($options);
+			}
+			if (in_array('editview', $options['files'])) {
+				$this->generateEditView($options);
 			}
 
     		return $this->progress;
@@ -358,6 +369,68 @@ class CrudService
 		$viewTemplate = $this->indexViewBuilder->create($config);
 		$this->makeDirectoryIfNecessary($viewsPath . snake_case($entityName));
 		$this->fileSystem->put(base_path($viewsPath) . snake_case($entityName) . '/index.blade.php', $viewTemplate);
+
+		$this->progress[] = 'Success';
+	}
+
+	/**
+	 * Generate our create view file
+	 * 
+	 * @param array $options
+	 */
+	protected function generateCreateView(array $options) 
+	{
+		$this->progress[] = 'Create the create view';
+
+		$viewsPath = $options['paths']['views_path'];
+		$entityName = $options['entity_name'];
+
+		if ($this->fileSystem->exists(base_path($viewsPath) . snake_case($entityName) . '/create.blade.php')) {
+			$this->progress[] = "Create view already exists";
+			return;
+		}
+
+		$config['entity'] = $entityName;
+		$config['entityPlural'] = str_plural($entityName);
+		$config['entitySnake'] = snake_case($entityName);
+		$config['entitySnakePlural'] = snake_case(str_plural($entityName));
+		$config['entityCamel'] = camel_case($entityName);
+		$config['entityCamelPlural'] = camel_case(str_plural($entityName));
+
+		$viewTemplate = $this->createViewBuilder->create($config);
+		$this->makeDirectoryIfNecessary($viewsPath . snake_case($entityName));
+		$this->fileSystem->put(base_path($viewsPath) . snake_case($entityName) . '/create.blade.php', $viewTemplate);
+
+		$this->progress[] = 'Success';
+	}
+
+	/**
+	 * Generate our edit view file
+	 * 
+	 * @param array $options
+	 */
+	protected function generateEditView(array $options) 
+	{
+		$this->progress[] = 'Create the edit view';
+
+		$viewsPath = $options['paths']['views_path'];
+		$entityName = $options['entity_name'];
+
+		if ($this->fileSystem->exists(base_path($viewsPath) . snake_case($entityName) . '/edit.blade.php')) {
+			$this->progress[] = "Edit view already exists";
+			return;
+		}
+
+		$config['entity'] = $entityName;
+		$config['entityPlural'] = str_plural($entityName);
+		$config['entitySnake'] = snake_case($entityName);
+		$config['entitySnakePlural'] = snake_case(str_plural($entityName));
+		$config['entityCamel'] = camel_case($entityName);
+		$config['entityCamelPlural'] = camel_case(str_plural($entityName));
+
+		$viewTemplate = $this->editViewBuilder->create($config);
+		$this->makeDirectoryIfNecessary($viewsPath . snake_case($entityName));
+		$this->fileSystem->put(base_path($viewsPath) . snake_case($entityName) . '/edit.blade.php', $viewTemplate);
 
 		$this->progress[] = 'Success';
 	}
