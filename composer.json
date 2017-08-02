@@ -1,6 +1,6 @@
 {
     "name": "jimhlad/leapfrog",
-    "description": "",
+    "description": "A UI-based CRUD boilerplate generator for Laravel. Quickly create files according to the Controller-Service-Model pattern.",
     "license": "MIT",
     "authors": [
         {
@@ -8,8 +8,9 @@
             "email": "jimhlad@gmail.com"
         }
     ],
-    "require": {},
-    "require-dev": {
-        "laracasts/generators": "dev-master"
-    }
+    "require": {
+        "laracasts/generators": "dev-master",
+        "yab/laracogs": "^2.2"
+    },
+    "require-dev": {}
 }

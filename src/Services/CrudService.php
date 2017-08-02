@@ -347,6 +347,10 @@ class CrudService
 			return;
 		}
 
+		$config['entity'] = $entityName;
+		$config['entityPlural'] = str_plural($entityName);
+		$config['entitySnake'] = snake_case($entityName);
+		$config['entitySnakePlural'] = snake_case(str_plural($entityName));
 		$config['entityCamel'] = camel_case($entityName);
 		$config['entityCamelPlural'] = camel_case(str_plural($entityName));
 		$config['fieldNames'] = $this->onlyFieldsWithOption($fields, 'fillable');

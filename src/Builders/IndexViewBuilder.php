@@ -19,8 +19,12 @@ class IndexViewBuilder
      */
     public function create(array $options)
     {
-        $viewTemplate = $this->insert($options['entityCamel'])->into($this->getIndexViewWrapper(), 'entityCamel');
+        $viewTemplate = $this->insert($options['entity'])->into($this->getIndexViewWrapper(), 'entity');
+        $viewTemplate = $this->insert($options['entityPlural'])->into($viewTemplate, 'entityPlural');
+        $viewTemplate = $this->insert($options['entityCamel'])->into($viewTemplate, 'entityCamel');
         $viewTemplate = $this->insert($options['entityCamelPlural'])->into($viewTemplate, 'entityCamelPlural');
+        $viewTemplate = $this->insert($options['entitySnake'])->into($viewTemplate, 'entitySnake');
+        $viewTemplate = $this->insert($options['entitySnakePlural'])->into($viewTemplate, 'entitySnakePlural');
 
         foreach ($options['fieldNames'] as $field) {
             $tableHeaderField = $this->insert(ucfirst($field))->into($this->getTableHeaderFieldPartialWrapper(), 'field');
