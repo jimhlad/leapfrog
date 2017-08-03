@@ -31,6 +31,7 @@ class ControllerBuilder
         $controllerTemplate = $this->insert($options['requestsNamespace'])->into($controllerTemplate, 'requestsNamespace');
         $controllerTemplate = $this->insert($options['servicesNamespace'])->into($controllerTemplate, 'servicesNamespace');
         $controllerTemplate = $this->insert($options['useStatements'])->into($controllerTemplate, 'useStatements');
+        $controllerTemplate = $this->insert($options['viewsPath'])->into($controllerTemplate, 'viewsPath');
 
         return $controllerTemplate;
     }

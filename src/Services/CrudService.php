@@ -176,10 +176,16 @@ class CrudService
 		$this->progress[] = 'Create routes';
 
 		$entityName = $options['entity_name'];
+		$controllersPath = $options['paths']['controllers_path'];
 
 		if ($this->fileSystem->exists(base_path('routes/web.php'))) {
 			$config = [];
+			$config['controllersPath'] = '';
 			$config = $this->addEntityNameVariations($config, $entityName);
+			$controllerNamespace = $this->getNamespaceFromPath($controllersPath);
+			if ($controllerNamespace !== 'App\Http\Controllers') {
+				$config['controllersPath'] = '\\' . $controllerNamespace . '\\';
+			}
 			$routeTemplate = $this->routeBuilder->create($config);
 			$this->fileSystem->append(base_path('routes/web.php'), $routeTemplate);
 		}
@@ -235,6 +241,7 @@ class CrudService
 		$controllersPath = $options['paths']['controllers_path'];
 		$servicesPath = $options['paths']['services_path'];
 		$requestsPath = $options['paths']['requests_path'];
+		$viewsPath = $options['paths']['views_path'];
 		$entityName = $options['entity_name'];
 		$files = $options['files'];
 
@@ -246,6 +253,7 @@ class CrudService
 		$config['namespace'] = $this->getNamespaceFromPath($controllersPath);
 		$config['servicesNamespace'] = $this->getNamespaceFromPath($servicesPath);
 		$config['requestsNamespace'] = $this->getNamespaceFromPath($requestsPath);
+		$config['viewsPath'] = $this->getFullViewsPathFromPath($viewsPath);
 		$config['createRequest'] = (in_array('createrequest', $files) ? "{$entityName}CreateRequest" : 'Request' );
 		$config['updateRequest'] = (in_array('updaterequest', $files) ? "{$entityName}UpdateRequest" : 'Request' );
 		$config = $this->addEntityNameVariations($config, $entityName);
@@ -446,6 +454,23 @@ class CrudService
         $appNamespace = rtrim(Container::getInstance()->getNamespace(), '\\');
 
         return rtrim(str_replace('/', '\\', str_replace('app', $appNamespace, $path)), '\\');
+    }
+
+    /**
+     * Get the full view path which corresponds to the given view path
+     *
+     * @param string $path
+     * @return string
+     */
+    protected function getFullViewsPathFromPath(string $path)
+    {
+        if ($path === 'resources/views/') {
+        	return '';
+        }
+
+        $path = str_replace('resources/views/', '', $path);
+        
+        return str_replace('/', '.', $path);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace {{namespace}};
 
+use App\Http\Controllers\Controller;
 {{useStatements}}
 
 class {{entity}}Controller extends Controller
@@ -32,7 +33,7 @@ class {{entity}}Controller extends Controller
     public function index()
     {
         ${{entityCamelPlural}} = $this->{{entityCamel}}Service->all();
-        return view('{{entitySnake}}.index')->with('{{entityCamelPlural}}', ${{entityCamelPlural}});
+        return view('{{viewsPath}}{{entitySnake}}.index')->with('{{entityCamelPlural}}', ${{entityCamelPlural}});
     }
 
     /**
@@ -42,7 +43,7 @@ class {{entity}}Controller extends Controller
      */
     public function create()
     {
-        return view('{{entitySnake}}.create');
+        return view('{{viewsPath}}{{entitySnake}}.create');
     }
 
     /**
@@ -72,7 +73,7 @@ class {{entity}}Controller extends Controller
     {
         ${{entityCamel}} = $this->{{entityCamel}}Service->find($id);
 
-        return view('{{entitySnake}}.edit')->with('{{entityCamel}}', ${{entityCamel}});
+        return view('{{viewsPath}}{{entitySnake}}.edit')->with('{{entityCamel}}', ${{entityCamel}});
     }
 
     /**

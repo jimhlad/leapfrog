@@ -21,6 +21,7 @@ class RouteBuilder
     {
         $routeTemplate = $this->insert($options['entity'])->into($this->getCreateRouteWrapper(), 'entity');
         $routeTemplate = $this->insert($options['entitySlugPlural'])->into($routeTemplate, 'entitySlugPlural');
+        $routeTemplate = $this->insert($options['controllersPath'])->into($routeTemplate, 'controllersPath');
 
         return $routeTemplate;
     }

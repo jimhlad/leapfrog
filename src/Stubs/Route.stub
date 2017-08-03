@@ -5,4 +5,4 @@
 | {{entity}} Routes
 |--------------------------------------------------------------------------
 */
-Route::resource('{{entitySlugPlural}}', '{{entity}}Controller', ['except' => ['show']]);
+Route::resource('{{entitySlugPlural}}', '{{controllersPath}}{{entity}}Controller', ['except' => ['show']]);
