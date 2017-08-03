@@ -10,7 +10,7 @@
         <table class="table table-striped">
             <thead>
                 {{TableHeaderField}}
-                <th>Actions</th>
+                <th></th>
             </thead>
             <tbody>
                 @foreach(${{entityCamelPlural}} as ${{entityCamel}})

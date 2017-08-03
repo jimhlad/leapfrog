@@ -331,7 +331,10 @@ class CrudService
 		$config['entity'] = $entityName;
 
 		$requiredFields = $this->onlyFieldsWithoutOption($fields, 'nullable');
-		$config['rules'] = implode(",\n\t\t\t", $this->wrapFieldNames($requiredFields, "'", "|required'"));
+		$config['rules'] = "";
+		foreach ($requiredFields as $field) {
+			$config['rules'] .= "'{$field}' => 'required',\n\t\t\t";
+		}
 
 		$builderFn = strtolower($type) . "RequestBuilder";
 		$requestTemplate = $this->$builderFn->create($config);
