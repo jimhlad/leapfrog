@@ -15,7 +15,7 @@
 	    	@form_maker_table("{{entitySnake}}", config('forms.{{entitySnake}}'))
 
 		    <div>
-	            <a class="btn btn-default pull-left" href="{!! url()->previous() !!}">Cancel</a>
+	            <a class="btn btn-default pull-left" href="{!! route('{{entitySnakePlural}}.index') !!}">Cancel</a>
 	            <button class="btn btn-primary pull-right" type="submit">Create</button>
 	        </div>
 

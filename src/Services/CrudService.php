@@ -248,8 +248,9 @@ class CrudService
 		$config['requestsNamespace'] = $this->getNamespaceFromPath($requestsPath);
 		$config['entity'] = $entityName;
 		$config['entityCamel'] = camel_case($entityName);
-		$config['entitySnake'] = snake_case($entityName);
 		$config['entityCamelPlural'] = camel_case(str_plural($entityName));
+		$config['entitySnake'] = snake_case($entityName);
+		$config['entitySnakePlural'] = snake_case(str_plural($entityName));
 		$config['createRequest'] = (in_array('createrequest', $files) ? "{$entityName}CreateRequest" : 'Request' );
 		$config['updateRequest'] = (in_array('updaterequest', $files) ? "{$entityName}UpdateRequest" : 'Request' );
 
