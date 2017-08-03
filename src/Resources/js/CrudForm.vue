@@ -8,7 +8,7 @@
         <div class="well">
             <div class="form-group">
                 <label for="entity_name">Entity Name</label>
-                <input type="text" class="form-control" placeholder="e.g. Truck" v-model="entity_name" />
+                <input type="text" class="form-control" placeholder="e.g. Truck" v-model="entity_name" v-on:blur="removeSpaceCharacters()" />
             </div>
         </div>
         <div v-if="entity_name" class="entity-fields">
@@ -215,6 +215,9 @@
                 if (this.paths.services_path.substr(-1) != '/') this.paths.services_path += '/';
                 if (this.paths.requests_path.substr(-1) != '/') this.paths.requests_path += '/';
                 if (this.paths.views_path.substr(-1) != '/') this.paths.views_path += '/';
+            },
+            removeSpaceCharacters() {
+                this.entity_name = this.entity_name.split(' ').join('');
             },
             clearForm() {
                 Object.assign(this.$data, initialState(this.models_path, this.controllers_path, this.services_path, this.requests_path, this.views_path));

@@ -1865,6 +1865,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (this.paths.requests_path.substr(-1) != '/') this.paths.requests_path += '/';
             if (this.paths.views_path.substr(-1) != '/') this.paths.views_path += '/';
         },
+        removeSpaceCharacters: function removeSpaceCharacters() {
+            this.entity_name = this.entity_name.split(' ').join('');
+        },
         clearForm: function clearForm() {
             Object.assign(this.$data, initialState(this.models_path, this.controllers_path, this.services_path, this.requests_path, this.views_path));
         },
@@ -19208,7 +19211,7 @@ var Component = __webpack_require__(32)(
   /* cssModules */
   null
 )
-Component.options.__file = "/home/vagrant/Code/LeapFrog/packages/jimhlad/leapfrog/src/Resources/js/CrudForm.vue"
+Component.options.__file = "/Users/jimhlad/Code/LeapFrog/packages/jimhlad/leapfrog/src/Resources/js/CrudForm.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] CrudForm.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -19320,6 +19323,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": (_vm.entity_name)
     },
     on: {
+      "blur": function($event) {
+        _vm.removeSpaceCharacters()
+      },
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.entity_name = $event.target.value
