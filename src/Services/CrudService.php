@@ -178,8 +178,8 @@ class CrudService
 		$entityName = $options['entity_name'];
 
 		if ($this->fileSystem->exists(base_path('routes/web.php'))) {
-			$config['entity'] = $entityName;
-			$config['entitySnakePlural'] = snake_case(str_plural($entityName));
+			$config = [];
+			$config = $this->addEntityNameVariations($config, $entityName);
 			$routeTemplate = $this->routeBuilder->create($config);
 			$this->fileSystem->append(base_path('routes/web.php'), $routeTemplate);
 		}
@@ -246,13 +246,9 @@ class CrudService
 		$config['namespace'] = $this->getNamespaceFromPath($controllersPath);
 		$config['servicesNamespace'] = $this->getNamespaceFromPath($servicesPath);
 		$config['requestsNamespace'] = $this->getNamespaceFromPath($requestsPath);
-		$config['entity'] = $entityName;
-		$config['entityCamel'] = camel_case($entityName);
-		$config['entityCamelPlural'] = camel_case(str_plural($entityName));
-		$config['entitySnake'] = snake_case($entityName);
-		$config['entitySnakePlural'] = snake_case(str_plural($entityName));
 		$config['createRequest'] = (in_array('createrequest', $files) ? "{$entityName}CreateRequest" : 'Request' );
 		$config['updateRequest'] = (in_array('updaterequest', $files) ? "{$entityName}UpdateRequest" : 'Request' );
+		$config = $this->addEntityNameVariations($config, $entityName);
 
 		$useClasses = [];
 		$useClasses[] = $config['servicesNamespace'] . '\\' . $entityName . 'Service';
@@ -362,12 +358,8 @@ class CrudService
 			return;
 		}
 
-		$config['entity'] = $entityName;
-		$config['entityPlural'] = str_plural($entityName);
-		$config['entitySnake'] = snake_case($entityName);
-		$config['entitySnakePlural'] = snake_case(str_plural($entityName));
-		$config['entityCamel'] = camel_case($entityName);
-		$config['entityCamelPlural'] = camel_case(str_plural($entityName));
+		$config = [];
+		$config = $this->addEntityNameVariations($config, $entityName);
 		$config['fieldNames'] = $this->onlyFieldsWithOption($fields, 'fillable');
 
 		$viewTemplate = $this->indexViewBuilder->create($config);
@@ -394,12 +386,8 @@ class CrudService
 			return;
 		}
 
-		$config['entity'] = $entityName;
-		$config['entityPlural'] = str_plural($entityName);
-		$config['entitySnake'] = snake_case($entityName);
-		$config['entitySnakePlural'] = snake_case(str_plural($entityName));
-		$config['entityCamel'] = camel_case($entityName);
-		$config['entityCamelPlural'] = camel_case(str_plural($entityName));
+		$config = [];
+		$config = $this->addEntityNameVariations($config, $entityName);
 
 		$viewTemplate = $this->createViewBuilder->create($config);
 		$this->makeDirectoryIfNecessary($viewsPath . snake_case($entityName));
@@ -425,12 +413,8 @@ class CrudService
 			return;
 		}
 
-		$config['entity'] = $entityName;
-		$config['entityPlural'] = str_plural($entityName);
-		$config['entitySnake'] = snake_case($entityName);
-		$config['entitySnakePlural'] = snake_case(str_plural($entityName));
-		$config['entityCamel'] = camel_case($entityName);
-		$config['entityCamelPlural'] = camel_case(str_plural($entityName));
+		$config = [];
+		$config = $this->addEntityNameVariations($config, $entityName);
 
 		$viewTemplate = $this->editViewBuilder->create($config);
 		$this->makeDirectoryIfNecessary($viewsPath . snake_case($entityName));
@@ -520,6 +504,27 @@ class CrudService
     	}
 
     	return $quoted;
+    }
+
+    /**
+     * Given an array and an entityName, add all the variations of that entityName to the array
+     *
+     * @param array $config
+     * @param string $entityName
+     * @return array
+     */
+    protected function addEntityNameVariations(array $config, string $entityName)
+    {
+    	$config['entity'] = $entityName;
+    	$config['entityLower'] = strtolower($entityName);
+    	$config['entityPlural'] = str_plural($entityName);
+		$config['entitySnake'] = snake_case($entityName);
+		$config['entitySnakePlural'] = snake_case(str_plural($entityName));
+		$config['entityCamel'] = camel_case($entityName);
+		$config['entityCamelPlural'] = camel_case(str_plural($entityName));
+		$config['entitySlugPlural'] = str_slug(snake_case(str_plural($entityName)));
+
+		return $config;
     }
 
 }

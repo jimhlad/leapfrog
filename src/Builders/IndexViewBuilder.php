@@ -25,6 +25,7 @@ class IndexViewBuilder
         $viewTemplate = $this->insert($options['entityCamelPlural'])->into($viewTemplate, 'entityCamelPlural');
         $viewTemplate = $this->insert($options['entitySnake'])->into($viewTemplate, 'entitySnake');
         $viewTemplate = $this->insert($options['entitySnakePlural'])->into($viewTemplate, 'entitySnakePlural');
+        $viewTemplate = $this->insert($options['entitySlugPlural'])->into($viewTemplate, 'entitySlugPlural');
 
         foreach ($options['fieldNames'] as $field) {
             $tableHeaderField = $this->insert(ucfirst($field))->into($this->getTableHeaderFieldPartialWrapper(), 'field');

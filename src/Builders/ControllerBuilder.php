@@ -25,6 +25,7 @@ class ControllerBuilder
         $controllerTemplate = $this->insert($options['entityCamelPlural'])->into($controllerTemplate, 'entityCamelPlural');
         $controllerTemplate = $this->insert($options['entitySnake'])->into($controllerTemplate, 'entitySnake');
         $controllerTemplate = $this->insert($options['entitySnakePlural'])->into($controllerTemplate, 'entitySnakePlural');
+        $controllerTemplate = $this->insert($options['entitySlugPlural'])->into($controllerTemplate, 'entitySlugPlural');
         $controllerTemplate = $this->insert($options['createRequest'])->into($controllerTemplate, 'createRequest');
         $controllerTemplate = $this->insert($options['updateRequest'])->into($controllerTemplate, 'updateRequest');
         $controllerTemplate = $this->insert($options['requestsNamespace'])->into($controllerTemplate, 'requestsNamespace');

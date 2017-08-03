@@ -20,7 +20,7 @@ class RouteBuilder
     public function create(array $options)
     {
         $routeTemplate = $this->insert($options['entity'])->into($this->getCreateRouteWrapper(), 'entity');
-        $routeTemplate = $this->insert($options['entitySnakePlural'])->into($routeTemplate, 'entitySnakePlural');
+        $routeTemplate = $this->insert($options['entitySlugPlural'])->into($routeTemplate, 'entitySlugPlural');
 
         return $routeTemplate;
     }

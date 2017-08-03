@@ -56,7 +56,7 @@ class {{entity}}Controller extends Controller
         $result = $this->{{entityCamel}}Service->create($request->all());
 
         if ($result) {
-            return redirect(route('{{entitySnakePlural}}.edit', ['id' => $result->id]))->with('message', 'Successfully created');
+            return redirect(route('{{entitySlugPlural}}.edit', ['id' => $result->id]))->with('message', 'Successfully created');
         }
 
         return back()->with('error', 'Failed to create');
@@ -104,10 +104,10 @@ class {{entity}}Controller extends Controller
         $result = $this->{{entityCamel}}Service->destroy($id);
 
         if ($result) {
-            return redirect(route('{{entitySnakePlural}}.index'))->with('message', 'Successfully deleted');
+            return redirect(route('{{entitySlugPlural}}.index'))->with('message', 'Successfully deleted');
         }
 
-        return redirect(route('{{entitySnakePlural}}.index'))->with('message', 'Failed to delete');
+        return redirect(route('{{entitySlugPlural}}.index'))->with('message', 'Failed to delete');
     }
 
 }

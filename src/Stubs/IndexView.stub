@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="row">
-        <a class="btn btn-default pull-right" href="{!! route('{{entitySnakePlural}}.create') !!}">Create New {{entity}}</a>
+        <a class="btn btn-default pull-right" href="{!! route('{{entitySlugPlural}}.create') !!}">Create New {{entity}}</a>
         <h1>{{entityPlural}}</h1>
     </div>
     <div class="row">
@@ -17,14 +17,14 @@
                     <tr>
                         {{TableColumnField}}
                         <td>
-                            <form method="post" action="{!! route('{{entitySnakePlural}}.destroy', ['id' => ${{entityCamel}}->id]) !!}">
+                            <form method="post" action="{!! route('{{entitySlugPlural}}.destroy', ['id' => ${{entityCamel}}->id]) !!}">
                                 {!! csrf_field() !!}
                                 {!! method_field('DELETE') !!}
                                 <button class="btn btn-danger pull-right" type="submit">
                                     <i class="fa fa-trash"></i> Delete
                                 </button>
                             </form>
-                            <a class="btn btn-warning pull-right" href="{!! route('{{entitySnakePlural}}.edit', ['id' => ${{entityCamel}}->id]) !!}">
+                            <a class="btn btn-warning pull-right" href="{!! route('{{entitySlugPlural}}.edit', ['id' => ${{entityCamel}}->id]) !!}">
                                 <span class="fa fa-edit"></span> Edit
                             </a>
                         </td>
