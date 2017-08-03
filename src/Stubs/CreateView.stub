@@ -12,7 +12,7 @@
             
             {!! csrf_field() !!}
 
-	    	@form_maker_table("{{entitySnake}}", config('forms.{{entitySnake}}'))
+	    	@form_maker_table("{{entitySnakePlural}}", config('forms.{{entitySnake}}'))
 
 		    <div>
 	            <a class="btn btn-default pull-left" href="{!! route('{{entitySlugPlural}}.index') !!}">Back</a>

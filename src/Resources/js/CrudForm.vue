@@ -146,7 +146,7 @@
                     <label><input type="checkbox" value="updaterequest" v-model="files"> {{paths.requests_path}}<strong>{{entity_name}}UpdateRequest.php</strong></label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" value="migration" v-model="files"> database/migrations/<strong>xxxx_xx_xx_xxxxxx_create_{{entityNameSnakeCase}}_table.php</strong></label>
+                    <label><input type="checkbox" value="migration" v-model="files"> database/migrations/<strong>xxxx_xx_xx_xxxxxx_create_xxxxxx_table.php</strong></label>
                 </div>
                 <div class="checkbox">
                     <label><input type="checkbox" value="indexview" v-model="files"> {{paths.views_path}}<strong>{{entityNameSnakeCase}}/index.blade.php</strong></label>

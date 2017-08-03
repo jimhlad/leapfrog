@@ -20169,7 +20169,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }
-  }), _vm._v(" database/migrations/"), _c('strong', [_vm._v("xxxx_xx_xx_xxxxxx_create_" + _vm._s(_vm.entityNameSnakeCase) + "_table.php")])])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" database/migrations/"), _c('strong', [_vm._v("xxxx_xx_xx_xxxxxx_create_xxxxxx_table.php")])])]), _vm._v(" "), _c('div', {
     staticClass: "checkbox"
   }, [_c('label', [_c('input', {
     directives: [{

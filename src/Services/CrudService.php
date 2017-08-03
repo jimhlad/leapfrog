@@ -158,7 +158,7 @@ class CrudService
 		}
 
 		Artisan::call('make:migration:schema', [
-    		'name' => 'create_'.snake_case($options['entity_name']) . '_table',
+    		'name' => 'create_'.snake_case(str_plural($options['entity_name'])) . '_table',
     		'--schema' => implode(', ', $schema),
     		'--model' => false
 		]);
@@ -216,7 +216,7 @@ class CrudService
 
 		$config['namespace'] = $this->getNamespaceFromPath($modelsPath);
 		$config['class'] = $entityName;
-		$config['table'] = snake_case($entityName);
+		$config['table'] = snake_case(str_plural($entityName));
 		$config['fillable'] = implode(",\n\t\t", $this->wrapFieldNames($fillable));
 		$config['hidden'] = implode(",\n\t\t", $this->wrapFieldNames($hidden));
 
