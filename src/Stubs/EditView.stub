@@ -16,7 +16,7 @@
 	    	@form_maker_object(${{entityCamel}}, config('forms.{{entitySnake}}'), null, 'form-control', true)
 
 		    <div>
-                <a class="btn btn-default pull-left" href="{!! route('{{entitySlugPlural}}.index') !!}">Cancel</a>
+                <a class="btn btn-default pull-left" href="{!! route('{{entitySlugPlural}}.index') !!}">Back</a>
                 <button class="btn btn-primary pull-right" type="submit">Save</button>
             </div>
 

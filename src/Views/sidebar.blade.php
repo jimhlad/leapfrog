@@ -13,7 +13,7 @@
 	</div>
 	<div class="credits">
 		<p>GitHub page:</p>
-		<p><a href="https://www.github.com/" target="_blank">github.com/jimhlad/leapfrog</a></p>
+		<p><a href="https://github.com/jimhlad/leapfrog" target="_blank">github.com/jimhlad/leapfrog</a></p>
 	</div>
 	<div class="version">
 		<p><em>Version 0.0.1</em></p>
