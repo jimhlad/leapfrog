@@ -32,6 +32,10 @@ Some info here.
 
 Some info here.
 
+## Author
+
+If you have any questions please feel free to reach out to me on Twitter: [@jimhlad](https://twitter.com/jimhlad)
+
 ## License
 
 LeapFrog is open source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
