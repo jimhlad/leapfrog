@@ -1,0 +1,6 @@
+'{{fieldName}}' => [
+        'type'=> 'checkbox',
+        'alt_name'=> '{{altName}}',
+        'custom' => 'value="1"',
+    ],
+    {{FormField}}
