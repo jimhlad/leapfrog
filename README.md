@@ -12,13 +12,13 @@ For example, if you are creating a new "Truck" entity, it will generate or edit 
 * app/Services/__TruckService.php__
 * app/Http/Requests/__TruckCreateRequest.php__
 * app/Http/Requests/__TruckUpdateRequest.php__
-* database/migrations/__xxxx_xx_xx_xxxxxx_create_xxxxxx_table.php__
+* database/migrations/__xxxx_xx_xx_xxxxxx_create_truck_table.php__
 * resources/views/__truck/index.blade.php__
 * resources/views/__truck/create.blade.php__
 * resources/views/__truck/edit.blade.php__
 * config/forms/__truck.php__
 
-The interface allows you to pick which files you want to create and even customize the paths to some extent. 
+The interface allows you to pick which files you want to create and even customize the paths (to some extent). 
 
 [Click here](https://www.jimhlad.com/) for screenshots.
 
@@ -27,7 +27,7 @@ The interface allows you to pick which files you want to create and even customi
 This package depends on two other separately managed packages being installed:
 
 * [Laravel 5 Extended Generators](https://github.com/laracasts/Laravel-5-Generators-Extended) - An awesome migration generator package by Jeffrey Way
-* [FormMaker](https://github.com/YABhq/Formmaker) - Another awesome package by Yab Inc.
+* [FormMaker](https://github.com/YABhq/Formmaker) - Another awesome form generator package by Yab Inc.
 
 Please see the above GitHub pages for instructions on installing these packages.
 
