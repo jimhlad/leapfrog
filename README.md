@@ -18,7 +18,7 @@ For example, if you are creating a new "Truck" entity, it will generate or edit 
 * resources/views/__truck/edit.blade.php__
 * config/forms/__truck.php__
 
-[Click here](https://www.jimhlad.com/) for screenshots.
+The interface allows you to pick which files you want to create and even customize the paths to some extent. [Click here](https://www.jimhlad.com/) for screenshots.
 
 ## Usage
 
