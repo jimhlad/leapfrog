@@ -3,7 +3,7 @@
 @section('content')
 
 	<div class="row">
-        <h1>Edit {{entity}}</h1>
+        <h1>Edit {{entityWithSpaces}} #{!! ${{entityCamel}}->id !!}</h1>
     </div>
 
     <div class="row">

@@ -3,8 +3,8 @@
 @section('content')
 
     <div class="row">
-        <a class="btn btn-default pull-right" href="{!! route('{{entitySlugPlural}}.create') !!}">Create New {{entity}}</a>
-        <h1>{{entityPlural}}</h1>
+        <a class="btn btn-default pull-right" href="{!! route('{{entitySlugPlural}}.create') !!}">Create New {{entityWithSpaces}}</a>
+        <h1>{{entityPluralWithSpaces}}</h1>
     </div>
     <div class="row">
         <table class="table table-striped">

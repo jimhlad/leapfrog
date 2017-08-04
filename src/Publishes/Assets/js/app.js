@@ -1906,12 +1906,12 @@ function initialState(my_models_path, my_controllers_path, my_services_path, my_
             views_path: my_views_path
         },
         fields: [{
-            name: '',
+            name: 'name',
             type: 'string',
             options: ['fillable']
         }],
         relations: [],
-        files: ['route', 'model', 'controller', 'service', 'createrequest', 'updaterequest', 'migration', 'indexview', 'formview', 'createview', 'editview']
+        files: ['route', 'model', 'controller', 'service', 'createrequest', 'updaterequest', 'migration', 'indexview', 'createview', 'editview', 'formconfig']
     };
 }
 
@@ -20214,40 +20214,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     attrs: {
       "type": "checkbox",
-      "value": "formview"
-    },
-    domProps: {
-      "checked": Array.isArray(_vm.files) ? _vm._i(_vm.files, "formview") > -1 : (_vm.files)
-    },
-    on: {
-      "__c": function($event) {
-        var $$a = _vm.files,
-          $$el = $event.target,
-          $$c = $$el.checked ? (true) : (false);
-        if (Array.isArray($$a)) {
-          var $$v = "formview",
-            $$i = _vm._i($$a, $$v);
-          if ($$el.checked) {
-            $$i < 0 && (_vm.files = $$a.concat($$v))
-          } else {
-            $$i > -1 && (_vm.files = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-          }
-        } else {
-          _vm.files = $$c
-        }
-      }
-    }
-  }), _vm._v(" " + _vm._s(_vm.paths.views_path)), _c('strong', [_vm._v(_vm._s(_vm.entityNameSnakeCase) + "/form.blade.php")])])]), _vm._v(" "), _c('div', {
-    staticClass: "checkbox"
-  }, [_c('label', [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.files),
-      expression: "files"
-    }],
-    attrs: {
-      "type": "checkbox",
       "value": "createview"
     },
     domProps: {
@@ -20305,7 +20271,41 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }
-  }), _vm._v(" " + _vm._s(_vm.paths.views_path)), _c('strong', [_vm._v(_vm._s(_vm.entityNameSnakeCase) + "/edit.blade.php")])])])])]) : _vm._e(), _vm._v(" "), (_vm.entity_name) ? _c('div', {
+  }), _vm._v(" " + _vm._s(_vm.paths.views_path)), _c('strong', [_vm._v(_vm._s(_vm.entityNameSnakeCase) + "/edit.blade.php")])])]), _vm._v(" "), _c('div', {
+    staticClass: "checkbox"
+  }, [_c('label', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.files),
+      expression: "files"
+    }],
+    attrs: {
+      "type": "checkbox",
+      "value": "formconfig"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.files) ? _vm._i(_vm.files, "formconfig") > -1 : (_vm.files)
+    },
+    on: {
+      "__c": function($event) {
+        var $$a = _vm.files,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = "formconfig",
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && (_vm.files = $$a.concat($$v))
+          } else {
+            $$i > -1 && (_vm.files = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.files = $$c
+        }
+      }
+    }
+  }), _vm._v(" config/forms/"), _c('strong', [_vm._v(_vm._s(_vm.entityNameSnakeCase) + ".php")])])])])]) : _vm._e(), _vm._v(" "), (_vm.entity_name) ? _c('div', {
     staticClass: "submit-button-row"
   }, [_c('button', {
     staticClass: "btn btn-primary pull-right",

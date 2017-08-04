@@ -26,6 +26,8 @@ class CreateViewBuilder
         $viewTemplate = $this->insert($options['entitySnake'])->into($viewTemplate, 'entitySnake');
         $viewTemplate = $this->insert($options['entitySnakePlural'])->into($viewTemplate, 'entitySnakePlural');
         $viewTemplate = $this->insert($options['entitySlugPlural'])->into($viewTemplate, 'entitySlugPlural');
+        $viewTemplate = $this->insert($options['entityWithSpaces'])->into($viewTemplate, 'entityWithSpaces');
+        $viewTemplate = $this->insert($options['entityPluralWithSpaces'])->into($viewTemplate, 'entityPluralWithSpaces');
 
         return $viewTemplate;
     }

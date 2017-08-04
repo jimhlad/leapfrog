@@ -26,9 +26,12 @@ class IndexViewBuilder
         $viewTemplate = $this->insert($options['entitySnake'])->into($viewTemplate, 'entitySnake');
         $viewTemplate = $this->insert($options['entitySnakePlural'])->into($viewTemplate, 'entitySnakePlural');
         $viewTemplate = $this->insert($options['entitySlugPlural'])->into($viewTemplate, 'entitySlugPlural');
+        $viewTemplate = $this->insert($options['entityWithSpaces'])->into($viewTemplate, 'entityWithSpaces');
+        $viewTemplate = $this->insert($options['entityPluralWithSpaces'])->into($viewTemplate, 'entityPluralWithSpaces');
 
         foreach ($options['fieldNames'] as $field) {
-            $tableHeaderField = $this->insert(ucfirst($field))->into($this->getTableHeaderFieldPartialWrapper(), 'field');
+            $headerField = ucwords(str_replace('_', ' ', $field));
+            $tableHeaderField = $this->insert($headerField)->into($this->getTableHeaderFieldPartialWrapper(), 'field');
             $tableColumnField = $this->insert($field)->into($this->getTableColumnFieldPartialWrapper(), 'field');
             $tableColumnField = $this->insert($options['entityCamel'])->into($tableColumnField, 'entityCamel');
 

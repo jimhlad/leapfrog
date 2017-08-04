@@ -1,0 +1,5 @@
+'{{fieldName}}' => [
+        'type'=> 'datetime',
+        'alt_name'=> '{{altName}}',
+    ],
+    {{FormField}}

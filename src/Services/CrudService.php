@@ -14,6 +14,7 @@ use JimHlad\LeapFrog\Builders\UpdateRequestBuilder;
 use JimHlad\LeapFrog\Builders\IndexViewBuilder;
 use JimHlad\LeapFrog\Builders\CreateViewBuilder;
 use JimHlad\LeapFrog\Builders\EditViewBuilder;
+use JimHlad\LeapFrog\Builders\FormConfigBuilder;
 
 class CrudService
 {
@@ -46,6 +47,7 @@ class CrudService
 	protected $indexViewBuilder;
 	protected $createViewBuilder;
 	protected $editViewBuilder;
+	protected $formConfigBuilder;
 
 	/**
 	 * Construct our CrudService
@@ -58,6 +60,7 @@ class CrudService
 	 * @param CreateRequestBuilder $createRequestBuilder
 	 * @param UpdateRequestBuilder $updateRequestBuilder
 	 * @param IndexViewBuilder $indexViewBuilder
+	 * @param FormConfigBuilder $formConfigBuilder
 	 */
 	public function __construct
 	(
@@ -70,7 +73,8 @@ class CrudService
 		UpdateRequestBuilder $updateRequestBuilder,
 		IndexViewBuilder $indexViewBuilder,
 		CreateViewBuilder $createViewBuilder,
-		EditViewBuilder $editViewBuilder
+		EditViewBuilder $editViewBuilder,
+		FormConfigBuilder $formConfigBuilder
 	)
 	{
 		$this->progress = [];
@@ -84,6 +88,7 @@ class CrudService
 		$this->indexViewBuilder = $indexViewBuilder;
 		$this->createViewBuilder = $createViewBuilder;
 		$this->editViewBuilder = $editViewBuilder;
+		$this->formConfigBuilder = $formConfigBuilder;
 	}
 
 	/**
@@ -124,6 +129,9 @@ class CrudService
 			}
 			if (in_array('editview', $options['files'])) {
 				$this->generateEditView($options);
+			}
+			if (in_array('formconfig', $options['files'])) {
+				$this->generateFormConfig($options);
 			}
 
     		return $this->progress;
@@ -432,6 +440,34 @@ class CrudService
 	}
 
 	/**
+	 * Generate the form config
+	 * 
+	 * @param array $options
+	 */
+	protected function generateFormConfig(array $options) 
+	{
+		$this->progress[] = 'Create form config';
+
+		$entityName = $options['entity_name'];
+		$fields = $options['fields'];
+
+		if ($this->fileSystem->exists(base_path('config/forms/' . snake_case($entityName) . '.php'))) {
+			$this->progress[] = "Form config already exists";
+			return;
+		}
+
+		$config = [];
+		$config = $this->addEntityNameVariations($config, $entityName);
+		$config['fields'] = $fields;
+
+		$configTemplate = $this->formConfigBuilder->create($config);
+		$this->makeDirectoryIfNecessary('config/forms');
+		$this->fileSystem->put(base_path('config/forms/' . snake_case($entityName) . '.php'), $configTemplate);
+
+		$this->progress[] = 'Success';
+	}
+
+	/**
      * Build the directory for the class if necessary.
      *
      * @param  string $path
@@ -548,6 +584,8 @@ class CrudService
 		$config['entityCamel'] = camel_case($entityName);
 		$config['entityCamelPlural'] = camel_case(str_plural($entityName));
 		$config['entitySlugPlural'] = str_slug(snake_case(str_plural($entityName)));
+		$config['entityWithSpaces'] = ucwords(str_replace('_', ' ', snake_case($entityName)));
+		$config['entityPluralWithSpaces'] = ucwords(str_replace('_', ' ', snake_case(str_plural($entityName))));
 
 		return $config;
     }

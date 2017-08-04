@@ -1,0 +1,5 @@
+'{{fieldName}}' => [
+        'type'=> 'number',
+        'alt_name'=> '{{altName}}',
+    ],
+    {{FormField}}

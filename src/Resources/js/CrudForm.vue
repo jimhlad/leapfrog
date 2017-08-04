@@ -152,13 +152,13 @@
                     <label><input type="checkbox" value="indexview" v-model="files"> {{paths.views_path}}<strong>{{entityNameSnakeCase}}/index.blade.php</strong></label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" value="formview" v-model="files"> {{paths.views_path}}<strong>{{entityNameSnakeCase}}/form.blade.php</strong></label>
-                </div>
-                <div class="checkbox">
                     <label><input type="checkbox" value="createview" v-model="files"> {{paths.views_path}}<strong>{{entityNameSnakeCase}}/create.blade.php</strong></label>
                 </div>
                 <div class="checkbox">
                     <label><input type="checkbox" value="editview" v-model="files"> {{paths.views_path}}<strong>{{entityNameSnakeCase}}/edit.blade.php</strong></label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" value="formconfig" v-model="files"> config/forms/<strong>{{entityNameSnakeCase}}.php</strong></label>
                 </div>
             </div>
         </div>
@@ -257,12 +257,12 @@
                 views_path: my_views_path
             },
             fields: [{
-                name: '',
+                name: 'name',
                 type: 'string',
                 options: ['fillable']
             }],
             relations: [],
-            files: ['route', 'model', 'controller', 'service', 'createrequest', 'updaterequest', 'migration', 'indexview', 'formview', 'createview', 'editview']
+            files: ['route', 'model', 'controller', 'service', 'createrequest', 'updaterequest', 'migration', 'indexview', 'createview', 'editview', 'formconfig']
         }
     }
 </script>
