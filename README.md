@@ -20,7 +20,7 @@ For example, if you are creating a new "Truck" entity, it will generate or edit 
 
 The interface allows you to pick which files you want to create and even customize the paths (to some extent). 
 
-[Click here](https://www.jimhlad.com/) for screenshots.
+[Click here](https://www.jimhlad.com/leapfrog/screenshots) for screenshots.
 
 ## Prerequisites
 
