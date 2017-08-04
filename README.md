@@ -12,7 +12,7 @@ For example, if you are creating a new "Truck" entity, it will generate or edit 
 * app/Services/__TruckService.php__
 * app/Http/Requests/__TruckCreateRequest.php__
 * app/Http/Requests/__TruckUpdateRequest.php__
-* database/migrations/__xxxx_xx_xx_xxxxxx_create_truck_table.php__
+* database/migrations/__xxxx_xx_xx_xxxxxx_create_trucks_table.php__
 * resources/views/__truck/index.blade.php__
 * resources/views/__truck/create.blade.php__
 * resources/views/__truck/edit.blade.php__
