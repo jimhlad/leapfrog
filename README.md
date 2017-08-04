@@ -26,12 +26,12 @@ The interface allows you to pick which files you want to create and even customi
 
 This package depends on two other separately managed packages being installed:
 
-* [Laravel 5 Extended Generators](https://github.com/laracasts/Laravel-5-Generators-Extended) - An awesome package by Jeffrey Way
+* [Laravel 5 Extended Generators](https://github.com/laracasts/Laravel-5-Generators-Extended) - An awesome migration generator package by Jeffrey Way
 * [FormMaker](https://github.com/YABhq/Formmaker) - Another awesome package by Yab Inc.
 
 Please see the above GitHub pages for instructions on installing these packages.
 
-Note: You may need the __dev-master__ version of Laravel 5 Extended Generators if you receive an error installing this package.
+Note: You may need the __dev-master__ version of Laravel 5 Extended Generators if you receive an error while trying to use this package.
 
 ## Usage
 
