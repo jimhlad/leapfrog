@@ -584,6 +584,8 @@ class CrudService
 		$config['entityCamel'] = camel_case($entityName);
 		$config['entityCamelPlural'] = camel_case(str_plural($entityName));
 		$config['entitySlugPlural'] = str_slug(snake_case(str_plural($entityName)));
+		$config['entityWithSpaces'] = ucwords(str_replace('_', ' ', snake_case($entityName)));
+		$config['entityPluralWithSpaces'] = ucwords(str_replace('_', ' ', snake_case(str_plural($entityName))));
 
 		return $config;
     }

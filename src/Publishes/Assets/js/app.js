@@ -1906,7 +1906,7 @@ function initialState(my_models_path, my_controllers_path, my_services_path, my_
             views_path: my_views_path
         },
         fields: [{
-            name: '',
+            name: 'name',
             type: 'string',
             options: ['fillable']
         }],

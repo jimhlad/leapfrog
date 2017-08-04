@@ -257,7 +257,7 @@
                 views_path: my_views_path
             },
             fields: [{
-                name: '',
+                name: 'name',
                 type: 'string',
                 options: ['fillable']
             }],
