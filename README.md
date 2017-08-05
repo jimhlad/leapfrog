@@ -58,7 +58,7 @@ Publish the assets by running:
 
 ### Step 2: Update RouteServiceProvider
 
-Update app/Providers/RouteServiceProvider.php to include the __routes/leapfrog.php__ file by changing:
+Update __app/Providers/RouteServiceProvider.php__ to include the routes/leapfrog.php file by changing:
 
 ```php
 ->group(base_path('routes/web.php'));
