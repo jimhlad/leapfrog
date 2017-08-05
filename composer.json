@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "laracasts/generators": "dev-master",
+        "laracasts/generators": "^1.1.3",
         "yab/formmaker": "^1.1"
     },
     "require-dev": {}
