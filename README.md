@@ -31,7 +31,7 @@ This package depends on two other separately managed packages being installed:
 
 Please see the above GitHub pages for instructions on installing these packages.
 
-NOTE: You may need the __dev-master__ version of Laravel 5 Extended Generators if you receive an error while trying to create migration files.
+NOTE: You may need the __dev-master__ version of Laravel 5 Extended Generators if you receive an error while trying to install these packages: `PHP Fatal error:  Trait 'Illuminate\Console\AppNamespaceDetectorTrait' not found`
 
 ## Usage
 
