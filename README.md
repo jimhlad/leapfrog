@@ -31,7 +31,7 @@ This package depends on two other separately managed packages being installed:
 
 Please see the above GitHub pages for instructions on installing these packages.
 
-NOTE: You may need the __dev-master__ version of Laravel 5 Extended Generators if you receive an error while trying to use this package.
+NOTE: You may need the __dev-master__ version of Laravel 5 Extended Generators if you receive an error while trying to create migration files.
 
 ## Usage
 
@@ -51,7 +51,7 @@ Publish the assets by running:
 
 ### Step 2: Update RouteServiceProvider
 
-Update app/Providers/RouteServiceProvider.php to include the routes/leapfrog.php file by changing:
+Update app/Providers/RouteServiceProvider.php to include the __routes/leapfrog.php__ file by changing:
 
 ```php
 ->group(base_path('routes/web.php'));
