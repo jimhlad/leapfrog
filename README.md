@@ -41,9 +41,16 @@ Install the package using composer:
 
 `composer require jimhlad/leapfrog --dev`
 
-Add the following to the __config/app.php__ in the providers array:
+You'll _only want to use this tool for local development_, so we can add the following in __app/Providers/AppServiceProvider.php__:
 
-`JimHlad\LeapFrog\LeapFrogServiceProvider::class`
+```php
+public function register()
+{
+    if ($this->app->environment() === 'local') {
+        $this->app->register('JimHlad\LeapFrog\LeapFrogServiceProvider');
+    }
+}
+```
 
 Publish the assets by running:
 
