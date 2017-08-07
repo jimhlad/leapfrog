@@ -46,6 +46,7 @@
                                 <br/>
                                 <input type="checkbox" value="hidden" v-model="field.options"> <span>Hidden</span>
                                 <input type="checkbox" value="unsigned" v-model="field.options"> <span>Unsigned</span>
+                                <input type="checkbox" value="foreign" v-model="field.options"> <span>Foreign</span>
                             </div>
                         </div>
                     </div>

@@ -1821,6 +1821,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -19624,7 +19625,39 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           }
         }
       }
-    }), _vm._v(" "), _c('span', [_vm._v("Unsigned")])])])]), _vm._v(" "), _c('div', {
+    }), _vm._v(" "), _c('span', [_vm._v("Unsigned")]), _vm._v(" "), _c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (field.options),
+        expression: "field.options"
+      }],
+      attrs: {
+        "type": "checkbox",
+        "value": "foreign"
+      },
+      domProps: {
+        "checked": Array.isArray(field.options) ? _vm._i(field.options, "foreign") > -1 : (field.options)
+      },
+      on: {
+        "__c": function($event) {
+          var $$a = field.options,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = "foreign",
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (field.options = $$a.concat($$v))
+            } else {
+              $$i > -1 && (field.options = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            field.options = $$c
+          }
+        }
+      }
+    }), _vm._v(" "), _c('span', [_vm._v("Foreign")])])])]), _vm._v(" "), _c('div', {
       staticClass: "col-md-2"
     }, [_c('div', {
       staticClass: "form-group"

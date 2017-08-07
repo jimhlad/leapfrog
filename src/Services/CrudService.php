@@ -153,7 +153,7 @@ class CrudService
 	{
 		$this->progress[] = 'Create migration';
 
-		$validOptions = ['nullable', 'unique', 'index', 'unsigned'];
+		$validOptions = ['nullable', 'unique', 'index', 'unsigned', 'foreign'];
 		$schema = [];
 		foreach ($options['fields'] as $field) {
 			$fieldConfig = $field['name'] . ':' . $field['type'];
@@ -219,8 +219,8 @@ class CrudService
 			return;
 		}
 
-		$fillable = $this->onlyFieldsWithOption($fields, 'fillable');
-		$hidden = $this->onlyFieldsWithOption($fields, 'hidden');
+		$fillable = $this->onlyFieldNamesWithOption($fields, 'fillable');
+		$hidden = $this->onlyFieldNamesWithOption($fields, 'hidden');
 
 		$config['namespace'] = $this->getNamespaceFromPath($modelsPath);
 		$config['class'] = $entityName;
@@ -342,7 +342,7 @@ class CrudService
 		$config['namespace'] = $this->getNamespaceFromPath($requestsPath);
 		$config['entity'] = $entityName;
 
-		$requiredFields = $this->onlyFieldsWithoutOption($fields, 'nullable');
+		$requiredFields = $this->onlyFieldNamesWithoutOption($fields, 'nullable');
 		$config['rules'] = "";
 		foreach ($requiredFields as $field) {
 			$config['rules'] .= "'{$field}' => 'required',\n\t\t\t";
@@ -367,7 +367,7 @@ class CrudService
 
 		$viewsPath = $options['paths']['views_path'];
 		$entityName = $options['entity_name'];
-		$fields = $options ['fields'];
+		$fields = $options['fields'];
 
 		if ($this->fileSystem->exists(base_path($viewsPath) . snake_case($entityName) . '/index.blade.php')) {
 			$this->progress[] = "Index view already exists";
@@ -376,7 +376,8 @@ class CrudService
 
 		$config = [];
 		$config = $this->addEntityNameVariations($config, $entityName);
-		$config['fieldNames'] = $this->onlyFieldsWithOption($fields, 'fillable');
+		$fields = $this->onlyFieldsWithoutOption($fields, 'foreign');
+		$config['fieldNames'] = $this->onlyFieldNamesWithOption($fields, 'fillable');
 
 		$viewTemplate = $this->indexViewBuilder->create($config);
 		$this->makeDirectoryIfNecessary($viewsPath . snake_case($entityName));
@@ -458,7 +459,7 @@ class CrudService
 
 		$config = [];
 		$config = $this->addEntityNameVariations($config, $entityName);
-		$config['fields'] = $fields;
+		$config['fields'] = $this->onlyFieldsWithoutOption($fields, 'foreign');
 
 		$configTemplate = $this->formConfigBuilder->create($config);
 		$this->makeDirectoryIfNecessary('config/forms');
@@ -510,25 +511,26 @@ class CrudService
     }
 
     /**
-     * Get only those fields names which have a particular option set (e.g. fillable, hidden, etc)
+     * Get only those names which have a particular option set (e.g. fillable, hidden, etc)
      *
      * @param array $fields
      * @param string $option
+     * @param boolean $fieldNamesOnly
      * @param boolean $inverse
      * @return array
      */
-    protected function onlyFieldsWithOption(array $fields, $option = '', $inverse = false)
+    protected function onlyFieldsWithOption(array $fields, $option = '', $fieldNamesOnly = false, $inverse = false)
     {
     	$filteredFields = [];
         foreach ($fields as $field) {
         	if ($inverse) {
         		if (!in_array($option, $field['options'])) {
-        			$filteredFields[] = $field['name'];
+        			$filteredFields[] = ($fieldNamesOnly ? $field['name'] : $field);
         		}
         	}
         	else {
         		if (in_array($option, $field['options'])) {
-        			$filteredFields[] = $field['name'];
+        			$filteredFields[] = ($fieldNamesOnly ? $field['name'] : $field);
         		}
         	}
         }
@@ -537,15 +539,40 @@ class CrudService
     }
 
     /**
-     * Get only those fields names which do NOT have a particular option set (e.g. fillable, hidden, etc)
+     * Get only those fields which do NOT have a particular option set (e.g. fillable, hidden, etc)
+     *
+     * @param array $fields
+     * @param string $option
+     * @param boolean $fieldNamesOnly
+     * @return array
+     */
+    protected function onlyFieldsWithoutOption(array $fields, $option = '', $fieldNamesOnly = false)
+    {
+    	return $this->onlyFieldsWithOption($fields, $option, $fieldNamesOnly, true);
+    }
+
+    /**
+     * Get only those fields NAMES which have a particular option set (e.g. fillable, hidden, etc)
      *
      * @param array $fields
      * @param string $option
      * @return array
      */
-    protected function onlyFieldsWithoutOption(array $fields, $option = '')
+    protected function onlyFieldNamesWithOption(array $fields, $option = '')
     {
     	return $this->onlyFieldsWithOption($fields, $option, true);
+    }
+
+    /**
+     * Get only those fields NAMES which have DO NOT a particular option set (e.g. fillable, hidden, etc)
+     *
+     * @param array $fields
+     * @param string $option
+     * @return array
+     */
+    protected function onlyFieldNamesWithoutOption(array $fields, $option = '')
+    {
+    	return $this->onlyFieldsWithoutOption($fields, $option, true);
     }
 
     /**
