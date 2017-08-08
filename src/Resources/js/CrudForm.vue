@@ -35,7 +35,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-5">
                         <div class="form-group">
                             <label for="field_default">Options</label>
                             <div class="check-inline">
@@ -43,32 +43,31 @@
                                 <input type="checkbox" value="nullable" v-model="field.options"> <span>Nullable</span>
                                 <input type="checkbox" value="unique" v-model="field.options"> <span>Unique</span>
                                 <input type="checkbox" value="index" v-model="field.options"> <span>Index</span>
-                                <br/>
                                 <input type="checkbox" value="hidden" v-model="field.options"> <span>Hidden</span>
+                                <br/>
                                 <input type="checkbox" value="unsigned" v-model="field.options"> <span>Unsigned</span>
                                 <input type="checkbox" value="foreign" v-model="field.options"> <span>Foreign</span>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                         <div class="form-group">
                             <label for="field_default">Actions</label>
                             <p><a v-on:click="removeEntityField(index)">Remove</a></p>
                         </div>
                     </div>
                 </div>
-                <p><a v-on:click="addEntityField">Add field</a></p>
+                <p><a v-on:click="addEntityField" tabindex="0">Add field</a></p>
             </div>
         </div>
-        <!-- Un-comment false when feature ready -->
-        <div v-if="entity_name && false" class="entity-relations">
+        <div v-if="entity_name" class="entity-relations">
             <p>What relations should the {{entity_name}} have?</p>
             <div class="well">
                 <div v-for="(relation, index) in relations" class="row">
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="relation_name">Relation Name</label>
-                            <input type="text" class="form-control" placeholder="e.g. drivers" v-model="relation.name" />
+                            <input type="text" class="form-control" placeholder="e.g. driver" v-model="relation.name" />
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -82,20 +81,26 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
-                            <label for="relation_class">Relation Class</label>
-                            <input type="text" class="form-control" placeholder="e.g. Driver::class" v-model="relation.class" />
+                            <label for="relation_class">Model Path</label>
+                            <input type="text" class="form-control" v-model="relation.model_path" v-on:blur="addTrailingSlashesRelation(index)" />
                         </div>
                     </div>
                     <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="relation_class">Model Name</label>
+                            <input type="text" class="form-control" placeholder="e.g. Driver" v-model="relation.model_name" />
+                        </div>
+                    </div>
+                    <div class="col-md-1">
                         <div class="form-group">
                             <label for="relation_default">Actions</label>
                             <p><a v-on:click="removeEntityRelation(index)">Remove</a></p>
                         </div>
                     </div>
                 </div>
-                <p><a v-on:click="addEntityRelation">Add relation</a></p>
+                <p><a v-on:click="addEntityRelation" tabindex="0">Add relation</a></p>
             </div>
         </div>
         <div v-if="entity_name" class="entity-files">
@@ -198,7 +203,8 @@
                 Vue.set(this.relations, this.relations.length, {
                     name: '',
                     type: 'belongsto',
-                    class: ''
+                    model_path: this.paths.models_path,
+                    model_name: ''
                 });
             },
             removeEntityField(index) {
@@ -216,6 +222,9 @@
                 if (this.paths.services_path.substr(-1) != '/') this.paths.services_path += '/';
                 if (this.paths.requests_path.substr(-1) != '/') this.paths.requests_path += '/';
                 if (this.paths.views_path.substr(-1) != '/') this.paths.views_path += '/';
+            },
+            addTrailingSlashesRelation(index) {
+                if (this.relations[index].model_path.substr(-1) != '/') this.relations[index].model_path += '/';
             },
             removeSpaceCharacters() {
                 this.entity_name = this.entity_name.split(' ').join('');

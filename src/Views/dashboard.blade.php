@@ -8,6 +8,7 @@
 			<h2>1.0.3</h2>
 			<ul>
 				<li>Added support for the creation of foreign key columns in migration files</li>
+				<li>Ability to generate boilerplate for model relationships</li>
 			</ul>
 			<h2>1.0.2</h2>
 			<ul>

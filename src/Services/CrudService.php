@@ -212,7 +212,8 @@ class CrudService
 
 		$modelsPath = $options['paths']['models_path'];
 		$entityName = $options['entity_name'];
-		$fields = $options ['fields'];
+		$fields = $options['fields'];
+		$relations = $options['relations'];
 
 		if ($this->fileSystem->exists(base_path($modelsPath) . $entityName . '.php')) {
 			$this->progress[] = 'Model already exists';
@@ -222,11 +223,13 @@ class CrudService
 		$fillable = $this->onlyFieldNamesWithOption($fields, 'fillable');
 		$hidden = $this->onlyFieldNamesWithOption($fields, 'hidden');
 
+		$config = $this->addEntityNameVariations([], $entityName);
 		$config['namespace'] = $this->getNamespaceFromPath($modelsPath);
 		$config['class'] = $entityName;
 		$config['table'] = snake_case(str_plural($entityName));
 		$config['fillable'] = implode(",\n\t\t", $this->wrapFieldNames($fillable));
 		$config['hidden'] = implode(",\n\t\t", $this->wrapFieldNames($hidden));
+		$config['relations'] = $this->convertRelationModelPathsToNamespaces($relations);
 
 		$modelTemplate = $this->modelBuilder->create($config);
 		$this->makeDirectoryIfNecessary($modelsPath);
@@ -332,7 +335,7 @@ class CrudService
 
 		$requestsPath = $options['paths']['requests_path'];
 		$entityName = $options['entity_name'];
-		$fields = $options ['fields'];
+		$fields = $options['fields'];
 
 		if ($this->fileSystem->exists(base_path($requestsPath) . $entityName . "{$type}Request.php")) {
 			$this->progress[] = "{$type}Request already exists";
@@ -491,6 +494,25 @@ class CrudService
         $appNamespace = rtrim(Container::getInstance()->getNamespace(), '\\');
 
         return rtrim(str_replace('/', '\\', str_replace('app', $appNamespace, $path)), '\\');
+    }
+
+    /**
+     * Fix model paths so that they correspond to a valid namespace
+     *
+     * @param array $relations
+     * @return array
+     */
+    protected function convertRelationModelPathsToNamespaces(array $relations)
+    {
+    	$newRelations = [];
+    	$appNamespace = rtrim(Container::getInstance()->getNamespace(), '\\');
+
+    	foreach ($relations as $relation) {
+    		$relation['model_path'] = rtrim(str_replace('/', '\\', str_replace('app', $appNamespace, $relation['model_path'])), '\\');
+    		$newRelations[] = $relation;
+    	}
+
+        return $newRelations;
     }
 
     /**

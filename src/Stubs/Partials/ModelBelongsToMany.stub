@@ -1,0 +1,11 @@
+/**
+	 * Determine the {{relationName}} for this {{entity}}
+	 *
+	 * @return Relationship
+	 */
+	public function {{relationName}}()
+	{
+		return $this->belongsToMany({{modelName}}::class);
+	}
+
+	{{RelationMethod}}

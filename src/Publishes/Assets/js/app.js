@@ -1822,6 +1822,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -1847,7 +1852,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             Vue.set(this.relations, this.relations.length, {
                 name: '',
                 type: 'belongsto',
-                class: ''
+                model_path: this.paths.models_path,
+                model_name: ''
             });
         },
         removeEntityField: function removeEntityField(index) {
@@ -1865,6 +1871,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (this.paths.services_path.substr(-1) != '/') this.paths.services_path += '/';
             if (this.paths.requests_path.substr(-1) != '/') this.paths.requests_path += '/';
             if (this.paths.views_path.substr(-1) != '/') this.paths.views_path += '/';
+        },
+        addTrailingSlashesRelation: function addTrailingSlashesRelation(index) {
+            if (this.relations[index].model_path.substr(-1) != '/') this.relations[index].model_path += '/';
         },
         removeSpaceCharacters: function removeSpaceCharacters() {
             this.entity_name = this.entity_name.split(' ').join('');
@@ -19424,7 +19433,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "value": "boolean"
       }
     }, [_vm._v("Boolean")])])])]), _vm._v(" "), _c('div', {
-      staticClass: "col-md-4"
+      staticClass: "col-md-5"
     }, [_c('div', {
       staticClass: "form-group"
     }, [_c('label', {
@@ -19561,7 +19570,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           }
         }
       }
-    }), _vm._v(" "), _c('span', [_vm._v("Index")]), _vm._v(" "), _c('br'), _vm._v(" "), _c('input', {
+    }), _vm._v(" "), _c('span', [_vm._v("Index")]), _vm._v(" "), _c('input', {
       directives: [{
         name: "model",
         rawName: "v-model",
@@ -19593,7 +19602,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           }
         }
       }
-    }), _vm._v(" "), _c('span', [_vm._v("Hidden")]), _vm._v(" "), _c('input', {
+    }), _vm._v(" "), _c('span', [_vm._v("Hidden")]), _vm._v(" "), _c('br'), _vm._v(" "), _c('input', {
       directives: [{
         name: "model",
         rawName: "v-model",
@@ -19658,7 +19667,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }), _vm._v(" "), _c('span', [_vm._v("Foreign")])])])]), _vm._v(" "), _c('div', {
-      staticClass: "col-md-2"
+      staticClass: "col-md-1"
     }, [_c('div', {
       staticClass: "form-group"
     }, [_c('label', {
@@ -19673,10 +19682,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_vm._v("Remove")])])])])])
   }), _vm._v(" "), _c('p', [_c('a', {
+    attrs: {
+      "tabindex": "0"
+    },
     on: {
       "click": _vm.addEntityField
     }
-  }, [_vm._v("Add field")])])], 2)]) : _vm._e(), _vm._v(" "), (_vm.entity_name && false) ? _c('div', {
+  }, [_vm._v("Add field")])])], 2)]) : _vm._e(), _vm._v(" "), (_vm.entity_name) ? _c('div', {
     staticClass: "entity-relations"
   }, [_c('p', [_vm._v("What relations should the " + _vm._s(_vm.entity_name) + " have?")]), _vm._v(" "), _c('div', {
     staticClass: "well"
@@ -19701,7 +19713,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "form-control",
       attrs: {
         "type": "text",
-        "placeholder": "e.g. drivers"
+        "placeholder": "e.g. driver"
       },
       domProps: {
         "value": (relation.name)
@@ -19756,36 +19768,67 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "value": "belongstomany"
       }
     }, [_vm._v("BelongsToMany")])])])]), _vm._v(" "), _c('div', {
-      staticClass: "col-md-4"
+      staticClass: "col-md-3"
     }, [_c('div', {
       staticClass: "form-group"
     }, [_c('label', {
       attrs: {
         "for": "relation_class"
       }
-    }, [_vm._v("Relation Class")]), _vm._v(" "), _c('input', {
+    }, [_vm._v("Model Path")]), _vm._v(" "), _c('input', {
       directives: [{
         name: "model",
         rawName: "v-model",
-        value: (relation.class),
-        expression: "relation.class"
+        value: (relation.model_path),
+        expression: "relation.model_path"
       }],
       staticClass: "form-control",
       attrs: {
-        "type": "text",
-        "placeholder": "e.g. Driver::class"
+        "type": "text"
       },
       domProps: {
-        "value": (relation.class)
+        "value": (relation.model_path)
       },
       on: {
+        "blur": function($event) {
+          _vm.addTrailingSlashesRelation(index)
+        },
         "input": function($event) {
           if ($event.target.composing) { return; }
-          relation.class = $event.target.value
+          relation.model_path = $event.target.value
         }
       }
     })])]), _vm._v(" "), _c('div', {
       staticClass: "col-md-2"
+    }, [_c('div', {
+      staticClass: "form-group"
+    }, [_c('label', {
+      attrs: {
+        "for": "relation_class"
+      }
+    }, [_vm._v("Model Name")]), _vm._v(" "), _c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (relation.model_name),
+        expression: "relation.model_name"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "type": "text",
+        "placeholder": "e.g. Driver"
+      },
+      domProps: {
+        "value": (relation.model_name)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          relation.model_name = $event.target.value
+        }
+      }
+    })])]), _vm._v(" "), _c('div', {
+      staticClass: "col-md-1"
     }, [_c('div', {
       staticClass: "form-group"
     }, [_c('label', {
@@ -19800,6 +19843,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_vm._v("Remove")])])])])])
   }), _vm._v(" "), _c('p', [_c('a', {
+    attrs: {
+      "tabindex": "0"
+    },
     on: {
       "click": _vm.addEntityRelation
     }
