@@ -35,7 +35,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label for="field_default">Options</label>
                             <div class="check-inline">
@@ -43,7 +43,7 @@
                                 <input type="checkbox" value="nullable" v-model="field.options"> <span>Nullable</span>
                                 <input type="checkbox" value="hidden" v-model="field.options"> <span>Hidden</span>
                                 <br/>
-                                <span v-if="true">
+                                <span>
                                     <input type="checkbox" value="index" v-model="field.options"> <span>Index</span>
                                 </span>
                                 <span v-if="['string'].indexOf(field.type) !== -1">
@@ -58,10 +58,25 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-1">
-                        <div class="form-group">
-                            <label for="field_default">Actions</label>
-                            <p><a v-on:click="removeEntityField(index)">Remove</a></p>
+                    <div class="col-md-3">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div v-if="field.type === 'string'" class="form-group">
+                                    <label for="field_custom">
+                                        Selectable Values (Optional)
+                                    </label>
+                                    <input type="text" class="form-control" placeholder="e.g. Active,In Progress" v-model="field.custom" />
+                                </div>
+                                <div v-else-if="field.type === 'boolean'" class="form-group">
+                                    <label for="field_custom">
+                                        Default (Optional)
+                                    </label>
+                                    <input type="text" class="form-control" placeholder="e.g. false" v-model="field.custom" />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <a v-on:click="removeEntityField(index)"><span class="glyphicon glyphicon-trash"></span></a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -204,7 +219,8 @@
                 Vue.set(this.fields, this.fields.length, {
                     name: '',
                     type: 'string',
-                    options: ['fillable']
+                    options: ['fillable'],
+                    custom: ''
                 });
             },
             addEntityRelation() {
@@ -277,7 +293,8 @@
             fields: [{
                 name: 'name',
                 type: 'string',
-                options: ['fillable']
+                options: ['fillable'],
+                custom: ''
             }],
             relations: [],
             files: ['route', 'model', 'controller', 'service', 'createrequest', 'updaterequest', 'migration', 'indexview', 'createview', 'editview', 'formconfig']

@@ -1835,6 +1835,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1853,7 +1868,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             Vue.set(this.fields, this.fields.length, {
                 name: '',
                 type: 'string',
-                options: ['fillable']
+                options: ['fillable'],
+                custom: ''
             });
         },
         addEntityRelation: function addEntityRelation() {
@@ -1926,7 +1942,8 @@ function initialState(my_models_path, my_controllers_path, my_services_path, my_
         fields: [{
             name: 'name',
             type: 'string',
-            options: ['fillable']
+            options: ['fillable'],
+            custom: ''
         }],
         relations: [],
         files: ['route', 'model', 'controller', 'service', 'createrequest', 'updaterequest', 'migration', 'indexview', 'createview', 'editview', 'formconfig']
@@ -19441,7 +19458,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "value": "boolean"
       }
     }, [_vm._v("Boolean")])])])]), _vm._v(" "), _c('div', {
-      staticClass: "col-md-5"
+      staticClass: "col-md-3"
     }, [_c('div', {
       staticClass: "form-group"
     }, [_c('label', {
@@ -19546,7 +19563,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           }
         }
       }
-    }), _vm._v(" "), _c('span', [_vm._v("Hidden")]), _vm._v(" "), _c('br'), _vm._v(" "), (true) ? _c('span', [_c('input', {
+    }), _vm._v(" "), _c('span', [_vm._v("Hidden")]), _vm._v(" "), _c('br'), _vm._v(" "), _c('span', [_c('input', {
       directives: [{
         name: "model",
         rawName: "v-model",
@@ -19578,7 +19595,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           }
         }
       }
-    }), _vm._v(" "), _c('span', [_vm._v("Index")])]) : _vm._e(), _vm._v(" "), (['string'].indexOf(field.type) !== -1) ? _c('span', [_c('input', {
+    }), _vm._v(" "), _c('span', [_vm._v("Index")])]), _vm._v(" "), (['string'].indexOf(field.type) !== -1) ? _c('span', [_c('input', {
       directives: [{
         name: "model",
         rawName: "v-model",
@@ -19675,20 +19692,76 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }), _vm._v(" "), _c('span', [_vm._v("Foreign")])]) : _vm._e()])])]), _vm._v(" "), _c('div', {
-      staticClass: "col-md-1"
+      staticClass: "col-md-3"
     }, [_c('div', {
+      staticClass: "row"
+    }, [_c('div', {
+      staticClass: "col-md-10"
+    }, [(field.type === 'string') ? _c('div', {
       staticClass: "form-group"
     }, [_c('label', {
       attrs: {
-        "for": "field_default"
+        "for": "field_custom"
       }
-    }, [_vm._v("Actions")]), _vm._v(" "), _c('p', [_c('a', {
+    }, [_vm._v("\n                                    Selectable Values (Optional)\n                                ")]), _vm._v(" "), _c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (field.custom),
+        expression: "field.custom"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "type": "text",
+        "placeholder": "e.g. Active,In Progress"
+      },
+      domProps: {
+        "value": (field.custom)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          field.custom = $event.target.value
+        }
+      }
+    })]) : (field.type === 'boolean') ? _c('div', {
+      staticClass: "form-group"
+    }, [_c('label', {
+      attrs: {
+        "for": "field_custom"
+      }
+    }, [_vm._v("\n                                    Default (Optional)\n                                ")]), _vm._v(" "), _c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (field.custom),
+        expression: "field.custom"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "type": "text",
+        "placeholder": "e.g. false"
+      },
+      domProps: {
+        "value": (field.custom)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          field.custom = $event.target.value
+        }
+      }
+    })]) : _vm._e()]), _vm._v(" "), _c('div', {
+      staticClass: "col-md-2"
+    }, [_c('a', {
       on: {
         "click": function($event) {
           _vm.removeEntityField(index)
         }
       }
-    }, [_vm._v("Remove")])])])])])
+    }, [_c('span', {
+      staticClass: "glyphicon glyphicon-trash"
+    })])])])])])
   }), _vm._v(" "), _c('p', [_c('a', {
     attrs: {
       "tabindex": "0"

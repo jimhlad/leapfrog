@@ -9,6 +9,8 @@
 			<ul>
 				<li>Added support for the creation of foreign key columns in migration files</li>
 				<li>Ability to generate boilerplate for model relationships</li>
+				<li>Ability to choose default value for certain database field types</li>
+				<li>Support for select menu form field</li>
 			</ul>
 			<h2>1.0.2</h2>
 			<ul>
