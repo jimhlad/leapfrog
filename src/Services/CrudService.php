@@ -310,6 +310,8 @@ class CrudService
 		$servicesPath = $options['paths']['services_path'];
 		$modelsPath = $options['paths']['models_path'];
 		$entityName = $options['entity_name'];
+		$fields = $options['fields'];
+		$relations = $options['relations'];
 
 		if ($this->fileSystem->exists(base_path($servicesPath) . $entityName . 'Service.php')) {
 			$this->progress[] = 'Service already exists';
@@ -319,6 +321,8 @@ class CrudService
 		$config['namespace'] = $this->getNamespaceFromPath($servicesPath);
 		$config['modelsNamespace'] = $this->getNamespaceFromPath($modelsPath);
 		$config['entity'] = $entityName;
+		$config['fields'] = $fields;
+		$config['relations'] = $this->convertRelationModelPathsToNamespaces($relations);
 
 		$serviceTemplate = $this->serviceBuilder->create($config);
 		$this->makeDirectoryIfNecessary($servicesPath);
