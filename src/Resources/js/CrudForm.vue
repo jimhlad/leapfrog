@@ -41,12 +41,20 @@
                             <div class="check-inline">
                                 <input type="checkbox" value="fillable" v-model="field.options"> <span>Fillable</span>
                                 <input type="checkbox" value="nullable" v-model="field.options"> <span>Nullable</span>
-                                <input type="checkbox" value="unique" v-model="field.options"> <span>Unique</span>
-                                <input type="checkbox" value="index" v-model="field.options"> <span>Index</span>
                                 <input type="checkbox" value="hidden" v-model="field.options"> <span>Hidden</span>
                                 <br/>
-                                <input type="checkbox" value="unsigned" v-model="field.options"> <span>Unsigned</span>
-                                <input type="checkbox" value="foreign" v-model="field.options"> <span>Foreign</span>
+                                <span v-if="true">
+                                    <input type="checkbox" value="index" v-model="field.options"> <span>Index</span>
+                                </span>
+                                <span v-if="['string'].indexOf(field.type) !== -1">
+                                    <input type="checkbox" value="unique" v-model="field.options"> <span>Unique</span>
+                                </span>
+                                <span v-if="['integer'].indexOf(field.type) !== -1">
+                                    <input type="checkbox" value="unsigned" v-model="field.options"> <span>Unsigned</span>
+                                </span>
+                                <span v-if="['integer'].indexOf(field.type) !== -1">
+                                    <input type="checkbox" value="foreign" v-model="field.options"> <span>Foreign</span>
+                                </span>
                             </div>
                         </div>
                     </div>

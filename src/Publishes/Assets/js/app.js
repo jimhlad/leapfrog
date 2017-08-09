@@ -1827,6 +1827,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -19515,10 +19523,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }],
       attrs: {
         "type": "checkbox",
-        "value": "unique"
+        "value": "hidden"
       },
       domProps: {
-        "checked": Array.isArray(field.options) ? _vm._i(field.options, "unique") > -1 : (field.options)
+        "checked": Array.isArray(field.options) ? _vm._i(field.options, "hidden") > -1 : (field.options)
       },
       on: {
         "__c": function($event) {
@@ -19526,7 +19534,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
             $$el = $event.target,
             $$c = $$el.checked ? (true) : (false);
           if (Array.isArray($$a)) {
-            var $$v = "unique",
+            var $$v = "hidden",
               $$i = _vm._i($$a, $$v);
             if ($$el.checked) {
               $$i < 0 && (field.options = $$a.concat($$v))
@@ -19538,7 +19546,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           }
         }
       }
-    }), _vm._v(" "), _c('span', [_vm._v("Unique")]), _vm._v(" "), _c('input', {
+    }), _vm._v(" "), _c('span', [_vm._v("Hidden")]), _vm._v(" "), _c('br'), _vm._v(" "), (true) ? _c('span', [_c('input', {
       directives: [{
         name: "model",
         rawName: "v-model",
@@ -19570,7 +19578,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           }
         }
       }
-    }), _vm._v(" "), _c('span', [_vm._v("Index")]), _vm._v(" "), _c('input', {
+    }), _vm._v(" "), _c('span', [_vm._v("Index")])]) : _vm._e(), _vm._v(" "), (['string'].indexOf(field.type) !== -1) ? _c('span', [_c('input', {
       directives: [{
         name: "model",
         rawName: "v-model",
@@ -19579,10 +19587,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }],
       attrs: {
         "type": "checkbox",
-        "value": "hidden"
+        "value": "unique"
       },
       domProps: {
-        "checked": Array.isArray(field.options) ? _vm._i(field.options, "hidden") > -1 : (field.options)
+        "checked": Array.isArray(field.options) ? _vm._i(field.options, "unique") > -1 : (field.options)
       },
       on: {
         "__c": function($event) {
@@ -19590,7 +19598,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
             $$el = $event.target,
             $$c = $$el.checked ? (true) : (false);
           if (Array.isArray($$a)) {
-            var $$v = "hidden",
+            var $$v = "unique",
               $$i = _vm._i($$a, $$v);
             if ($$el.checked) {
               $$i < 0 && (field.options = $$a.concat($$v))
@@ -19602,7 +19610,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           }
         }
       }
-    }), _vm._v(" "), _c('span', [_vm._v("Hidden")]), _vm._v(" "), _c('br'), _vm._v(" "), _c('input', {
+    }), _vm._v(" "), _c('span', [_vm._v("Unique")])]) : _vm._e(), _vm._v(" "), (['integer'].indexOf(field.type) !== -1) ? _c('span', [_c('input', {
       directives: [{
         name: "model",
         rawName: "v-model",
@@ -19634,7 +19642,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           }
         }
       }
-    }), _vm._v(" "), _c('span', [_vm._v("Unsigned")]), _vm._v(" "), _c('input', {
+    }), _vm._v(" "), _c('span', [_vm._v("Unsigned")])]) : _vm._e(), _vm._v(" "), (['integer'].indexOf(field.type) !== -1) ? _c('span', [_c('input', {
       directives: [{
         name: "model",
         rawName: "v-model",
@@ -19666,7 +19674,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           }
         }
       }
-    }), _vm._v(" "), _c('span', [_vm._v("Foreign")])])])]), _vm._v(" "), _c('div', {
+    }), _vm._v(" "), _c('span', [_vm._v("Foreign")])]) : _vm._e()])])]), _vm._v(" "), _c('div', {
       staticClass: "col-md-1"
     }, [_c('div', {
       staticClass: "form-group"
