@@ -454,6 +454,7 @@ class CrudService
 
 		$entityName = $options['entity_name'];
 		$fields = $options['fields'];
+		$relations = $options['relations'];
 
 		if ($this->fileSystem->exists(base_path('config/forms/' . snake_case($entityName) . '.php'))) {
 			$this->progress[] = "Form config already exists";
@@ -463,6 +464,7 @@ class CrudService
 		$config = [];
 		$config = $this->addEntityNameVariations($config, $entityName);
 		$config['fields'] = $this->onlyFieldsWithoutOption($fields, 'foreign');
+		$config['relations'] = $this->convertRelationModelPathsToNamespaces($relations);
 
 		$configTemplate = $this->formConfigBuilder->create($config);
 		$this->makeDirectoryIfNecessary('config/forms');
