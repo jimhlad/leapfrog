@@ -162,6 +162,9 @@ class CrudService
 					$fieldConfig .= ':' . $option;
 				}
 			}
+			if (in_array($field['custom'], ['true', 'false']) && in_array($field['type'], ['boolean'])) {
+				$fieldConfig .= ':default(' . $field['custom'] . ')';
+			}
 			$schema[] = $fieldConfig;
 		}
 
