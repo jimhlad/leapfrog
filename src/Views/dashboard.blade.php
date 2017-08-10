@@ -8,9 +8,10 @@
 			<h2>1.1.0</h2>
 			<ul>
 				<li>Added support for the creation of foreign key columns in migration files</li>
-				<li>Ability to generate boilerplate for model relationships</li>
+				<li>Ability to generate boilerplate for model relationship methods</li>
 				<li>Ability to choose default value for certain database field types</li>
-				<li>Support for select menu form field</li>
+				<li>Support for the creation of a select menu form field</li>
+				<li>Added config option allowing migrations to be automatically run (default: false)</li>
 			</ul>
 			<h2>1.0.2</h2>
 			<ul>

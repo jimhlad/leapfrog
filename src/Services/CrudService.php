@@ -174,6 +174,10 @@ class CrudService
     		'--model' => false
 		]);
 
+		if (config('leapfrog.auto_run_migrations') === true) {
+			Artisan::call('migrate');
+		}
+
 		$this->progress[] = 'Success';
 	}
 
