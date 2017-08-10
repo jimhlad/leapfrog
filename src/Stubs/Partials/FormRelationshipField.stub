@@ -1,0 +1,8 @@
+'{{relationName}}' => [
+        'type'=> 'relationship',
+        'alt_name'=> '{{altName}}',
+        'model' => '{{modelPath}}\{{modelName}}',
+        'label' => 'name',
+        'value' => 'id',
+    ],
+    {{FormField}}

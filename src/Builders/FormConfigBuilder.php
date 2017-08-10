@@ -23,8 +23,25 @@ class FormConfigBuilder
 
         foreach ($options['fields'] as $field) {
             $formField = '';
+
             if ($field['type'] === 'string') {
-                $formField = $this->insert($field['name'])->into($this->getFormStringFieldPartialWrapper(), 'fieldName');
+                // If we have a comma-separated string in the custom attributes, let's generate a select menu
+                if (strlen($field['custom']) > 0 && strpos($field['custom'], ',') !== false) {
+                    $formField = $this->insert($field['name'])->into($this->getFormSelectFieldPartialWrapper(), 'fieldName'); 
+                    $customOptions = explode(',', $field['custom']);
+                    foreach ($customOptions as $option) {
+                        $optionName = trim($option);
+                        $optionValue = snake_case($optionName);
+
+                        $optionField = $this->insert($optionName)->into($this->getSelectOptionPartialWrapper(), 'optionName');
+                        $optionField = $this->insert($optionValue)->into($optionField, 'optionValue');
+
+                        $formField = $this->insert($optionField)->into($formField, 'OptionField');
+                    }
+                }
+                else {
+                    $formField = $this->insert($field['name'])->into($this->getFormStringFieldPartialWrapper(), 'fieldName');
+                }
             }
             if ($field['type'] === 'text') {
                 $formField = $this->insert($field['name'])->into($this->getFormTextFieldPartialWrapper(), 'fieldName');
@@ -50,8 +67,22 @@ class FormConfigBuilder
             $configTemplate = $this->insert($formField)->into($configTemplate, 'FormField');
         }
 
+        foreach ($options['relations'] as $relation) {
+            $formField = '';
+
+            if ($relation['type'] === 'belongsto') {
+                $formField = $this->insert($relation['name'])->into($this->getFormRelationshipFieldPartialWrapper(), 'relationName');
+                $formField = $this->insert(ucwords(str_replace('_', ' ', snake_case($relation['name']))))->into($formField, 'altName');
+                $formField = $this->insert($relation['model_name'])->into($formField, 'modelName');
+                $formField = $this->insert($relation['model_path'])->into($formField, 'modelPath');
+
+                $configTemplate = $this->insert($formField)->into($configTemplate, 'FormField');
+            }
+        }
+
         // Cleanup any extraneous placeholder tags
         $configTemplate = str_replace('{{FormField}}', '', $configTemplate);
+        $configTemplate = str_replace('{{OptionField}}', '', $configTemplate);
 
         return $configTemplate;
     }
@@ -159,5 +190,35 @@ class FormConfigBuilder
     private function getFormBooleanFieldPartialWrapper()
     {
         return file_get_contents(__DIR__ . '/../Stubs/Partials/FormBooleanField.stub');
+    }
+
+    /**
+     * Return the wrapper for a select field
+     *
+     * @return string
+     */
+    private function getFormSelectFieldPartialWrapper()
+    {
+        return file_get_contents(__DIR__ . '/../Stubs/Partials/FormSelectField.stub');
+    }
+
+    /**
+     * Return the wrapper for a relationship field
+     *
+     * @return string
+     */
+    private function getFormRelationshipFieldPartialWrapper()
+    {
+        return file_get_contents(__DIR__ . '/../Stubs/Partials/FormRelationshipField.stub');
+    }
+
+    /**
+     * Return the wrapper for a select option field
+     *
+     * @return string
+     */
+    private function getSelectOptionPartialWrapper()
+    {
+        return file_get_contents(__DIR__ . '/../Stubs/Partials/FormSelectOptionField.stub');
     }
 }

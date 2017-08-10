@@ -1,0 +1,13 @@
+/**
+     * Update the model in the database
+     *
+     * @param int $id
+     * @param array $payload
+     * @return {{modelsNamespace}}\{{entity}}
+     */
+    public function update(int $id, array $payload)
+    {
+        {{ServiceSyncBooleanField}}
+        {{ServiceSyncBelongsToField}}
+        return parent::update($id, $payload);
+    }

@@ -25,4 +25,7 @@ class {{entity}}Service extends BaseService
         $this->model = $model;
     }
 
+    {{ServiceCreateMethod}}
+    
+    {{ServiceUpdateMethod}}
 }

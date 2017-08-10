@@ -153,7 +153,7 @@ class CrudService
 	{
 		$this->progress[] = 'Create migration';
 
-		$validOptions = ['nullable', 'unique', 'index', 'unsigned'];
+		$validOptions = ['nullable', 'unique', 'index', 'unsigned', 'foreign'];
 		$schema = [];
 		foreach ($options['fields'] as $field) {
 			$fieldConfig = $field['name'] . ':' . $field['type'];
@@ -161,6 +161,9 @@ class CrudService
 				if (in_array($option, $validOptions)) {
 					$fieldConfig .= ':' . $option;
 				}
+			}
+			if (in_array($field['custom'], ['true', 'false']) && in_array($field['type'], ['boolean'])) {
+				$fieldConfig .= ':default(' . $field['custom'] . ')';
 			}
 			$schema[] = $fieldConfig;
 		}
@@ -170,6 +173,10 @@ class CrudService
     		'--schema' => implode(', ', $schema),
     		'--model' => false
 		]);
+
+		if (config('leapfrog.auto_run_migrations') === true) {
+			Artisan::call('migrate');
+		}
 
 		$this->progress[] = 'Success';
 	}
@@ -212,21 +219,24 @@ class CrudService
 
 		$modelsPath = $options['paths']['models_path'];
 		$entityName = $options['entity_name'];
-		$fields = $options ['fields'];
+		$fields = $options['fields'];
+		$relations = $options['relations'];
 
 		if ($this->fileSystem->exists(base_path($modelsPath) . $entityName . '.php')) {
 			$this->progress[] = 'Model already exists';
 			return;
 		}
 
-		$fillable = $this->onlyFieldsWithOption($fields, 'fillable');
-		$hidden = $this->onlyFieldsWithOption($fields, 'hidden');
+		$fillable = $this->onlyFieldNamesWithOption($fields, 'fillable');
+		$hidden = $this->onlyFieldNamesWithOption($fields, 'hidden');
 
+		$config = $this->addEntityNameVariations([], $entityName);
 		$config['namespace'] = $this->getNamespaceFromPath($modelsPath);
 		$config['class'] = $entityName;
 		$config['table'] = snake_case(str_plural($entityName));
 		$config['fillable'] = implode(",\n\t\t", $this->wrapFieldNames($fillable));
 		$config['hidden'] = implode(",\n\t\t", $this->wrapFieldNames($hidden));
+		$config['relations'] = $this->convertRelationModelPathsToNamespaces($relations);
 
 		$modelTemplate = $this->modelBuilder->create($config);
 		$this->makeDirectoryIfNecessary($modelsPath);
@@ -304,6 +314,8 @@ class CrudService
 		$servicesPath = $options['paths']['services_path'];
 		$modelsPath = $options['paths']['models_path'];
 		$entityName = $options['entity_name'];
+		$fields = $options['fields'];
+		$relations = $options['relations'];
 
 		if ($this->fileSystem->exists(base_path($servicesPath) . $entityName . 'Service.php')) {
 			$this->progress[] = 'Service already exists';
@@ -313,6 +325,8 @@ class CrudService
 		$config['namespace'] = $this->getNamespaceFromPath($servicesPath);
 		$config['modelsNamespace'] = $this->getNamespaceFromPath($modelsPath);
 		$config['entity'] = $entityName;
+		$config['fields'] = $fields;
+		$config['relations'] = $this->convertRelationModelPathsToNamespaces($relations);
 
 		$serviceTemplate = $this->serviceBuilder->create($config);
 		$this->makeDirectoryIfNecessary($servicesPath);
@@ -332,7 +346,7 @@ class CrudService
 
 		$requestsPath = $options['paths']['requests_path'];
 		$entityName = $options['entity_name'];
-		$fields = $options ['fields'];
+		$fields = $options['fields'];
 
 		if ($this->fileSystem->exists(base_path($requestsPath) . $entityName . "{$type}Request.php")) {
 			$this->progress[] = "{$type}Request already exists";
@@ -342,10 +356,24 @@ class CrudService
 		$config['namespace'] = $this->getNamespaceFromPath($requestsPath);
 		$config['entity'] = $entityName;
 
-		$requiredFields = $this->onlyFieldsWithoutOption($fields, 'nullable');
+		$requiredFields = $this->onlyFieldNamesWithoutOption($fields, 'nullable');
+		$uniqueFields = $this->onlyFieldNamesWithOption($fields, 'unique');
+		
 		$config['rules'] = "";
 		foreach ($requiredFields as $field) {
-			$config['rules'] .= "'{$field}' => 'required',\n\t\t\t";
+			$config['rules'] .= "'{$field}' => 'required";
+			if (in_array($field, $uniqueFields)) {
+				$tableName = snake_case(str_plural($entityName));
+				if ($type === 'Create') {
+					$config['rules'] .= "|unique:" . $tableName;
+				}
+				if ($type === 'Update') {
+					$config['rules'] .= "|unique:" . $tableName . "," . $field . ",'.\$id";
+					$config['rules'] .= ",\n\t\t\t";
+					continue;
+				}
+			}
+			$config['rules'] .= "',\n\t\t\t";
 		}
 
 		$builderFn = strtolower($type) . "RequestBuilder";
@@ -367,7 +395,7 @@ class CrudService
 
 		$viewsPath = $options['paths']['views_path'];
 		$entityName = $options['entity_name'];
-		$fields = $options ['fields'];
+		$fields = $options['fields'];
 
 		if ($this->fileSystem->exists(base_path($viewsPath) . snake_case($entityName) . '/index.blade.php')) {
 			$this->progress[] = "Index view already exists";
@@ -376,7 +404,8 @@ class CrudService
 
 		$config = [];
 		$config = $this->addEntityNameVariations($config, $entityName);
-		$config['fieldNames'] = $this->onlyFieldsWithOption($fields, 'fillable');
+		$fields = $this->onlyFieldsWithoutOption($fields, 'foreign');
+		$config['fieldNames'] = $this->onlyFieldNamesWithOption($fields, 'fillable');
 
 		$viewTemplate = $this->indexViewBuilder->create($config);
 		$this->makeDirectoryIfNecessary($viewsPath . snake_case($entityName));
@@ -450,6 +479,7 @@ class CrudService
 
 		$entityName = $options['entity_name'];
 		$fields = $options['fields'];
+		$relations = $options['relations'];
 
 		if ($this->fileSystem->exists(base_path('config/forms/' . snake_case($entityName) . '.php'))) {
 			$this->progress[] = "Form config already exists";
@@ -458,7 +488,8 @@ class CrudService
 
 		$config = [];
 		$config = $this->addEntityNameVariations($config, $entityName);
-		$config['fields'] = $fields;
+		$config['fields'] = $this->onlyFieldsWithoutOption($fields, 'foreign');
+		$config['relations'] = $this->convertRelationModelPathsToNamespaces($relations);
 
 		$configTemplate = $this->formConfigBuilder->create($config);
 		$this->makeDirectoryIfNecessary('config/forms');
@@ -493,6 +524,25 @@ class CrudService
     }
 
     /**
+     * Fix model paths so that they correspond to a valid namespace
+     *
+     * @param array $relations
+     * @return array
+     */
+    protected function convertRelationModelPathsToNamespaces(array $relations)
+    {
+    	$newRelations = [];
+    	$appNamespace = rtrim(Container::getInstance()->getNamespace(), '\\');
+
+    	foreach ($relations as $relation) {
+    		$relation['model_path'] = rtrim(str_replace('/', '\\', str_replace('app', $appNamespace, $relation['model_path'])), '\\');
+    		$newRelations[] = $relation;
+    	}
+
+        return $newRelations;
+    }
+
+    /**
      * Get the full view path which corresponds to the given view path
      *
      * @param string $path
@@ -510,25 +560,26 @@ class CrudService
     }
 
     /**
-     * Get only those fields names which have a particular option set (e.g. fillable, hidden, etc)
+     * Get only those names which have a particular option set (e.g. fillable, hidden, etc)
      *
      * @param array $fields
      * @param string $option
+     * @param boolean $fieldNamesOnly
      * @param boolean $inverse
      * @return array
      */
-    protected function onlyFieldsWithOption(array $fields, $option = '', $inverse = false)
+    protected function onlyFieldsWithOption(array $fields, $option = '', $fieldNamesOnly = false, $inverse = false)
     {
     	$filteredFields = [];
         foreach ($fields as $field) {
         	if ($inverse) {
         		if (!in_array($option, $field['options'])) {
-        			$filteredFields[] = $field['name'];
+        			$filteredFields[] = ($fieldNamesOnly ? $field['name'] : $field);
         		}
         	}
         	else {
         		if (in_array($option, $field['options'])) {
-        			$filteredFields[] = $field['name'];
+        			$filteredFields[] = ($fieldNamesOnly ? $field['name'] : $field);
         		}
         	}
         }
@@ -537,15 +588,40 @@ class CrudService
     }
 
     /**
-     * Get only those fields names which do NOT have a particular option set (e.g. fillable, hidden, etc)
+     * Get only those fields which do NOT have a particular option set (e.g. fillable, hidden, etc)
+     *
+     * @param array $fields
+     * @param string $option
+     * @param boolean $fieldNamesOnly
+     * @return array
+     */
+    protected function onlyFieldsWithoutOption(array $fields, $option = '', $fieldNamesOnly = false)
+    {
+    	return $this->onlyFieldsWithOption($fields, $option, $fieldNamesOnly, true);
+    }
+
+    /**
+     * Get only those fields NAMES which have a particular option set (e.g. fillable, hidden, etc)
      *
      * @param array $fields
      * @param string $option
      * @return array
      */
-    protected function onlyFieldsWithoutOption(array $fields, $option = '')
+    protected function onlyFieldNamesWithOption(array $fields, $option = '')
     {
     	return $this->onlyFieldsWithOption($fields, $option, true);
+    }
+
+    /**
+     * Get only those fields NAMES which have DO NOT a particular option set (e.g. fillable, hidden, etc)
+     *
+     * @param array $fields
+     * @param string $option
+     * @return array
+     */
+    protected function onlyFieldNamesWithoutOption(array $fields, $option = '')
+    {
+    	return $this->onlyFieldsWithoutOption($fields, $option, true);
     }
 
     /**

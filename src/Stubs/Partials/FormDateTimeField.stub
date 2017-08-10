@@ -1,5 +1,6 @@
 '{{fieldName}}' => [
         'type'=> 'datetime',
         'alt_name'=> '{{altName}}',
+        'after' => '<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>',
     ],
     {{FormField}}

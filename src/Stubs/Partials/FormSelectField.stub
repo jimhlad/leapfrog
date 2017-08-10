@@ -1,0 +1,8 @@
+'{{fieldName}}' => [
+        'type' => 'select',
+        'options' => [
+            {{OptionField}}
+        ],
+        'alt_name'=> '{{altName}}',
+    ],
+    {{FormField}}

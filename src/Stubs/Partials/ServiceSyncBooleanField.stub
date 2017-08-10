@@ -1,0 +1,5 @@
+if (!isset($payload['{{fieldName}}'])) {
+            $payload['{{fieldName}}'] = 0;
+        }
+        
+        {{ServiceSyncBooleanField}}

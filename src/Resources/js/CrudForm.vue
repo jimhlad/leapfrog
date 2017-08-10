@@ -18,7 +18,8 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="field_name">Field Name</label>
-                            <input type="text" class="form-control" placeholder="e.g. name" v-model="field.name" />
+                            <input v-if="index === 0" type="text" class="form-control" placeholder="e.g. name" v-model="field.name" />
+                            <input v-else v-focus type="text" class="form-control" placeholder="e.g. name" v-model="field.name" />
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -35,39 +36,64 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label for="field_default">Options</label>
                             <div class="check-inline">
                                 <input type="checkbox" value="fillable" v-model="field.options"> <span>Fillable</span>
                                 <input type="checkbox" value="nullable" v-model="field.options"> <span>Nullable</span>
-                                <input type="checkbox" value="unique" v-model="field.options"> <span>Unique</span>
-                                <input type="checkbox" value="index" v-model="field.options"> <span>Index</span>
-                                <br/>
                                 <input type="checkbox" value="hidden" v-model="field.options"> <span>Hidden</span>
-                                <input type="checkbox" value="unsigned" v-model="field.options"> <span>Unsigned</span>
+                                <br/>
+                                <span>
+                                    <input type="checkbox" value="index" v-model="field.options"> <span>Index</span>
+                                </span>
+                                <span v-if="['string'].indexOf(field.type) !== -1">
+                                    <input type="checkbox" value="unique" v-model="field.options"> <span>Unique</span>
+                                </span>
+                                <span v-if="['integer'].indexOf(field.type) !== -1">
+                                    <input type="checkbox" value="unsigned" v-model="field.options"> <span>Unsigned</span>
+                                </span>
+                                <span v-if="['integer'].indexOf(field.type) !== -1">
+                                    <input type="checkbox" value="foreign" v-model="field.options"> <span>Foreign</span>
+                                </span>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label for="field_default">Actions</label>
-                            <p><a v-on:click="removeEntityField(index)">Remove</a></p>
+                    <div class="col-md-3">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div v-if="field.type === 'string'" class="form-group">
+                                    <label for="field_custom">
+                                        Selectable Values (Optional)
+                                    </label>
+                                    <input type="text" class="form-control" placeholder="e.g. Active,In Progress" v-model="field.custom" />
+                                </div>
+                                <div v-else-if="field.type === 'boolean'" class="form-group">
+                                    <label for="field_custom">
+                                        Default (Optional)
+                                    </label>
+                                    <input type="text" class="form-control" placeholder="e.g. false" v-model="field.custom" />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <a v-on:click="removeEntityField(index)">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <p><a v-on:click="addEntityField">Add field</a></p>
+                <p><a v-on:click="addEntityField" v-on:keypress="addEntityFieldKeyPress" tabindex="0">Add field</a></p>
             </div>
         </div>
-        <!-- Un-comment false when feature ready -->
-        <div v-if="entity_name && false" class="entity-relations">
+        <div v-if="entity_name" class="entity-relations">
             <p>What relations should the {{entity_name}} have?</p>
             <div class="well">
                 <div v-for="(relation, index) in relations" class="row">
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="relation_name">Relation Name</label>
-                            <input type="text" class="form-control" placeholder="e.g. drivers" v-model="relation.name" />
+                            <input v-focus type="text" class="form-control" placeholder="e.g. driver" v-model="relation.name" />
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -81,20 +107,29 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
-                            <label for="relation_class">Relation Class</label>
-                            <input type="text" class="form-control" placeholder="e.g. Driver::class" v-model="relation.class" />
+                            <label for="relation_class">Model Path</label>
+                            <input type="text" class="form-control" v-model="relation.model_path" v-on:blur="addTrailingSlashesRelation(index)" />
                         </div>
                     </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label for="relation_default">Actions</label>
-                            <p><a v-on:click="removeEntityRelation(index)">Remove</a></p>
+                    <div class="col-md-3">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <label for="relation_class">Model Name</label>
+                                    <input type="text" class="form-control" placeholder="e.g. Driver" v-model="relation.model_name" />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <a v-on:click="removeEntityRelation(index)">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <p><a v-on:click="addEntityRelation">Add relation</a></p>
+                <p><a v-on:click="addEntityRelation" v-on:keypress="addEntityRelationKeyPress" tabindex="0">Add relation</a></p>
             </div>
         </div>
         <div v-if="entity_name" class="entity-files">
@@ -175,6 +210,12 @@
 <script>
     import axios from 'axios';
 
+    Vue.directive('focus', {
+        inserted: function (el) {
+            el.focus();
+        }
+    });
+
     export default {
         props: ['models_path', 'controllers_path', 'services_path', 'requests_path', 'views_path', 'generate_url'],
         data: function () {
@@ -187,18 +228,32 @@
         },
         methods: {
             addEntityField() {
-                Vue.set(this.fields, this.fields.length, {
+                let field = Vue.set(this.fields, this.fields.length, {
                     name: '',
                     type: 'string',
-                    options: ['fillable']
+                    options: ['fillable'],
+                    custom: ''
                 });
             },
             addEntityRelation() {
                 Vue.set(this.relations, this.relations.length, {
                     name: '',
                     type: 'belongsto',
-                    class: ''
+                    model_path: this.paths.models_path,
+                    model_name: ''
                 });
+            },
+            addEntityFieldKeyPress(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    this.addEntityField();
+                }
+            },
+            addEntityRelationKeyPress(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    this.addEntityRelation();
+                }
             },
             removeEntityField(index) {
                 this.fields.splice(index, 1);
@@ -215,6 +270,9 @@
                 if (this.paths.services_path.substr(-1) != '/') this.paths.services_path += '/';
                 if (this.paths.requests_path.substr(-1) != '/') this.paths.requests_path += '/';
                 if (this.paths.views_path.substr(-1) != '/') this.paths.views_path += '/';
+            },
+            addTrailingSlashesRelation(index) {
+                if (this.relations[index].model_path.substr(-1) != '/') this.relations[index].model_path += '/';
             },
             removeSpaceCharacters() {
                 this.entity_name = this.entity_name.split(' ').join('');
@@ -259,7 +317,8 @@
             fields: [{
                 name: 'name',
                 type: 'string',
-                options: ['fillable']
+                options: ['fillable'],
+                custom: ''
             }],
             relations: [],
             files: ['route', 'model', 'controller', 'service', 'createrequest', 'updaterequest', 'migration', 'indexview', 'createview', 'editview', 'formconfig']

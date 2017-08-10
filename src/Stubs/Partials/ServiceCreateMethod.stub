@@ -1,0 +1,12 @@
+/**
+     * Create the model in the database
+     *
+     * @param  array $payload
+     * @return {{modelsNamespace}}\{{entity}}
+     */
+    public function create(array $payload)
+    {
+        {{ServiceSyncBooleanField}}
+        {{ServiceSyncBelongsToField}}
+        return parent::create($payload);
+    }

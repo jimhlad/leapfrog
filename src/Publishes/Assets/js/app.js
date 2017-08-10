@@ -1821,8 +1821,49 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
+
+Vue.directive('focus', {
+    inserted: function inserted(el) {
+        el.focus();
+    }
+});
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['models_path', 'controllers_path', 'services_path', 'requests_path', 'views_path', 'generate_url'],
@@ -1836,18 +1877,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     methods: {
         addEntityField: function addEntityField() {
-            Vue.set(this.fields, this.fields.length, {
+            var field = Vue.set(this.fields, this.fields.length, {
                 name: '',
                 type: 'string',
-                options: ['fillable']
+                options: ['fillable'],
+                custom: ''
             });
         },
         addEntityRelation: function addEntityRelation() {
             Vue.set(this.relations, this.relations.length, {
                 name: '',
                 type: 'belongsto',
-                class: ''
+                model_path: this.paths.models_path,
+                model_name: ''
             });
+        },
+        addEntityFieldKeyPress: function addEntityFieldKeyPress(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                this.addEntityField();
+            }
+        },
+        addEntityRelationKeyPress: function addEntityRelationKeyPress(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                this.addEntityRelation();
+            }
         },
         removeEntityField: function removeEntityField(index) {
             this.fields.splice(index, 1);
@@ -1864,6 +1919,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (this.paths.services_path.substr(-1) != '/') this.paths.services_path += '/';
             if (this.paths.requests_path.substr(-1) != '/') this.paths.requests_path += '/';
             if (this.paths.views_path.substr(-1) != '/') this.paths.views_path += '/';
+        },
+        addTrailingSlashesRelation: function addTrailingSlashesRelation(index) {
+            if (this.relations[index].model_path.substr(-1) != '/') this.relations[index].model_path += '/';
         },
         removeSpaceCharacters: function removeSpaceCharacters() {
             this.entity_name = this.entity_name.split(' ').join('');
@@ -1908,7 +1966,8 @@ function initialState(my_models_path, my_controllers_path, my_services_path, my_
         fields: [{
             name: 'name',
             type: 'string',
-            options: ['fillable']
+            options: ['fillable'],
+            custom: ''
         }],
         relations: [],
         files: ['route', 'model', 'controller', 'service', 'createrequest', 'updaterequest', 'migration', 'indexview', 'createview', 'editview', 'formconfig']
@@ -19346,8 +19405,32 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "for": "field_name"
       }
-    }, [_vm._v("Field Name")]), _vm._v(" "), _c('input', {
+    }, [_vm._v("Field Name")]), _vm._v(" "), (index === 0) ? _c('input', {
       directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (field.name),
+        expression: "field.name"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "type": "text",
+        "placeholder": "e.g. name"
+      },
+      domProps: {
+        "value": (field.name)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          field.name = $event.target.value
+        }
+      }
+    }) : _c('input', {
+      directives: [{
+        name: "focus",
+        rawName: "v-focus"
+      }, {
         name: "model",
         rawName: "v-model",
         value: (field.name),
@@ -19423,7 +19506,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "value": "boolean"
       }
     }, [_vm._v("Boolean")])])])]), _vm._v(" "), _c('div', {
-      staticClass: "col-md-4"
+      staticClass: "col-md-3"
     }, [_c('div', {
       staticClass: "form-group"
     }, [_c('label', {
@@ -19505,10 +19588,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }],
       attrs: {
         "type": "checkbox",
-        "value": "unique"
+        "value": "hidden"
       },
       domProps: {
-        "checked": Array.isArray(field.options) ? _vm._i(field.options, "unique") > -1 : (field.options)
+        "checked": Array.isArray(field.options) ? _vm._i(field.options, "hidden") > -1 : (field.options)
       },
       on: {
         "__c": function($event) {
@@ -19516,7 +19599,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
             $$el = $event.target,
             $$c = $$el.checked ? (true) : (false);
           if (Array.isArray($$a)) {
-            var $$v = "unique",
+            var $$v = "hidden",
               $$i = _vm._i($$a, $$v);
             if ($$el.checked) {
               $$i < 0 && (field.options = $$a.concat($$v))
@@ -19528,7 +19611,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           }
         }
       }
-    }), _vm._v(" "), _c('span', [_vm._v("Unique")]), _vm._v(" "), _c('input', {
+    }), _vm._v(" "), _c('span', [_vm._v("Hidden")]), _vm._v(" "), _c('br'), _vm._v(" "), _c('span', [_c('input', {
       directives: [{
         name: "model",
         rawName: "v-model",
@@ -19560,7 +19643,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           }
         }
       }
-    }), _vm._v(" "), _c('span', [_vm._v("Index")]), _vm._v(" "), _c('br'), _vm._v(" "), _c('input', {
+    }), _vm._v(" "), _c('span', [_vm._v("Index")])]), _vm._v(" "), (['string'].indexOf(field.type) !== -1) ? _c('span', [_c('input', {
       directives: [{
         name: "model",
         rawName: "v-model",
@@ -19569,10 +19652,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }],
       attrs: {
         "type": "checkbox",
-        "value": "hidden"
+        "value": "unique"
       },
       domProps: {
-        "checked": Array.isArray(field.options) ? _vm._i(field.options, "hidden") > -1 : (field.options)
+        "checked": Array.isArray(field.options) ? _vm._i(field.options, "unique") > -1 : (field.options)
       },
       on: {
         "__c": function($event) {
@@ -19580,7 +19663,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
             $$el = $event.target,
             $$c = $$el.checked ? (true) : (false);
           if (Array.isArray($$a)) {
-            var $$v = "hidden",
+            var $$v = "unique",
               $$i = _vm._i($$a, $$v);
             if ($$el.checked) {
               $$i < 0 && (field.options = $$a.concat($$v))
@@ -19592,7 +19675,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           }
         }
       }
-    }), _vm._v(" "), _c('span', [_vm._v("Hidden")]), _vm._v(" "), _c('input', {
+    }), _vm._v(" "), _c('span', [_vm._v("Unique")])]) : _vm._e(), _vm._v(" "), (['integer'].indexOf(field.type) !== -1) ? _c('span', [_c('input', {
       directives: [{
         name: "model",
         rawName: "v-model",
@@ -19624,26 +19707,118 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           }
         }
       }
-    }), _vm._v(" "), _c('span', [_vm._v("Unsigned")])])])]), _vm._v(" "), _c('div', {
-      staticClass: "col-md-2"
+    }), _vm._v(" "), _c('span', [_vm._v("Unsigned")])]) : _vm._e(), _vm._v(" "), (['integer'].indexOf(field.type) !== -1) ? _c('span', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (field.options),
+        expression: "field.options"
+      }],
+      attrs: {
+        "type": "checkbox",
+        "value": "foreign"
+      },
+      domProps: {
+        "checked": Array.isArray(field.options) ? _vm._i(field.options, "foreign") > -1 : (field.options)
+      },
+      on: {
+        "__c": function($event) {
+          var $$a = field.options,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = "foreign",
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (field.options = $$a.concat($$v))
+            } else {
+              $$i > -1 && (field.options = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            field.options = $$c
+          }
+        }
+      }
+    }), _vm._v(" "), _c('span', [_vm._v("Foreign")])]) : _vm._e()])])]), _vm._v(" "), _c('div', {
+      staticClass: "col-md-3"
     }, [_c('div', {
+      staticClass: "row"
+    }, [_c('div', {
+      staticClass: "col-md-10"
+    }, [(field.type === 'string') ? _c('div', {
       staticClass: "form-group"
     }, [_c('label', {
       attrs: {
-        "for": "field_default"
+        "for": "field_custom"
       }
-    }, [_vm._v("Actions")]), _vm._v(" "), _c('p', [_c('a', {
+    }, [_vm._v("\n                                    Selectable Values (Optional)\n                                ")]), _vm._v(" "), _c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (field.custom),
+        expression: "field.custom"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "type": "text",
+        "placeholder": "e.g. Active,In Progress"
+      },
+      domProps: {
+        "value": (field.custom)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          field.custom = $event.target.value
+        }
+      }
+    })]) : (field.type === 'boolean') ? _c('div', {
+      staticClass: "form-group"
+    }, [_c('label', {
+      attrs: {
+        "for": "field_custom"
+      }
+    }, [_vm._v("\n                                    Default (Optional)\n                                ")]), _vm._v(" "), _c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (field.custom),
+        expression: "field.custom"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "type": "text",
+        "placeholder": "e.g. false"
+      },
+      domProps: {
+        "value": (field.custom)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          field.custom = $event.target.value
+        }
+      }
+    })]) : _vm._e()]), _vm._v(" "), _c('div', {
+      staticClass: "col-md-2"
+    }, [_c('a', {
       on: {
         "click": function($event) {
           _vm.removeEntityField(index)
         }
       }
-    }, [_vm._v("Remove")])])])])])
+    }, [_c('span', {
+      staticClass: "glyphicon glyphicon-trash"
+    })])])])])])
   }), _vm._v(" "), _c('p', [_c('a', {
+    attrs: {
+      "tabindex": "0"
+    },
     on: {
-      "click": _vm.addEntityField
+      "click": _vm.addEntityField,
+      "keypress": _vm.addEntityFieldKeyPress
     }
-  }, [_vm._v("Add field")])])], 2)]) : _vm._e(), _vm._v(" "), (_vm.entity_name && false) ? _c('div', {
+  }, [_vm._v("Add field")])])], 2)]) : _vm._e(), _vm._v(" "), (_vm.entity_name) ? _c('div', {
     staticClass: "entity-relations"
   }, [_c('p', [_vm._v("What relations should the " + _vm._s(_vm.entity_name) + " have?")]), _vm._v(" "), _c('div', {
     staticClass: "well"
@@ -19660,6 +19835,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_vm._v("Relation Name")]), _vm._v(" "), _c('input', {
       directives: [{
+        name: "focus",
+        rawName: "v-focus"
+      }, {
         name: "model",
         rawName: "v-model",
         value: (relation.name),
@@ -19668,7 +19846,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "form-control",
       attrs: {
         "type": "text",
-        "placeholder": "e.g. drivers"
+        "placeholder": "e.g. driver"
       },
       domProps: {
         "value": (relation.name)
@@ -19723,52 +19901,87 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "value": "belongstomany"
       }
     }, [_vm._v("BelongsToMany")])])])]), _vm._v(" "), _c('div', {
-      staticClass: "col-md-4"
+      staticClass: "col-md-3"
     }, [_c('div', {
       staticClass: "form-group"
     }, [_c('label', {
       attrs: {
         "for": "relation_class"
       }
-    }, [_vm._v("Relation Class")]), _vm._v(" "), _c('input', {
+    }, [_vm._v("Model Path")]), _vm._v(" "), _c('input', {
       directives: [{
         name: "model",
         rawName: "v-model",
-        value: (relation.class),
-        expression: "relation.class"
+        value: (relation.model_path),
+        expression: "relation.model_path"
       }],
       staticClass: "form-control",
       attrs: {
-        "type": "text",
-        "placeholder": "e.g. Driver::class"
+        "type": "text"
       },
       domProps: {
-        "value": (relation.class)
+        "value": (relation.model_path)
       },
       on: {
+        "blur": function($event) {
+          _vm.addTrailingSlashesRelation(index)
+        },
         "input": function($event) {
           if ($event.target.composing) { return; }
-          relation.class = $event.target.value
+          relation.model_path = $event.target.value
         }
       }
     })])]), _vm._v(" "), _c('div', {
-      staticClass: "col-md-2"
+      staticClass: "col-md-3"
+    }, [_c('div', {
+      staticClass: "row"
+    }, [_c('div', {
+      staticClass: "col-md-10"
     }, [_c('div', {
       staticClass: "form-group"
     }, [_c('label', {
       attrs: {
-        "for": "relation_default"
+        "for": "relation_class"
       }
-    }, [_vm._v("Actions")]), _vm._v(" "), _c('p', [_c('a', {
+    }, [_vm._v("Model Name")]), _vm._v(" "), _c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (relation.model_name),
+        expression: "relation.model_name"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "type": "text",
+        "placeholder": "e.g. Driver"
+      },
+      domProps: {
+        "value": (relation.model_name)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          relation.model_name = $event.target.value
+        }
+      }
+    })])]), _vm._v(" "), _c('div', {
+      staticClass: "col-md-2"
+    }, [_c('a', {
       on: {
         "click": function($event) {
           _vm.removeEntityRelation(index)
         }
       }
-    }, [_vm._v("Remove")])])])])])
+    }, [_c('span', {
+      staticClass: "glyphicon glyphicon-trash"
+    })])])])])])
   }), _vm._v(" "), _c('p', [_c('a', {
+    attrs: {
+      "tabindex": "0"
+    },
     on: {
-      "click": _vm.addEntityRelation
+      "click": _vm.addEntityRelation,
+      "keypress": _vm.addEntityRelationKeyPress
     }
   }, [_vm._v("Add relation")])])], 2)]) : _vm._e(), _vm._v(" "), (_vm.entity_name) ? _c('div', {
     staticClass: "entity-files"
