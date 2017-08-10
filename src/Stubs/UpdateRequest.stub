@@ -23,6 +23,9 @@ class {{entity}}UpdateRequest extends FormRequest
      */
     public function rules()
     {
+        $paramName = $this->route()->parameterNames[0];
+        $id = $this->route()->parameters[$paramName];
+        
         return [
             {{rules}}
         ];

@@ -357,9 +357,23 @@ class CrudService
 		$config['entity'] = $entityName;
 
 		$requiredFields = $this->onlyFieldNamesWithoutOption($fields, 'nullable');
+		$uniqueFields = $this->onlyFieldNamesWithOption($fields, 'unique');
+		
 		$config['rules'] = "";
 		foreach ($requiredFields as $field) {
-			$config['rules'] .= "'{$field}' => 'required',\n\t\t\t";
+			$config['rules'] .= "'{$field}' => 'required";
+			if (in_array($field, $uniqueFields)) {
+				$tableName = snake_case(str_plural($entityName));
+				if ($type === 'Create') {
+					$config['rules'] .= "|unique:" . $tableName;
+				}
+				if ($type === 'Update') {
+					$config['rules'] .= "|unique:" . $tableName . "," . $field . ",'.\$id";
+					$config['rules'] .= ",\n\t\t\t";
+					continue;
+				}
+			}
+			$config['rules'] .= "',\n\t\t\t";
 		}
 
 		$builderFn = strtolower($type) . "RequestBuilder";
