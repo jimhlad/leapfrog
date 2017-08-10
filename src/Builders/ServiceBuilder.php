@@ -70,7 +70,7 @@ class ServiceBuilder
         $serviceTemplate = str_replace('{{ServiceSyncBelongsToField}}', '', $serviceTemplate);
         $serviceTemplate = str_replace('{{ServiceCreateMethod}}', '', $serviceTemplate);
         $serviceTemplate = str_replace('{{ServiceUpdateMethod}}', '', $serviceTemplate);
-        $serviceTemplate = preg_replace('/^(\s*\n){2,}/', "\n", $serviceTemplate);
+        $serviceTemplate = preg_replace('/(\s*\n){3,}/', "\n\n", $serviceTemplate);
 
         return $serviceTemplate;
     }
