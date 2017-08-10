@@ -54,6 +54,7 @@ class ModelBuilder
         // Cleanup any extraneous placeholder tags
         $modelTemplate = str_replace('{{UseStatement}}', '', $modelTemplate);
         $modelTemplate = str_replace('{{RelationMethod}}', '', $modelTemplate);
+        $modelTemplate = preg_replace('/(\s*\n){3,}/', "\n\n", $modelTemplate);
 
         return $modelTemplate;
     }
