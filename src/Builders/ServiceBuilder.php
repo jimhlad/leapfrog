@@ -65,11 +65,12 @@ class ServiceBuilder
             $serviceTemplate = $this->insert($updateMethodTemplate)->into($serviceTemplate, 'ServiceUpdateMethod');
         }
 
-        // Cleanup any extraneous placeholder tags
+        // Cleanup any extraneous placeholder tags, whitepsace
         $serviceTemplate = str_replace('{{ServiceSyncBooleanField}}', '', $serviceTemplate);
         $serviceTemplate = str_replace('{{ServiceSyncBelongsToField}}', '', $serviceTemplate);
         $serviceTemplate = str_replace('{{ServiceCreateMethod}}', '', $serviceTemplate);
         $serviceTemplate = str_replace('{{ServiceUpdateMethod}}', '', $serviceTemplate);
+        $serviceTemplate = preg_replace('/^(\s*\n){2,}/', "\n", $serviceTemplate);
 
         return $serviceTemplate;
     }

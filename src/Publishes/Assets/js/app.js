@@ -1850,8 +1850,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
+
+Vue.directive('focus', {
+    inserted: function inserted(el) {
+        el.focus();
+    }
+});
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['models_path', 'controllers_path', 'services_path', 'requests_path', 'views_path', 'generate_url'],
@@ -1865,7 +1877,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     methods: {
         addEntityField: function addEntityField() {
-            Vue.set(this.fields, this.fields.length, {
+            var field = Vue.set(this.fields, this.fields.length, {
                 name: '',
                 type: 'string',
                 options: ['fillable'],
@@ -1879,6 +1891,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 model_path: this.paths.models_path,
                 model_name: ''
             });
+        },
+        addEntityFieldKeyPress: function addEntityFieldKeyPress(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                this.addEntityField();
+            }
+        },
+        addEntityRelationKeyPress: function addEntityRelationKeyPress(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                this.addEntityRelation();
+            }
         },
         removeEntityField: function removeEntityField(index) {
             this.fields.splice(index, 1);
@@ -19381,8 +19405,32 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "for": "field_name"
       }
-    }, [_vm._v("Field Name")]), _vm._v(" "), _c('input', {
+    }, [_vm._v("Field Name")]), _vm._v(" "), (index === 0) ? _c('input', {
       directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (field.name),
+        expression: "field.name"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "type": "text",
+        "placeholder": "e.g. name"
+      },
+      domProps: {
+        "value": (field.name)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          field.name = $event.target.value
+        }
+      }
+    }) : _c('input', {
+      directives: [{
+        name: "focus",
+        rawName: "v-focus"
+      }, {
         name: "model",
         rawName: "v-model",
         value: (field.name),
@@ -19767,7 +19815,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "tabindex": "0"
     },
     on: {
-      "click": _vm.addEntityField
+      "click": _vm.addEntityField,
+      "keypress": _vm.addEntityFieldKeyPress
     }
   }, [_vm._v("Add field")])])], 2)]) : _vm._e(), _vm._v(" "), (_vm.entity_name) ? _c('div', {
     staticClass: "entity-relations"
@@ -19786,6 +19835,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_vm._v("Relation Name")]), _vm._v(" "), _c('input', {
       directives: [{
+        name: "focus",
+        rawName: "v-focus"
+      }, {
         name: "model",
         rawName: "v-model",
         value: (relation.name),
@@ -19880,7 +19932,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     })])]), _vm._v(" "), _c('div', {
-      staticClass: "col-md-2"
+      staticClass: "col-md-3"
+    }, [_c('div', {
+      staticClass: "row"
+    }, [_c('div', {
+      staticClass: "col-md-10"
     }, [_c('div', {
       staticClass: "form-group"
     }, [_c('label', {
@@ -19909,26 +19965,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     })])]), _vm._v(" "), _c('div', {
-      staticClass: "col-md-1"
-    }, [_c('div', {
-      staticClass: "form-group"
-    }, [_c('label', {
-      attrs: {
-        "for": "relation_default"
-      }
-    }, [_vm._v("Actions")]), _vm._v(" "), _c('p', [_c('a', {
+      staticClass: "col-md-2"
+    }, [_c('a', {
       on: {
         "click": function($event) {
           _vm.removeEntityRelation(index)
         }
       }
-    }, [_vm._v("Remove")])])])])])
+    }, [_c('span', {
+      staticClass: "glyphicon glyphicon-trash"
+    })])])])])])
   }), _vm._v(" "), _c('p', [_c('a', {
     attrs: {
       "tabindex": "0"
     },
     on: {
-      "click": _vm.addEntityRelation
+      "click": _vm.addEntityRelation,
+      "keypress": _vm.addEntityRelationKeyPress
     }
   }, [_vm._v("Add relation")])])], 2)]) : _vm._e(), _vm._v(" "), (_vm.entity_name) ? _c('div', {
     staticClass: "entity-files"

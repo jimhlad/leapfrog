@@ -18,7 +18,8 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="field_name">Field Name</label>
-                            <input type="text" class="form-control" placeholder="e.g. name" v-model="field.name" />
+                            <input v-if="index === 0" type="text" class="form-control" placeholder="e.g. name" v-model="field.name" />
+                            <input v-else v-focus type="text" class="form-control" placeholder="e.g. name" v-model="field.name" />
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -75,12 +76,14 @@
                                 </div>
                             </div>
                             <div class="col-md-2">
-                                <a v-on:click="removeEntityField(index)"><span class="glyphicon glyphicon-trash"></span></a>
+                                <a v-on:click="removeEntityField(index)">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <p><a v-on:click="addEntityField" tabindex="0">Add field</a></p>
+                <p><a v-on:click="addEntityField" v-on:keypress="addEntityFieldKeyPress" tabindex="0">Add field</a></p>
             </div>
         </div>
         <div v-if="entity_name" class="entity-relations">
@@ -90,7 +93,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="relation_name">Relation Name</label>
-                            <input type="text" class="form-control" placeholder="e.g. driver" v-model="relation.name" />
+                            <input v-focus type="text" class="form-control" placeholder="e.g. driver" v-model="relation.name" />
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -110,20 +113,23 @@
                             <input type="text" class="form-control" v-model="relation.model_path" v-on:blur="addTrailingSlashesRelation(index)" />
                         </div>
                     </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label for="relation_class">Model Name</label>
-                            <input type="text" class="form-control" placeholder="e.g. Driver" v-model="relation.model_name" />
-                        </div>
-                    </div>
-                    <div class="col-md-1">
-                        <div class="form-group">
-                            <label for="relation_default">Actions</label>
-                            <p><a v-on:click="removeEntityRelation(index)">Remove</a></p>
+                    <div class="col-md-3">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <label for="relation_class">Model Name</label>
+                                    <input type="text" class="form-control" placeholder="e.g. Driver" v-model="relation.model_name" />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <a v-on:click="removeEntityRelation(index)">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <p><a v-on:click="addEntityRelation" tabindex="0">Add relation</a></p>
+                <p><a v-on:click="addEntityRelation" v-on:keypress="addEntityRelationKeyPress" tabindex="0">Add relation</a></p>
             </div>
         </div>
         <div v-if="entity_name" class="entity-files">
@@ -204,6 +210,12 @@
 <script>
     import axios from 'axios';
 
+    Vue.directive('focus', {
+        inserted: function (el) {
+            el.focus();
+        }
+    });
+
     export default {
         props: ['models_path', 'controllers_path', 'services_path', 'requests_path', 'views_path', 'generate_url'],
         data: function () {
@@ -216,7 +228,7 @@
         },
         methods: {
             addEntityField() {
-                Vue.set(this.fields, this.fields.length, {
+                let field = Vue.set(this.fields, this.fields.length, {
                     name: '',
                     type: 'string',
                     options: ['fillable'],
@@ -230,6 +242,18 @@
                     model_path: this.paths.models_path,
                     model_name: ''
                 });
+            },
+            addEntityFieldKeyPress(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    this.addEntityField();
+                }
+            },
+            addEntityRelationKeyPress(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    this.addEntityRelation();
+                }
             },
             removeEntityField(index) {
                 this.fields.splice(index, 1);
