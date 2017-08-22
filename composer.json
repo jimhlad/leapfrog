@@ -2,17 +2,23 @@
     "name": "jimhlad/leapfrog",
     "description": "A UI-based CRUD boilerplate generator for Laravel. Quickly create files according to the Controller-Service-Model pattern.",
     "license": "MIT",
+    "keywords": ["laravel", "crud", "boilerplate", "generator", "leapfrog"],
     "authors": [
         {
             "name": "Jim Hlad",
             "email": "jimhlad@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "yab/formmaker": "^1.1",
+        "laracasts/generators": "dev-master"
+    },
     "require-dev": {},
     "autoload": {
         "psr-4": {
             "JimHlad\\LeapFrog\\": "src/"
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

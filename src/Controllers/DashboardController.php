@@ -2,9 +2,8 @@
 
 namespace JimHlad\LeapFrog\Controllers;
 
-use App\Http\Requests;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 
 class DashboardController extends Controller
 {
