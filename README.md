@@ -33,6 +33,7 @@ This package was tested with Laravel 5.4 and may not work with previous versions
 Install the package using composer:
 
 `composer require laracasts/generators:dev-master --dev`
+
 `composer require jimhlad/leapfrog --dev`
 
 NOTE: The reason why Laracast Generators must be installed separately is because there is a bugfix for Laravel 5.4 that has not yet been released. Requiring it this way prevents certain minimum stability errors.
