@@ -22,17 +22,6 @@ The interface allows you to pick which files you want to create and even customi
 
 [Click here](https://www.jimhlad.com/leapfrog/screenshots) for screenshots.
 
-## Prerequisites
-
-This package depends on two other separately managed packages being installed:
-
-* [Laravel 5 Extended Generators](https://github.com/laracasts/Laravel-5-Generators-Extended) - An awesome migration generator package by Jeffrey Way
-* [FormMaker](https://github.com/YABhq/Formmaker) - Another awesome form generator package by Yab Inc.
-
-Please see the above GitHub pages for instructions on installing these packages.
-
-NOTE: You may need the __dev-master__ version of Laravel 5 Extended Generators if you receive an error while trying to install these packages: `PHP Fatal error:  Trait 'Illuminate\Console\AppNamespaceDetectorTrait' not found`
-
 ## Usage
 
 ### Step 1: Install with composer
@@ -88,6 +77,13 @@ You should now be able to point your browser to __your-project.dev/leapfrog__ to
 ## Author
 
 If you have any questions please feel free to reach out to me (Jim Hlad) on Twitter: [@jimhlad](https://twitter.com/jimhlad)
+
+## Special Thanks
+
+This package installs two other awesome packages as dependencies:
+
+* [Laravel 5 Extended Generators](https://github.com/laracasts/Laravel-5-Generators-Extended) - An migration generator package by Jeffrey Way
+* [FormMaker](https://github.com/YABhq/Formmaker) - A form generator package by Yab Inc.
 
 ## License
 
